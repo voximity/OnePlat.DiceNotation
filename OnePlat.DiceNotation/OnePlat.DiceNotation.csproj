@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>DarthPedro</Authors>
+    <Company />
+    <Product>DiceNotation Parsing and Rolling</Product>
+    <Description>Library to parse and roll any dice notation. Use this libary in your applications to roll random dice without having to write all of the code yourself.</Description>
+    <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <DocumentationFile>bin\Debug\netstandard1.4\OnePlat.DiceNotation.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>
