@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DieRoller\ConstantDieRollerTests.cs" />
     <Compile Include="DieRoller\RandomDieRollerTests.cs" />
+    <Compile Include="Helpers\AssertHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

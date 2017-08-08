@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using OnePlat.DiceNotation.UnitTests.Helpers;
 using System;
 
 namespace OnePlat.DiceNotation.UnitTests.DieRoller
@@ -75,7 +76,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(20);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 20);
+            AssertHelpers.IsWithinRangeInclusive(1, 20, result);
         }
 
         [TestMethod]
@@ -88,7 +89,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(4);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 4);
+            AssertHelpers.IsWithinRangeInclusive(1, 4, result);
         }
 
         [TestMethod]
@@ -101,7 +102,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(6);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 6);
+            AssertHelpers.IsWithinRangeInclusive(1, 6, result);
         }
 
         [TestMethod]
@@ -114,7 +115,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(8);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 8);
+            AssertHelpers.IsWithinRangeInclusive(1, 8, result);
         }
 
         [TestMethod]
@@ -127,7 +128,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(12);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 12);
+            AssertHelpers.IsWithinRangeInclusive(1, 12, result);
         }
 
         [TestMethod]
@@ -140,7 +141,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(100);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 100);
+            AssertHelpers.IsWithinRangeInclusive(1, 100, result);
         }
 
         [TestMethod]
@@ -153,7 +154,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             int result = die.Roll(7);
 
             // validate results
-            Assert.IsTrue(result >= 1 && result <= 7);
+            AssertHelpers.IsWithinRangeInclusive(1, 7, result);
         }
     }
 }
