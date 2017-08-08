@@ -20,7 +20,6 @@
 // </summary>
 //-----------------------------------------------------------------------
 using OnePlat.DiceNotation.DieRoller;
-using System;
 using System.Collections.Generic;
 
 namespace OnePlat.DiceNotation.DiceTerms
