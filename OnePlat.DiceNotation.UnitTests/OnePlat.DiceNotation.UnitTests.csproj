@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DiceTerms\ConstantTermTests.cs" />
     <Compile Include="DiceTerms\DiceTermTests.cs" />
+    <Compile Include="DiceTests.cs" />
     <Compile Include="DieRoller\ConstantDieRollerTests.cs" />
     <Compile Include="DieRoller\RandomDieRollerTests.cs" />
     <Compile Include="Helpers\AssertHelpers.cs" />
