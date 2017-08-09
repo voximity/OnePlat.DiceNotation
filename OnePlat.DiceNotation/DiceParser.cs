@@ -181,7 +181,7 @@ namespace OnePlat.DiceNotation
             }
             else
             {
-                dice.Dice(constant, token.NumberDice, token.Choose);
+                dice.Dice(constant, token.NumberDice, token.Scalar, token.Choose);
             }
         }
         #endregion

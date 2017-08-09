@@ -48,9 +48,9 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        IDice IDice.Dice(int sides, int numberDice, int? choose)
+        IDice IDice.Dice(int sides, int numberDice, int scalar, int? choose)
         {
-            this.terms.Add(new DiceTerm(numberDice, sides, choose));
+            this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose));
             return this;
         }
 

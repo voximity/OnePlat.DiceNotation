@@ -159,7 +159,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("2d8 * 10", dice.ToString());
+            Assert.AreEqual("2d8x10", dice.ToString());
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("3d10 / 10", dice.ToString());
+            Assert.AreEqual("3d10/10", dice.ToString());
         }
     }
 }

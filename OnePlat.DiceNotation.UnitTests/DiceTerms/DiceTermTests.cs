@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OnePlat.DiceNotation.DieRoller;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DiceTerms;
-using System.Linq;
+using OnePlat.DiceNotation.DieRoller;
 using OnePlat.DiceNotation.UnitTests.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 {
@@ -84,14 +83,25 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
         }
 
         [TestMethod]
+        public void DiceTerm_ConstructorInvalidScalarTest()
+        {
+            // setup test
+
+            // run test
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(2, 8, 0));
+
+            // validate results
+        }
+
+        [TestMethod]
         public void DiceTerm_ConstructorInvalidChooseTest()
         {
             // setup test
 
             // run test
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, -1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, 4));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, choose: 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, choose: -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, choose: 4));
 
             // validate results
         }
@@ -140,7 +150,7 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
         public void DiceTerm_CalculateResultsChooseDiceTest()
         {
             // setup test
-            IExpressionTerm term = new DiceTerm(5, 6, 3);
+            IExpressionTerm term = new DiceTerm(5, 6, choose: 3);
 
             // run test
             IReadOnlyList<TermResult> results = term.CalculateResults(constantRoller);
@@ -154,6 +164,27 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
                 Assert.AreEqual(1, r.Scalar);
                 Assert.AreEqual(1, r.Value);
                 Assert.AreEqual("DiceTerm.d6", r.Type);
+            }
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsMultiplierDiceTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(2, 8, 10);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(constantRoller);
+
+            // validate results
+            Assert.IsNotNull(results);
+            Assert.AreEqual(2, results.Count);
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(10, r.Scalar);
+                Assert.AreEqual(1, r.Value);
+                Assert.AreEqual("DiceTerm.d8", r.Type);
             }
         }
 
@@ -187,7 +218,7 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
         public void DiceTerm_ToStringChooseTest()
         {
             // setup test
-            IExpressionTerm term = new DiceTerm(5, 6, 3);
+            IExpressionTerm term = new DiceTerm(5, 6, choose: 3);
 
             // run test
             string result = term.ToString();
@@ -195,6 +226,34 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
             // validate results
             Assert.IsFalse(string.IsNullOrEmpty(result));
             Assert.AreEqual("5d6k3", result);
+        }
+
+        [TestMethod]
+        public void DiceTerm_ToStringMultiplierTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(2, 8, 10);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("2d8x10", result);
+        }
+
+        [TestMethod]
+        public void DiceTerm_ToStringAllTermsTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(4, 6, 10, 3);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("4d6k3x10", result);
         }
     }
 }

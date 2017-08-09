@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/8/2017
+// Last Modified On : 8/9/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -33,9 +33,11 @@ namespace OnePlat.DiceNotation.DiceTerms
     {
         private const string FormatResultType = "{0}.d{1}";
         private const string FormatDiceTermText = "{0}d{1}{2}";
+        private const string FormatDiceMultiplyTermText = "{0}d{1}{2}x{3}";
 
         private int numberDice;
         private int sides;
+        private int scalar;
         private int choose;
 
         /// <summary>
@@ -43,27 +45,34 @@ namespace OnePlat.DiceNotation.DiceTerms
         /// </summary>
         /// <param name="numberDice">Number of dice in the expression</param>
         /// <param name="sides">Type of die based on number of sides</param>
+        /// <param name="scalar">Scalar multiplier to dice term</param>
         /// <param name="choose">How many dice to use (value should be between 1 and number of dice)</param>
-        public DiceTerm(int numberDice, int sides, int? choose = null)
+        public DiceTerm(int numberDice, int sides, int scalar = 1, int? choose = null)
         {
             if (numberDice <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(numberDice));
+                throw new ArgumentOutOfRangeException(nameof(numberDice), "Number of dice must be greater than 0.");
             }
 
             if (sides < 2)
             {
-                throw new ArgumentOutOfRangeException(nameof(sides));
+                throw new ArgumentOutOfRangeException(nameof(sides), "Dice sides must be greater than 1.");
+            }
+
+            if (scalar == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(scalar), "Scalar multiplier cannot be 0.");
             }
 
             this.choose = choose ?? numberDice;
             if (this.choose <= 0 || this.choose > numberDice)
             {
-                throw new ArgumentOutOfRangeException(nameof(choose));
+                throw new ArgumentOutOfRangeException(nameof(choose), "Choose must be greater than 0 and less than number of dice.");
             }
 
             this.numberDice = numberDice;
             this.sides = sides;
+            this.scalar = scalar;
         }
 
         /// <inheritdoc/>
@@ -83,7 +92,7 @@ namespace OnePlat.DiceNotation.DiceTerms
             {
                 results.Add(new TermResult
                 {
-                    Scalar = 1,
+                    Scalar = this.scalar,
                     Value = dieRoller.Roll(this.sides),
                     Type = termType
                 });
@@ -97,7 +106,17 @@ namespace OnePlat.DiceNotation.DiceTerms
         public override string ToString()
         {
             string chooseText = (this.choose == this.numberDice) ? string.Empty : "k" + this.choose;
-            return string.Format(FormatDiceTermText, this.numberDice, this.sides, chooseText);
+            string result;
+            if (this.scalar == 1)
+            {
+                result = string.Format(FormatDiceTermText, this.numberDice, this.sides, chooseText);
+            }
+            else
+            {
+                result = string.Format(FormatDiceMultiplyTermText, this.numberDice, this.sides, chooseText, this.scalar);
+            }
+
+            return result;
         }
     }
 }

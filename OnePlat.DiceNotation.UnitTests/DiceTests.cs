@@ -96,7 +96,7 @@ namespace OnePlat.DiceNotation.UnitTests
             IDice dice = new Dice();
 
             // run test
-            IDice result = dice.Dice(6, 4, 3).Dice(8).Constant(5);
+            IDice result = dice.Dice(6, 4, choose: 3).Dice(8).Constant(5);
 
             // validate results
             Assert.IsNotNull(result);
@@ -177,11 +177,36 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void Dice_RollScalarMultiplierDiceTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice.Dice(8, 2, 10);
+
+            // run test
+            DiceResult result = dice.Roll(roller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
+            AssertHelpers.IsWithinRangeInclusive(20, 160, result.Value);
+            Assert.AreEqual(2, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                AssertHelpers.IsWithinRangeInclusive(1, 8, r.Value);
+                sum += r.Value * r.Scalar;
+            }
+            Assert.AreEqual(sum, result.Value);
+            Assert.AreEqual("2d8x10", dice.ToString());
+        }
+
+        [TestMethod]
         public void Dice_RollChooseDiceTest()
         {
             // setup test
             IDice dice = new Dice();
-            dice.Dice(6, 4, 3);
+            dice.Dice(6, 4, choose: 3);
 
             // run test
             DiceResult result = dice.Roll(roller);
@@ -206,7 +231,7 @@ namespace OnePlat.DiceNotation.UnitTests
         {
             // setup test
             IDice dice = new Dice();
-            dice.Dice(6, 4, 3).Dice(8).Constant(5);
+            dice.Dice(6, 4, choose: 3).Dice(8).Constant(5);
 
             // run test
             DiceResult result = dice.Roll(new ConstantDieRoller(1));
