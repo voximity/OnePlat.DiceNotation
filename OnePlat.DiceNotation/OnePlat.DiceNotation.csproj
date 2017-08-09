@@ -17,6 +17,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\Debug\netstandard1.4\OnePlat.DiceNotation.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;SA1124</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

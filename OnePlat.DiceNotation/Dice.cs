@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/8/2017
+// Last Modified On : 8/9/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -51,6 +51,12 @@ namespace OnePlat.DiceNotation
         IDice IDice.Dice(int sides, int numberDice, int? choose)
         {
             this.terms.Add(new DiceTerm(numberDice, sides, choose));
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IDice Parse(string expression)
+        {
             return this;
         }
 

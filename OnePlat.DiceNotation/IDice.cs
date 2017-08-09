@@ -45,6 +45,13 @@ namespace OnePlat.DiceNotation
         IDice Constant(int constant);
 
         /// <summary>
+        /// Creates the expression terms from the parsed text string.
+        /// </summary>
+        /// <param name="expression">Expression string to parse</param>
+        /// <returns>IDice representing the parsed terms.</returns>
+        IDice Parse(string expression);
+
+        /// <summary>
         /// Rolls the dice for all of the terms in this expression.
         /// </summary>
         /// <param name="dieRoller">Die roller to use in calculations</param>
