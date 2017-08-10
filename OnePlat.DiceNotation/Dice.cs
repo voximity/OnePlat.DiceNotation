@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/9/2017
+// Last Modified On : 8/10/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -43,7 +43,12 @@ namespace OnePlat.DiceNotation
         /// <inheritdoc/>
         public IDice Constant(int constant)
         {
-            this.terms.Add(new ConstantTerm(constant));
+            // do not add a constant term if it's 0.
+            if (constant != 0)
+            {
+                this.terms.Add(new ConstantTerm(constant));
+            }
+
             return this;
         }
 

@@ -201,5 +201,131 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
         }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithChainedOrderTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("2 + 4d6k3 + d8");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("2 + 4d6k3 + 1d8", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseConstantOnlyTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("42");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("42", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseConstantOnlyMultipleTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("4 + 2");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("4 + 2", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseConstantOnlyMultiplyTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("4x2");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("8", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseConstantOnlyDivideTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<ArgumentException>(() => parser.Parse("4/2"));
+
+            // todo: fix this test so that simple division (without a die in denominator) works.
+
+            // validate results
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceNegativeOrderTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("100 - 2d12");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("100 + -2d12", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceNegativeConstantTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("-5 + 4d6");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("-5 + 4d6", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceMultipleConstantsTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("6 + d20 - 3");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("6 + 1d20 + -3", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceMultipleConstantsOrderTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("1d20+2+3");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("1d20 + 2 + 3", dice.ToString());
+        }
     }
 }
