@@ -89,7 +89,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("2d4 + 3", dice.ToString());
+            Assert.AreEqual("2d4+3", dice.ToString());
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("1d12 + -2", dice.ToString());
+            Assert.AreEqual("1d12-2", dice.ToString());
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("4d6k3 + 2", dice.ToString());
+            Assert.AreEqual("4d6k3+2", dice.ToString());
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("4d6k3 + 1d8 + 2", dice.ToString());
+            Assert.AreEqual("4d6k3+1d8+2", dice.ToString());
         }
 
         [TestMethod]
@@ -213,7 +213,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("2 + 4d6k3 + 1d8", dice.ToString());
+            Assert.AreEqual("2+4d6k3+1d8", dice.ToString());
         }
 
         [TestMethod]
@@ -241,7 +241,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("4 + 2", dice.ToString());
+            Assert.AreEqual("4+2", dice.ToString());
         }
 
         [TestMethod]
@@ -283,7 +283,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("100 + -2d12", dice.ToString());
+            Assert.AreEqual("100-2d12", dice.ToString());
         }
 
         [TestMethod]
@@ -297,7 +297,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("-5 + 4d6", dice.ToString());
+            Assert.AreEqual("-5+4d6", dice.ToString());
         }
 
         [TestMethod]
@@ -311,7 +311,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("6 + 1d20 + -3", dice.ToString());
+            Assert.AreEqual("6+1d20-3", dice.ToString());
         }
 
         [TestMethod]
@@ -325,7 +325,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("1d20 + 2 + 3", dice.ToString());
+            Assert.AreEqual("1d20+2+3", dice.ToString());
         }
     }
 }

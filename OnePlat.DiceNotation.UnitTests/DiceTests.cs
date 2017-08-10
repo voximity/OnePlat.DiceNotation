@@ -102,7 +102,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(IDice));
             Assert.IsInstanceOfType(result, typeof(Dice));
-            Assert.AreEqual("4d6k3 + 1d8 + 5", dice.ToString());
+            Assert.AreEqual("4d6k3+1d8+5", dice.ToString());
         }
 
         [TestMethod]
@@ -247,7 +247,7 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += r.Value;
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3 + 1d8 + 5", dice.ToString());
+            Assert.AreEqual("4d6k3+1d8+5", dice.ToString());
         }
 
         [TestMethod]

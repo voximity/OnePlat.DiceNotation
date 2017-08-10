@@ -75,7 +75,7 @@ namespace OnePlat.DiceNotation
         /// <inheritdoc/>
         public override string ToString()
         {
-            return string.Join(" + ", this.terms);
+            return string.Join("+", this.terms).Replace("+-", "-");
         }
     }
 }
