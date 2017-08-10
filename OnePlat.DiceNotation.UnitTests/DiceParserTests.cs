@@ -149,13 +149,27 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
-        public void DiceParser_ParseDiceWithMultiplyTest()
+        public void DiceParser_ParseDiceWithMultiplyAfterTest()
         {
             // setup test
             DiceParser parser = new DiceParser();
 
             // run test
             IDice dice = parser.Parse("2d8x10");
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("2d8x10", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithMultiplyBeforeTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            IDice dice = parser.Parse("10x2d8");
 
             // validate results
             Assert.IsNotNull(dice);

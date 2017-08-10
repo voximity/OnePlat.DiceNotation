@@ -83,7 +83,7 @@ namespace OnePlat.DiceNotation
                 }
                 else if (ch == OperatorMultiply)
                 {
-                    this.HandleOperationMultiply(token);
+                    this.HandleOperationMultiply(dice, token, expression, ref i);
                 }
                 else
                 {
@@ -122,15 +122,7 @@ namespace OnePlat.DiceNotation
         /// <param name="i">Parsing counter at current location in expression</param>
         private void HandleOperationChoose(DiceToken token, string expression, ref int i)
         {
-            string choose = string.Empty;
-
-            while (i + 1 < expression.Length && char.IsDigit(expression[i + 1]))
-            {
-                choose += expression[i + 1];
-                ++i;
-            }
-
-            token.Choose = int.Parse(choose);
+            token.Choose = int.Parse(this.DigitLookAhead(expression, ref i));
         }
 
         /// <summary>
@@ -152,18 +144,48 @@ namespace OnePlat.DiceNotation
         private void HandleOperationSubract(IDice dice, ref DiceToken token)
         {
             this.Append(dice, token);
-            token = new DiceToken();
-            token.Scalar = -1;
+            token = new DiceToken()
+            {
+                Scalar = -1
+            };
         }
 
         /// <summary>
         /// Parsing handler for the Multiply operation.
         /// </summary>
+        /// <param name="dice">Dice to apply changes to</param>
         /// <param name="token">Token to apply changes to</param>
-        private void HandleOperationMultiply(DiceToken token)
+        /// <param name="expression">Expression string to peek</param>
+        /// <param name="i">Parsing counter at current location in expression</param>
+        private void HandleOperationMultiply(IDice dice, DiceToken token, string expression, ref int i)
         {
-            token.Scalar *= int.Parse(token.Constant);
-            token.Constant = string.Empty;
+            string scalar = this.DigitLookAhead(expression, ref i);
+            if (token.Sides > 0)
+            {
+                scalar = token.Constant;
+                token.Constant = string.Empty;
+            }
+
+            token.Scalar *= int.Parse(scalar);
+        }
+
+        /// <summary>
+        /// Looks ahead in the expression until it finds a non-digit.
+        /// </summary>
+        /// <param name="expression">Expression string to peek</param>
+        /// <param name="i">Parsing counter at current location in expression</param>
+        /// <returns>expression substring that was peeked</returns>
+        private string DigitLookAhead(string expression, ref int i)
+        {
+            string result = string.Empty;
+
+            while (i + 1 < expression.Length && char.IsDigit(expression[i + 1]))
+            {
+                result += expression[i + 1];
+                ++i;
+            }
+
+            return result;
         }
 
         /// <summary>

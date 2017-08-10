@@ -42,6 +42,11 @@ namespace OnePlat.DiceNotation
         public int NumberDice { get; set; }
 
         /// <summary>
+        /// Gets or sets the dice sides in the expression.
+        /// </summary>
+        public int Sides { get; set; }
+
+        /// <summary>
         /// Gets or sets the choose operator in the expression.
         /// </summary>
         public int? Choose { get; set; }
