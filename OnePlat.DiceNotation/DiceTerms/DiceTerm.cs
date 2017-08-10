@@ -31,14 +31,17 @@ namespace OnePlat.DiceNotation.DiceTerms
     /// </summary>
     public class DiceTerm : IExpressionTerm
     {
+        #region Members
         private const string FormatResultType = "{0}.d{1}";
         private const string FormatDiceTermText = "{0}d{1}{2}";
         private const string FormatDiceMultiplyTermText = "{0}d{1}{2}x{3}";
+        private const string FormatDiceDivideTermText = "{0}d{1}{2}/{3}";
 
         private int numberDice;
         private int sides;
-        private int scalar;
+        private double scalar;
         private int choose;
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceTerm"/> class.
@@ -47,7 +50,7 @@ namespace OnePlat.DiceNotation.DiceTerms
         /// <param name="sides">Type of die based on number of sides</param>
         /// <param name="scalar">Scalar multiplier to dice term</param>
         /// <param name="choose">How many dice to use (value should be between 1 and number of dice)</param>
-        public DiceTerm(int numberDice, int sides, int scalar = 1, int? choose = null)
+        public DiceTerm(int numberDice, int sides, double scalar = 1, int? choose = null)
         {
             if (numberDice <= 0)
             {
@@ -111,9 +114,13 @@ namespace OnePlat.DiceNotation.DiceTerms
             {
                 result = string.Format(FormatDiceTermText, this.numberDice, this.sides, chooseText);
             }
-            else
+            else if (this.scalar > 1)
             {
                 result = string.Format(FormatDiceMultiplyTermText, this.numberDice, this.sides, chooseText, this.scalar);
+            }
+            else
+            {
+                result = string.Format(FormatDiceDivideTermText, this.numberDice, this.sides, chooseText, (int)(1 / this.scalar));
             }
 
             return result;

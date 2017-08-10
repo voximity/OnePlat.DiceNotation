@@ -34,7 +34,7 @@ namespace OnePlat.DiceNotation
         /// <summary>
         /// Gets or sets the scalar multiplier.
         /// </summary>
-        public int Scalar { get; set; } = 1;
+        public double Scalar { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets the number of dice in the expression.

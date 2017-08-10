@@ -187,7 +187,19 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(dice);
-            Assert.AreEqual("3d10/10", dice.ToString());
+            Assert.AreEqual("3d10/2", dice.ToString());
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithDivideBeforeTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<ArgumentException>(() => parser.Parse("40 / 1d6"));
+
+            // validate results
         }
     }
 }

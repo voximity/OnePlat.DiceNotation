@@ -195,7 +195,7 @@ namespace OnePlat.DiceNotation.UnitTests
             foreach (TermResult r in result.Results)
             {
                 AssertHelpers.IsWithinRangeInclusive(1, 8, r.Value);
-                sum += r.Value * r.Scalar;
+                sum += (int)(r.Value * r.Scalar);
             }
             Assert.AreEqual(sum, result.Value);
             Assert.AreEqual("2d8x10", dice.ToString());

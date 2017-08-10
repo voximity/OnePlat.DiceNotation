@@ -20,6 +20,7 @@
 // </summary>
 //-----------------------------------------------------------------------
 using OnePlat.DiceNotation.DiceTerms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,7 +40,7 @@ namespace OnePlat.DiceNotation
         {
             this.DieRollerUsed = rollerUsed;
             this.Results = results.ToList();
-            this.Value = results.Sum(r => r.Value * r.Scalar);
+            this.Value = results.Sum(r => (int)Math.Round(r.Value * r.Scalar));
         }
 
         /// <summary>

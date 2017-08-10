@@ -28,9 +28,8 @@ namespace OnePlat.DiceNotation.DiceTerms
     {
         /// <summary>
         /// Gets or sets the scalar multiplier of this result.
-        /// Typically +1 or -1.
         /// </summary>
-        public int Scalar { get; set; }
+        public double Scalar { get; set; }
 
         /// <summary>
         /// Gets or sets the result value.

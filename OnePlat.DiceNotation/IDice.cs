@@ -36,7 +36,7 @@ namespace OnePlat.DiceNotation
         /// <param name="scalar">scalar multiplier</param>
         /// <param name="choose">choose how many results to return</param>
         /// <returns>IDice representing the current terms.</returns>
-        IDice Dice(int sides, int numberDice = 1, int scalar = 1, int? choose = null);
+        IDice Dice(int sides, int numberDice = 1, double scalar = 1, int? choose = null);
 
         /// <summary>
         /// Creates a ConstantTerm with the specified value for this dice expression.

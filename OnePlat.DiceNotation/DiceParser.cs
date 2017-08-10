@@ -85,6 +85,10 @@ namespace OnePlat.DiceNotation
                 {
                     this.HandleOperationMultiply(dice, token, expression, ref i);
                 }
+                else if (ch == OperatorDivide)
+                {
+                    this.HandleOperationDivide(dice, token, expression, ref i);
+                }
                 else
                 {
                     throw new ArgumentException("Invalid character in dice notation expression", nameof(expression));
@@ -175,6 +179,26 @@ namespace OnePlat.DiceNotation
         }
 
         /// <summary>
+        /// Parsing handler for the Divide operation.
+        /// </summary>
+        /// <param name="dice">Dice to apply changes to</param>
+        /// <param name="token">Token to apply changes to</param>
+        /// <param name="expression">Expression string to peek</param>
+        /// <param name="i">Parsing counter at current location in expression</param>
+        private void HandleOperationDivide(IDice dice, DiceToken token, string expression, ref int i)
+        {
+            if (token.Sides > 0)
+            {
+                string scalar = this.DigitLookAhead(expression, ref i);
+                token.Scalar *= 1 / double.Parse(scalar);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid division expression in dice notation", nameof(expression));
+            }
+        }
+
+        /// <summary>
         /// Looks ahead in the expression until it finds a non-digit.
         /// </summary>
         /// <param name="expression">Expression string to peek</param>
@@ -204,7 +228,7 @@ namespace OnePlat.DiceNotation
             int pendingValue = string.IsNullOrEmpty(token.Constant) ? token.Sides : int.Parse(token.Constant);
             if (token.NumberDice == 0)
             {
-                dice.Constant(token.Scalar * pendingValue);
+                dice.Constant((int)(token.Scalar * pendingValue));
             }
             else
             {
