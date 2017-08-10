@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using System;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -118,7 +116,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(dice);
             Assert.AreEqual("1d12-2", dice.ToString());
             Assert.AreEqual(2, result.Results.Count);
-            Assert.AreEqual(0, result.Value);
+            Assert.AreEqual(1, result.Value);
         }
 
         [TestMethod]
