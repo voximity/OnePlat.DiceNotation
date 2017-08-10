@@ -67,7 +67,7 @@ namespace OnePlat.DiceNotation
                 }
                 else if (ch == OperatorDie)
                 {
-                    this.HandleOperationDie(token);
+                    this.HandleOperationDie(token, expression, ref i);
                 }
                 else if (ch == OperatorChoose)
                 {
@@ -103,7 +103,9 @@ namespace OnePlat.DiceNotation
         /// Parsing handler for the Die operation.
         /// </summary>
         /// <param name="token">Token to apply changes to</param>
-        private void HandleOperationDie(DiceToken token)
+        /// <param name="expression">Expression string to peek</param>
+        /// <param name="i">Parsing counter at current location in expression</param>
+        private void HandleOperationDie(DiceToken token, string expression, ref int i)
         {
             if (token.Constant == string.Empty)
             {
@@ -111,6 +113,7 @@ namespace OnePlat.DiceNotation
             }
 
             token.NumberDice = int.Parse(token.Constant);
+            token.Sides = int.Parse(this.DigitLookAhead(expression, ref i));
             token.Constant = string.Empty;
         }
 
@@ -159,14 +162,16 @@ namespace OnePlat.DiceNotation
         /// <param name="i">Parsing counter at current location in expression</param>
         private void HandleOperationMultiply(IDice dice, DiceToken token, string expression, ref int i)
         {
-            string scalar = this.DigitLookAhead(expression, ref i);
             if (token.Sides > 0)
             {
-                scalar = token.Constant;
+                string scalar = this.DigitLookAhead(expression, ref i);
+                token.Scalar *= int.Parse(scalar);
+            }
+            else
+            {
+                token.Scalar *= int.Parse(token.Constant);
                 token.Constant = string.Empty;
             }
-
-            token.Scalar *= int.Parse(scalar);
         }
 
         /// <summary>
@@ -196,14 +201,14 @@ namespace OnePlat.DiceNotation
         /// <param name="token">Token to operate on</param>
         private void Append(IDice dice, DiceToken token)
         {
-            int constant = int.Parse(token.Constant);
+            int pendingValue = string.IsNullOrEmpty(token.Constant) ? token.Sides : int.Parse(token.Constant);
             if (token.NumberDice == 0)
             {
-                dice.Constant(token.Scalar * constant);
+                dice.Constant(token.Scalar * pendingValue);
             }
             else
             {
-                dice.Dice(constant, token.NumberDice, token.Scalar, token.Choose);
+                dice.Dice(pendingValue, token.NumberDice, token.Scalar, token.Choose);
             }
         }
         #endregion
