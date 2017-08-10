@@ -53,6 +53,13 @@ namespace OnePlat.DiceNotation
         IDice Parse(string expression);
 
         /// <summary>
+        /// Concatenates the terms of another Dice expression into this Dice expression.
+        /// </summary>
+        /// <param name="otherDice">Other IDice terms to concatentate</param>
+        /// <returns>IDice representing the current terms.</returns>
+        IDice Concat(IDice otherDice);
+
+        /// <summary>
         /// Rolls the dice for all of the terms in this expression.
         /// </summary>
         /// <param name="dieRoller">Die roller to use in calculations</param>

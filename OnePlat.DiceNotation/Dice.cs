@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------
 using OnePlat.DiceNotation.DiceTerms;
 using OnePlat.DiceNotation.DieRoller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +33,7 @@ namespace OnePlat.DiceNotation
     public class Dice : IDice
     {
         private IList<IExpressionTerm> terms = new List<IExpressionTerm>();
+        private DiceParser parser = new DiceParser();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dice"/> class.
@@ -62,6 +64,25 @@ namespace OnePlat.DiceNotation
         /// <inheritdoc/>
         public IDice Parse(string expression)
         {
+            IDice result = this.parser.Parse(expression);
+            this.Concat(result);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IDice Concat(IDice otherDice)
+        {
+            Dice other = (Dice)otherDice;
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(otherDice));
+            }
+
+            foreach (IExpressionTerm term in ((Dice)otherDice).terms)
+            {
+                this.terms.Add(term);
+            }
+
             return this;
         }
 
