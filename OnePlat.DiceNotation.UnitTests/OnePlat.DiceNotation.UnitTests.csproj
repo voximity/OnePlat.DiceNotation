@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiceParserErrorTests.cs" />
     <Compile Include="DiceParserTests.cs" />
     <Compile Include="DiceTerms\ConstantTermTests.cs" />
     <Compile Include="DiceTerms\DiceTermTests.cs" />
