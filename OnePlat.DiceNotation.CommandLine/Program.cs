@@ -31,6 +31,7 @@ namespace OnePlat.DiceNotation.CommandLine
     public class Program
     {
         private const string OptionHelp = "-h";
+        private const string OptionHelp2 = "-?";
         private const string OptionVerbose = "-v";
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace OnePlat.DiceNotation.CommandLine
             List<string> parameters = new List<string>(args);
             bool verbose = false;
 
-            if (parameters.Contains(OptionHelp))
+            if (parameters.Contains(OptionHelp) || parameters.Contains(OptionHelp2))
             {
                 // if command line contains request for help, then show help.
                 new HelpCommand().Execute();

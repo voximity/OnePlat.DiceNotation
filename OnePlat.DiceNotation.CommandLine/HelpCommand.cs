@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/10/2017
+// Last Modified On : 8/11/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -48,7 +48,7 @@ namespace OnePlat.DiceNotation.CommandLine
             Console.WriteLine();
             Console.WriteLine("  Example: 3d6+2, d20, 3+1d8, 3d6+1d8, 2d4x10, 4d6k3, ...");
             Console.WriteLine();
-            Console.WriteLine("  Note: If you wish to use spaces in the dice expression, then place the expression within quotes.");
+            Console.WriteLine("  Note: If you wish to use spaces in the dice expression, then place the expression within quotes (ex: dice \"3d6 + 2\").");
         }
     }
 }

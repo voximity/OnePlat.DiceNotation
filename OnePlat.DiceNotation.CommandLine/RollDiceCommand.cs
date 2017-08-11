@@ -54,13 +54,47 @@ namespace OnePlat.DiceNotation.CommandLine
                 IDice dice = new Dice().Parse(parameter);
                 DiceResult result = dice.Roll(new RandomDieRoller());
 
-                Console.WriteLine("DiceRoll({0}) => {1} [dice: {2}]", dice.ToString(), result.Value, this.DiceRollsToString(result));
+                if (this.verbose)
+                {
+                    this.VerboseRollDisplay(dice, result);
+                }
+                else
+                {
+                    Console.WriteLine("DiceRoll({0}) => {1} [dice: {2}]", dice.ToString(), result.Value, this.DiceRollsToString(result));
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: could not parse dice notation for {0}.", parameter);
                 Console.WriteLine("Exception thrown: {0} - {1}", ex.GetType(), ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Display the dice roll results in verbose format.
+        /// Helpful in debugging dice expression strings.
+        /// </summary>
+        /// <param name="dice">Dice expression used</param>
+        /// <param name="result">Dice results to display</param>
+        private void VerboseRollDisplay(IDice dice, DiceResult result)
+        {
+            Console.WriteLine("DiceRoll({0}) => {1}", dice.ToString(), result.Value, this.DiceRollsToString(result));
+            Console.WriteLine("===============================================", result.DieRollerUsed);
+            Console.WriteLine("  DiceResult.DieRollerUsed: {0}", result.DieRollerUsed);
+            Console.WriteLine("  DiceResult.NumberTerms: {0}", result.Results.Count);
+            Console.WriteLine("  Terms list:");
+            Console.WriteLine("  ---------------------------");
+
+            foreach (TermResult term in result.Results)
+            {
+                Console.WriteLine("    TermResult.Type: {0}", term.Type);
+                Console.WriteLine("    TermResult.Scalar: {0}", term.Scalar);
+                Console.WriteLine("    TermResult.Value: {0}", term.Value);
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("  ---------------------------");
+            Console.WriteLine("  Total Roll: {0}", result.Value);
         }
 
         /// <summary>
