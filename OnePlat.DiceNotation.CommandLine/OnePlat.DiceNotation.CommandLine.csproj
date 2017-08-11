@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>dice</AssemblyName>
+    <PackageId>OnePlat.DiceNotation.CommandLine</PackageId>
+    <Authors>DarthPedro</Authors>
+    <Company>OnePlat</Company>
+    <Product>OnePlat.DiceNotation.CommandLine</Product>
+    <Description>Command-line interface for the OnePlat.DiceNotation library. Lets the user process dice rolls based on providing dice notation expressions via the command line. It parses and interprets the dice notation expression, rolls the dice, and displays the results.</Description>
+    <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller CommandLine CLI</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+    <DocumentationFile>bin\Debug\netcoreapp1.1\dice.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnePlat.DiceNotation\OnePlat.DiceNotation.csproj" />
+  </ItemGroup>
+
+</Project>

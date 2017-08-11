@@ -20,6 +20,11 @@
     <NoWarn>1701;1702;1705;SA1124</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.4\.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;SA1124</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="stylecop.json" />
   </ItemGroup>
