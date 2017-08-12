@@ -39,6 +39,7 @@ namespace OnePlat.DiceNotation.CommandLine
             Console.WriteLine();
             Console.WriteLine("Common options:");
             Console.WriteLine("  -v        Enable verbose output");
+            Console.WriteLine("  -cX       Enable using constant die roller, with value of X. Helpful in debugging dice notation expressions");
             Console.WriteLine("  -h | -?   Show help");
             Console.WriteLine();
             Console.WriteLine("Dice expressions:");

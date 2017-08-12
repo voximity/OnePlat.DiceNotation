@@ -20,6 +20,7 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
+using OnePlat.DiceNotation.DieRoller;
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +31,10 @@ namespace OnePlat.DiceNotation.CommandLine
     /// </summary>
     public class Program
     {
+        /// <summary>
+        /// string representation for the constant die roller option.
+        /// </summary>
+        internal const string OptionConstantDieRoller = "-c";
         private const string OptionHelp = "-h";
         private const string OptionHelp2 = "-?";
         private const string OptionVerbose = "-v";
@@ -42,7 +47,13 @@ namespace OnePlat.DiceNotation.CommandLine
         {
             // first process command line options.
             List<string> parameters = new List<string>(args);
+            ExecuteParameterLoop(parameters);
+        }
+
+        private static void ExecuteParameterLoop(List<string> parameters)
+        {
             bool verbose = false;
+            IDieRoller roller = new RandomDieRoller();
 
             if (parameters.Contains(OptionHelp) || parameters.Contains(OptionHelp2))
             {
@@ -58,11 +69,28 @@ namespace OnePlat.DiceNotation.CommandLine
                 parameters.Remove(OptionVerbose);
             }
 
+            string constantRollerOption = parameters.Find(s => s.StartsWith(OptionConstantDieRoller));
+            if (string.IsNullOrEmpty(constantRollerOption) == false)
+            {
+                // if command options specify a constant die roller, then create one to use.
+                try
+                {
+                    roller = new ConstantDieRoller(new ConstantRollerCommand().Execute(constantRollerOption));
+                    parameters.Remove(constantRollerOption);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error parsing the constant die roller option. The format should be -cX, where X is the constant value");
+                    Console.WriteLine("Exception thrown {0} - {1}", ex.GetType().Name, ex.Message);
+                    return;
+                }
+            }
+
             // then process commands and parameters.
             if (parameters.Count == 1)
             {
                 // if there's only one argument, attempt to parse and roll the dice.
-                new RollDiceCommand(verbose).Execute(args[0]);
+                new RollDiceCommand(verbose).Execute(parameters[0], roller);
             }
             else
             {

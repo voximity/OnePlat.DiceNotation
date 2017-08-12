@@ -47,12 +47,13 @@ namespace OnePlat.DiceNotation.CommandLine
         /// Executes the specified command
         /// </summary>
         /// <param name="parameter">parameter to use in the command</param>
-        public void Execute(string parameter)
+        /// <param name="dieRoller">die roller to use in expression evaluation</param>
+        public void Execute(string parameter, IDieRoller dieRoller)
         {
             try
             {
                 IDice dice = new Dice().Parse(parameter);
-                DiceResult result = dice.Roll(new RandomDieRoller());
+                DiceResult result = dice.Roll(dieRoller);
 
                 if (this.verbose)
                 {
