@@ -20,6 +20,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\Debug\netcoreapp1.1\dice.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;SA1124</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

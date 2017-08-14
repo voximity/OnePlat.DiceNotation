@@ -1,11 +1,11 @@
-﻿// <copyright file="Program.cs" company="DarthPedro">
+﻿// <copyright file="SetVerboseCommand.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.DiceNotation.CommandLine
+// Assembly         : OnePlat.DiceNotatoin.CommandLine
 // Author           : DarthPedro
-// Created          : 8/10/2017
+// Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
 // Last Modified On : 8/13/2017
@@ -25,19 +25,35 @@ using OnePlat.DiceNotation.CommandLine.Core;
 namespace OnePlat.DiceNotation.CommandLine
 {
     /// <summary>
-    /// Main program class.
+    /// Command that turns on verbose output.
     /// </summary>
-    public class Program
+    public class SetVerboseCommand : ICommand
     {
+        private MainViewModel vm;
+
         /// <summary>
-        /// Main method that gets called on program launch.
+        /// Initializes a new instance of the <see cref="SetVerboseCommand"/> class.
         /// </summary>
-        /// <param name="args">Command line arguments to this CLI</param>
-        public static void Main(string[] args)
+        /// <param name="viewModel">Associated view model</param>
+        public SetVerboseCommand(MainViewModel viewModel)
         {
-            // initiate the message loop for this console application.
-            IMessageLoop messageLoop = new SingleRunMessageLoop(new MainView());
-            messageLoop.Run(args);
+            this.vm = viewModel;
+        }
+
+        /// <inheritdoc/>
+        public string[] Operations => new string[] { "-v" };
+
+        /// <inheritdoc/>
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public bool Execute(object parameter)
+        {
+            this.vm.UseVerboseOutput = true;
+            return true;
         }
     }
 }

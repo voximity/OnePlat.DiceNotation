@@ -1,14 +1,14 @@
-﻿// <copyright file="WaitForInputCommand.cs" company="DarthPedro">
+﻿// <copyright file="IView.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.Mvvm.Core
+// Assembly         : OnePlat.DiceNotation.CommandLine
 // Author           : DarthPedro
-// Created          : 8/10/2017
+// Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/10/2017
+// Last Modified On : 8/13/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -20,25 +20,21 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OnePlat.DiceNotation.CommandLine
+namespace OnePlat.DiceNotation.CommandLine.Core
 {
     /// <summary>
-    /// Command that waits for user input to console.
+    /// Interface for the View definition.
     /// </summary>
-    public class WaitForInputCommand
+    public interface IView
     {
         /// <summary>
-        /// Executes the specified command
+        /// Gets or sets the data context for this view.
         /// </summary>
-        public void Execute()
-        {
-            Console.WriteLine();
-            Console.Write("Press enter to complete command.");
-            Console.ReadLine();
-        }
+        IViewModel DataContext { get; set; }
+
+        /// <summary>
+        /// Updates the view with its current view model information.
+        /// </summary>
+        void Update();
     }
 }

@@ -1,14 +1,14 @@
-﻿// <copyright file="ConstantRollerCommand.cs" company="DarthPedro">
+﻿// <copyright file="IViewModel.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.Mvvm.Core
+// Assembly         : OnePlat.DiceNotation.CommandLine
 // Author           : DarthPedro
-// Created          : 8/11/2017
+// Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/11/2017
+// Last Modified On : 8/13/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -20,23 +20,18 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
-namespace OnePlat.DiceNotation.CommandLine
+namespace OnePlat.DiceNotation.CommandLine.Core
 {
     /// <summary>
-    /// Command class that parses the constant roller option and converts it
-    /// to the appropriate value for die roller.
+    /// Interface representation of view models.
     /// </summary>
-    public class ConstantRollerCommand
+    public interface IViewModel
     {
         /// <summary>
-        /// Executes the specified command.
+        /// Gets the default command associated with this view model.
+        /// Used to process command line argument that doesn't have a command line option.
+        /// If null, that argument is not processed.
         /// </summary>
-        /// <param name="parameter">Parameter to process</param>
-        /// <returns>int value to constant die roller</returns>
-        public int Execute(string parameter)
-        {
-            string value = parameter.Substring(Program.OptionConstantDieRoller.Length);
-            return int.Parse(value);
-        }
+        ICommand DefaultCommand { get; }
     }
 }

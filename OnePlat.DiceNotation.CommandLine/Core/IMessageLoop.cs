@@ -1,11 +1,11 @@
-﻿// <copyright file="Program.cs" company="DarthPedro">
+﻿// <copyright file="IMessageLoop.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
 // Assembly         : OnePlat.DiceNotation.CommandLine
 // Author           : DarthPedro
-// Created          : 8/10/2017
+// Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
 // Last Modified On : 8/13/2017
@@ -20,24 +20,22 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
-using OnePlat.DiceNotation.CommandLine.Core;
-
-namespace OnePlat.DiceNotation.CommandLine
+namespace OnePlat.DiceNotation.CommandLine.Core
 {
     /// <summary>
-    /// Main program class.
+    /// Interface for the command-line interface main message loop.
     /// </summary>
-    public class Program
+    public interface IMessageLoop
     {
         /// <summary>
-        /// Main method that gets called on program launch.
+        /// Gets the current view that message loop is processing.
         /// </summary>
-        /// <param name="args">Command line arguments to this CLI</param>
-        public static void Main(string[] args)
-        {
-            // initiate the message loop for this console application.
-            IMessageLoop messageLoop = new SingleRunMessageLoop(new MainView());
-            messageLoop.Run(args);
-        }
+        IView CurrentView { get; }
+
+        /// <summary>
+        /// Runs the main message loop.
+        /// </summary>
+        /// <param name="args">command line arguments</param>
+        void Run(string[] args);
     }
 }

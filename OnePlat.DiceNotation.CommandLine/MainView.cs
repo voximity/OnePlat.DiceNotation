@@ -1,11 +1,11 @@
-﻿// <copyright file="Program.cs" company="DarthPedro">
+﻿// <copyright file="MainView.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
 // Assembly         : OnePlat.DiceNotation.CommandLine
 // Author           : DarthPedro
-// Created          : 8/10/2017
+// Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
 // Last Modified On : 8/13/2017
@@ -21,23 +21,34 @@
 // </summary>
 //-----------------------------------------------------------------------
 using OnePlat.DiceNotation.CommandLine.Core;
+using System;
 
 namespace OnePlat.DiceNotation.CommandLine
 {
     /// <summary>
-    /// Main program class.
+    /// Main view class for this application.
     /// </summary>
-    public class Program
+    public class MainView : IView
     {
         /// <summary>
-        /// Main method that gets called on program launch.
+        /// Initializes a new instance of the <see cref="MainView"/> class.
         /// </summary>
-        /// <param name="args">Command line arguments to this CLI</param>
-        public static void Main(string[] args)
+        public MainView()
         {
-            // initiate the message loop for this console application.
-            IMessageLoop messageLoop = new SingleRunMessageLoop(new MainView());
-            messageLoop.Run(args);
+            this.DataContext = new MainViewModel();
+        }
+
+        /// <inheritdoc/>
+        public IViewModel DataContext { get; set; }
+
+        /// <inheritdoc/>
+        public void Update()
+        {
+            MainViewModel vm = this.DataContext as MainViewModel;
+            if (vm != null)
+            {
+                Console.WriteLine(vm.DisplayText);
+            }
         }
     }
 }

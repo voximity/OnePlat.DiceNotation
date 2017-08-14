@@ -2,7 +2,7 @@
   "profiles": {
     "OnePlat.DiceNotation.CommandLine": {
       "commandName": "Project",
-      "commandLineArgs": "4d6k3"
+      "commandLineArgs": "4d6k3 -v"
     },
     "dice": {
       "commandName": "Project",
