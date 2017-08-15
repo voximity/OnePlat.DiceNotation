@@ -25,3 +25,6 @@ From a command project in the output folder, run the following int he command pr
 # Usage
 
 # Feedback
+If you use this library and have any feedback, bugs, or suggestions, please file them in the Issues section of this GitHub repository.
+
+I have plans for better notation support, so there will be updates coming for this project. Your feedback would be appreciated.
