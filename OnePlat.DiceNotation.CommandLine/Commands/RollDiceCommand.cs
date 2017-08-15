@@ -62,6 +62,7 @@ namespace OnePlat.DiceNotation.CommandLine
             try
             {
                 IDice dice = new Dice().Parse(parameter as string);
+                dice.HasBoundedResult = this.vm.HasBoundedResult;
                 DiceResult result = dice.Roll(this.vm.DieRoller);
 
                 if (this.vm.UseVerboseOutput)

@@ -3,12 +3,12 @@
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.Mvvm.Core
+// Assembly         : OnePlat.DiceNotation
 // Author           : DarthPedro
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/10/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -38,11 +38,14 @@ namespace OnePlat.DiceNotation
         /// </summary>
         /// <param name="results">List for results for each term in dice expression</param>
         /// <param name="rollerUsed">Define die roller used to get the results</param>
-        public DiceResult(IEnumerable<TermResult> results, string rollerUsed)
+        /// <param name="isBoundedResult">Tells wether this result will be bounded or unbounded</param>
+        public DiceResult(IEnumerable<TermResult> results, string rollerUsed, bool isBoundedResult)
         {
             this.DieRollerUsed = rollerUsed;
             this.Results = results.ToList();
-            this.Value = Math.Max(results.Sum(r => (int)Math.Round(r.Value * r.Scalar)), BoundedMinimum);
+            int rawValue = results.Sum(r => (int)Math.Round(r.Value * r.Scalar));
+
+            this.Value = isBoundedResult ? Math.Max(rawValue, BoundedMinimum) : rawValue;
         }
 
         /// <summary>

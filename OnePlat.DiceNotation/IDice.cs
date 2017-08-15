@@ -3,12 +3,12 @@
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.Mvvm.Core
+// Assembly         : OnePlat.DiceNotation
 // Author           : DarthPedro
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/8/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -28,6 +28,11 @@ namespace OnePlat.DiceNotation
     /// </summary>
     public interface IDice
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether these dice have their results bounded to 1 or greater.
+        /// </summary>
+        bool HasBoundedResult { get; set; }
+
         /// <summary>
         /// Creates a DiceTerm with specified values for this dice expression.
         /// </summary>

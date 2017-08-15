@@ -53,6 +53,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsInstanceOfType(dice, typeof(IDice));
             Assert.IsInstanceOfType(dice, typeof(Dice));
             Assert.IsTrue(string.IsNullOrEmpty(dice.ToString()));
+            Assert.IsTrue(dice.HasBoundedResult);
         }
 
         [TestMethod]
@@ -383,6 +384,24 @@ namespace OnePlat.DiceNotation.UnitTests
             }
             Assert.AreEqual(sum, result.Value);
             Assert.AreEqual("4d6k3+5+1d8", dice.ToString());
+        }
+
+        [TestMethod]
+        public void Dice_RollWithNegativeResultUnboundedTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+            IDice dice = parser.Parse("d12-3");
+
+            // run test
+            dice.HasBoundedResult = false;
+            DiceResult result = dice.Roll(new ConstantDieRoller(1));
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.AreEqual("1d12-3", dice.ToString());
+            Assert.AreEqual(2, result.Results.Count);
+            Assert.AreEqual(-2, result.Value);
         }
 
         [TestMethod]

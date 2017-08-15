@@ -8,7 +8,7 @@
 // Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/13/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -38,6 +38,7 @@ namespace OnePlat.DiceNotation.CommandLine
             this.HelpCommand = new HelpCommand(this);
             this.SetVerboseCommand = new SetVerboseCommand(this);
             this.ConstantRollerCommand = new ConstantRollerCommand(this);
+            this.SetUnboundResultCommand = new SetUnboundedResultCommand(this);
             this.RollDiceCommand = new RollDiceCommand(this);
         }
 
@@ -63,6 +64,11 @@ namespace OnePlat.DiceNotation.CommandLine
         /// Gets or sets the value for a ConstantDieRoller.
         /// </summary>
         public int? ConstantRollerValue { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use a bounded result in DiceResults.
+        /// </summary>
+        public bool HasBoundedResult { get; set; } = true;
 
         /// <summary>
         /// Gets the die roller to use for this view model based on options.
@@ -102,6 +108,11 @@ namespace OnePlat.DiceNotation.CommandLine
         /// Gets the ConstantDieRoller command.
         /// </summary>
         public ICommand ConstantRollerCommand { get; }
+
+        /// <summary>
+        /// Gets the SetUnboundedResult command
+        /// </summary>
+        public ICommand SetUnboundResultCommand { get; }
 
         /// <summary>
         /// Gets the RollDice command.

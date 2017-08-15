@@ -27,6 +27,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(string.IsNullOrEmpty(vm.DisplayText));
             Assert.IsFalse(vm.UseVerboseOutput);
             Assert.IsNull(vm.ConstantRollerValue);
+            Assert.IsTrue(vm.HasBoundedResult);
             Assert.IsNotNull(vm.DieRoller);
             Assert.IsInstanceOfType(vm.DieRoller, typeof(RandomDieRoller));
         }
@@ -60,6 +61,21 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(result);
             Assert.IsTrue(vm.SetVerboseCommand.CanExecute(null));
             Assert.IsTrue(vm.UseVerboseOutput);
+        }
+
+        [TestMethod]
+        public void MainViewModel_UnboundResultTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.SetUnboundResultCommand.Execute(null);
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.SetUnboundResultCommand.CanExecute(null));
+            Assert.IsFalse(vm.HasBoundedResult);
         }
 
         [TestMethod]
@@ -128,6 +144,25 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
             Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> 4"));
+            Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceUnboundedTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+            vm.ConstantRollerCommand.Execute("1");
+            vm.SetUnboundResultCommand.Execute(null);
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("2d8-3");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("2d8-3"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(2d8-3)"));
+            Assert.IsTrue(vm.DisplayText.Contains("=> -1"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
         }
 
