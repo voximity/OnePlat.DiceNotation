@@ -8,7 +8,7 @@
 // Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/13/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -60,7 +60,7 @@ namespace OnePlat.DiceNotation.CommandLine.Core
         /// <inheritdoc/>
         public void Run(string[] args)
         {
-            List<string> parameters = args.OrderByDescending(a => a).ToList();
+            List<string> parameters = this.OrderArguments(args);
 
             foreach (string p in parameters)
             {
@@ -87,6 +87,20 @@ namespace OnePlat.DiceNotation.CommandLine.Core
         #endregion
 
         #region Helper methods
+
+        private List<string> OrderArguments(string[] args)
+        {
+            List<Tuple<int, string>> results = new List<Tuple<int, string>>();
+
+            foreach (string s in args)
+            {
+                ICommand command = this.FindAssociatedCommand(s);
+                Tuple<int, string> item = new Tuple<int, string>(command == null ? int.MaxValue : command.Order, s);
+                results.Add(item);
+            }
+
+            return results.OrderBy(i => i.Item1).Select(s => s.Item2).ToList();
+        }
 
         private ICommand FindAssociatedCommand(string parameter)
         {

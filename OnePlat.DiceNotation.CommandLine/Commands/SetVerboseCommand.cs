@@ -8,7 +8,7 @@
 // Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/13/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -42,6 +42,9 @@ namespace OnePlat.DiceNotation.CommandLine
 
         /// <inheritdoc/>
         public string[] Operations => new string[] { "-v" };
+
+        /// <inheritdoc/>
+        public int Order { get; } = 10;
 
         /// <inheritdoc/>
         public bool CanExecute(object parameter)

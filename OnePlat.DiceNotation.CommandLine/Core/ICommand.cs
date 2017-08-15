@@ -8,7 +8,7 @@
 // Created          : 8/13/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/13/2017
+// Last Modified On : 8/15/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MS-PL license.
@@ -31,6 +31,11 @@ namespace OnePlat.DiceNotation.CommandLine.Core
         /// Gets the list of operation identifiers for this command.
         /// </summary>
         string[] Operations { get; }
+
+        /// <summary>
+        /// Gets the relative order of this command operation.
+        /// </summary>
+        int Order { get; }
 
         /// <summary>
         /// Executes the given command.
