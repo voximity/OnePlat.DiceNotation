@@ -1,3 +1,7 @@
+// <copyright file="MainViewModelTests.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.CommandLine.Core;
 using OnePlat.DiceNotation.DieRoller;

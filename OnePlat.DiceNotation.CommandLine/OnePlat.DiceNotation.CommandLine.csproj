@@ -11,9 +11,12 @@
     <Description>Command-line interface for the OnePlat.DiceNotation library. Lets the user process dice rolls based on providing dice notation expressions via the command line. It parses and interprets the dice notation expression, rolls the dice, and displays the results.</Description>
     <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/DarthPedro/OnePlat.DiceNotation/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller CommandLine CLI</PackageTags>
+    <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
+    <PackageReleaseNotes>Initial release of a command line tool that lets you test out rolling dice in DiceNotation. Try out various dice strings and see the results.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -8,9 +8,12 @@
     <Product>DiceNotation Parsing and Rolling</Product>
     <Description>Library to parse and roll any dice notation. Use this libary in your applications to roll random dice without having to write all of the code yourself.</Description>
     <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/DarthPedro/OnePlat.DiceNotation/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller</PackageTags>
+    <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
+    <PackageReleaseNotes>Initial release with dice notation support, parsing of notation strings, and evaluating die rolls and math operations into a result.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
