@@ -46,5 +46,124 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.0) ==="));
             Assert.IsTrue(vm.DisplayText.Contains("Dice expressions:"));
         }
+
+        [TestMethod]
+        public void MainViewModel_SetVerboseTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.SetVerboseCommand.Execute(null);
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.SetVerboseCommand.CanExecute(null));
+            Assert.IsTrue(vm.UseVerboseOutput);
+        }
+
+        [TestMethod]
+        public void MainViewModel_ConstantRollerTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.ConstantRollerCommand.Execute("5");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.ConstantRollerCommand.CanExecute("5"));
+            Assert.AreEqual(5, vm.ConstantRollerValue);
+            Assert.IsNotNull(vm.DieRoller);
+            Assert.IsInstanceOfType(vm.DieRoller, typeof(ConstantDieRoller));
+        }
+
+        [TestMethod]
+        public void MainViewModel_ConstantRollerErrorTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.ConstantRollerCommand.Execute("f5");
+
+            // validate results
+            Assert.IsFalse(result);
+            Assert.IsTrue(vm.ConstantRollerCommand.CanExecute("f5"));
+            Assert.IsNull(vm.ConstantRollerValue);
+            Assert.IsNotNull(vm.DieRoller);
+            Assert.IsInstanceOfType(vm.DieRoller, typeof(RandomDieRoller));
+            Assert.IsTrue(vm.DisplayText.Contains("FormatException"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("4d6k3+1");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceConstantTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+            vm.ConstantRollerCommand.Execute("1");
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("4d6k3+1");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("=> 4"));
+            Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceVerboseTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+            vm.ConstantRollerCommand.Execute("2");
+            vm.SetVerboseCommand.Execute(null);
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("4d6k3+1");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("=> 7"));
+            Assert.IsTrue(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceErrorTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("2d+4");
+
+            // validate results
+            Assert.IsFalse(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("2d+4"));
+            Assert.IsFalse(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("FormatException"));
+        }
     }
 }
