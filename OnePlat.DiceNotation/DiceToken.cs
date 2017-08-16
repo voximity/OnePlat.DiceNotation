@@ -3,15 +3,15 @@
 // </copyright>
 
 //-----------------------------------------------------------------------
-// Assembly         : OnePlat.Mvvm.Core
+// Assembly         : OnePlat.DiceNotation
 // Author           : DarthPedro
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/10/2017
+// Last Modified On : 8/16/2017
 //-----------------------------------------------------------------------
 // <summary>
-//       This project is licensed under the MS-PL license.
+//       This project is licensed under the MIT license.
 //
 //       OnePlat.DiceNotation is an open source project that parses,
 //  evalutes, and rolls dice that conform to the defined Dice notiation.
