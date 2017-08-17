@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace OnePlat.DiceNotation
@@ -32,13 +33,76 @@ namespace OnePlat.DiceNotation
     public class DiceParser
     {
         #region Members
+        // todo: remove these after parse function updated
         private const char OperatorDie = 'd';
         private const char OperatorChoose = 'k';
         private const char OperatorAdd = '+';
         private const char OperatorSubtract = '-';
         private const char OperatorMultiply = 'x';
         private const char OperatorDivide = '/';
+
         private static Regex whitespaceRegex = new Regex(@"\s+");
+        private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
+        /// Caller can customize the operators list by adding/removing elements in the list.
+        /// </summary>
+        public List<string> MathOperators { get; } = new List<string> { "/", "x", "*", "-", "+" };
+
+        /// <summary>
+        /// Gets the list of dice operators for this parser.
+        /// Caller can customize the operators list by adding/removing elements in the list.
+        /// </summary>
+        public List<string> DiceOperators { get; } = new List<string> { "d", "k" };
+
+        /// <summary>
+        /// Gets the list of all operators (combination of dice and math operator lists).
+        /// </summary>
+        public List<string> Operators
+        {
+            get
+            {
+                List<string> result = new List<string>(this.DiceOperators);
+                result.AddRange(this.MathOperators);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
+        /// then it should have a corresponding operation here.
+        /// Caller can customize the operator actions by adding/updating elements in this list.
+        /// </summary>
+        public Dictionary<string, Func<decimal, decimal, decimal>> OperatorActions { get; } = new Dictionary<string, Func<decimal, decimal, decimal>>
+        {
+            { "/", (numberA, numberB) => numberA / numberB },
+            { "x", (numberA, numberB) => numberA * numberB },
+            { "*", (numberA, numberB) => numberA * numberB },
+            { "-", (numberA, numberB) => numberA - numberB },
+            { "+", (numberA, numberB) => numberA + numberB }
+        };
+
+        /// <summary>
+        /// Gets or sets the default operator to use when there's a missing operator.
+        /// Basic behavior is the multiplication operator, but can be changed by caller.
+        /// </summary>
+        public string DefaultOperator { get; set; } = "x";
+
+        /// <summary>
+        /// Gets or sets the grouping start operator to use when discovering groups of subexpressions.
+        /// Basic behavior is the ( operator, but can be changed by caller.
+        /// </summary>
+        public string GroupStartOperator { get; set; } = "(";
+
+        /// <summary>
+        /// Gets or sets the grouping end operator to use when discovering groups of subexpressions.
+        /// Basic behavior is the ) operator, but can be changed by caller.
+        /// </summary>
+        public string GroupEndOperator { get; set; } = ")";
         #endregion
 
         #region Main Parse method
@@ -60,20 +124,21 @@ namespace OnePlat.DiceNotation
             // loop through the expression characters
             for (var i = 0; i < expression.Length; i++)
             {
-                var ch = expression[i];
+                var ch = expression[i].ToString();
+                var next = (i + 1) >= expression.Length ? string.Empty : expression[i + 1].ToString();
+                var prev = i == 0 ? string.Empty : expression[i - 1].ToString();
 
-                if (char.IsLetter(ch))
+                if (char.IsLetter(ch, 0))
                 {
                     // if it's a letter, then increment the char position until we find the end of the text
-                    if (i != 0 && (char.IsDigit(expression[i - 1]) || expression[i - 1] == ')') && ch != 'd' && ch != 'x')
+                    if (i != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator) && !this.Operators.Contains(ch))
                     {
-                        tokens.Add("x");
+                        tokens.Add(this.DefaultOperator);
                     }
 
                     vector += ch;
 
-                    // todo: replace literal characters with constants
-                    if (ch != 'x')
+                    if (!this.MathOperators.Contains(ch))
                     {
                         while ((i + 1) < expression.Length && char.IsLetterOrDigit(expression[i + 1]))
                         {
@@ -85,12 +150,12 @@ namespace OnePlat.DiceNotation
                     tokens.Add(vector);
                     vector = string.Empty;
                 }
-                else if (char.IsDigit(ch))
+                else if (char.IsDigit(ch, 0))
                 {
                     // if it's a digit, then increment char until you find the end of the number
                     vector = vector + ch;
 
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1] == '.' || expression[i + 1] == 'd' || expression[i + 1] == 'k'))
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator || this.DiceOperators.Contains(expression[i + 1].ToString())))
                     {
                         i++;
                         vector += expression[i];
@@ -99,15 +164,16 @@ namespace OnePlat.DiceNotation
                     tokens.Add(vector);
                     vector = string.Empty;
                 }
-                else if ((i + 1) < expression.Length && (ch == '-' || ch == '+') &&
+                else if ((i + 1) < expression.Length &&
+                         this.MathOperators.Contains(ch) &&
                          char.IsDigit(expression[i + 1]) && (i == 0 ||
-                         /*OperatorList.IndexOf(expression[i - 1].ToString()) != -1 ||*/
-                         ((i - 1) > 0 && expression[i - 1] == '(')))
+                         this.MathOperators.Contains(prev) ||
+                         ((i - 1) > 0 && prev == this.GroupStartOperator)))
                 {
                     // if the above is true, then, the token for that negative number will be "-1", not "-","1".
                     vector = vector + ch;
 
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1] == '.' || expression[i + 1] == 'd'))
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator || this.DiceOperators.Contains(expression[i + 1].ToString())))
                     {
                         i++;
                         vector = vector + expression[i];
@@ -116,30 +182,30 @@ namespace OnePlat.DiceNotation
                     tokens.Add(vector);
                     vector = string.Empty;
                 }
-                else if (ch == '(')
+                else if (ch == this.GroupStartOperator)
                 {
                     // if an open parenthesis, then if we didn't have an operator, then default to multiplication.
-                    if (i != 0 && (char.IsDigit(expression[i - 1]) || char.IsDigit(expression[i - 1]) || expression[i - 1] == ')'))
+                    if (i != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator))
                     {
-                        tokens.Add("x");
+                        tokens.Add(this.DefaultOperator);
                     }
 
                     tokens.Add(ch.ToString());
                 }
-                else if (ch == ')')
+                else if (ch == this.GroupEndOperator)
                 {
-                    tokens.Add(ch.ToString());
+                    tokens.Add(ch);
 
-                    /* todo: replace with operator list. */
                     if ((i + 1) < expression.Length &&
-                        (char.IsDigit(expression[i + 1]) ||
-                        (expression[i + 1] != ')' && expression[i + 1] != 'x' && expression[i + 1] != '/' && expression[i + 1] != '+' && expression[i + 1] != '-')))
+                        (char.IsDigit(next, 0) ||
+                        (next != this.GroupEndOperator && !this.MathOperators.Contains(next))))
                     {
-                        tokens.Add("x");
+                        tokens.Add(this.DefaultOperator);
                     }
                 }
                 else
                 {
+                    // if not recognized character just add it as its own token.
                     tokens.Add(ch.ToString());
                 }
             }
