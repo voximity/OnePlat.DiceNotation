@@ -20,6 +20,7 @@
 // </summary>
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace OnePlat.DiceNotation
@@ -41,6 +42,113 @@ namespace OnePlat.DiceNotation
         #endregion
 
         #region Main Parse method
+
+        /// <summary>
+        /// Deconstructs the expression string in to the individual tokens that makes
+        /// up the expression.
+        /// </summary>
+        /// <param name="expression">Expression string to parse</param>
+        /// <returns>List of the expression tokens.</returns>
+        public List<string> Tokenize(string expression)
+        {
+            List<string> tokens = new List<string>();
+            string vector = string.Empty;
+
+            // first clean up expression
+            expression = this.CorrectExpression(expression);
+
+            // loop through the expression characters
+            for (var i = 0; i < expression.Length; i++)
+            {
+                var ch = expression[i];
+
+                if (char.IsLetter(ch))
+                {
+                    // if it's a letter, then increment the char position until we find the end of the text
+                    if (i != 0 && (char.IsDigit(expression[i - 1]) || expression[i - 1] == ')') && ch != 'd' && ch != 'x')
+                    {
+                        tokens.Add("x");
+                    }
+
+                    vector += ch;
+
+                    // todo: replace literal characters with constants
+                    if (ch != 'x')
+                    {
+                        while ((i + 1) < expression.Length && char.IsLetterOrDigit(expression[i + 1]))
+                        {
+                            i++;
+                            vector += expression[i];
+                        }
+                    }
+
+                    tokens.Add(vector);
+                    vector = string.Empty;
+                }
+                else if (char.IsDigit(ch))
+                {
+                    // if it's a digit, then increment char until you find the end of the number
+                    vector = vector + ch;
+
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1] == '.' || expression[i + 1] == 'd' || expression[i + 1] == 'k'))
+                    {
+                        i++;
+                        vector += expression[i];
+                    }
+
+                    tokens.Add(vector);
+                    vector = string.Empty;
+                }
+                else if ((i + 1) < expression.Length && (ch == '-' || ch == '+') &&
+                         char.IsDigit(expression[i + 1]) && (i == 0 ||
+                         /*OperatorList.IndexOf(expression[i - 1].ToString()) != -1 ||*/
+                         ((i - 1) > 0 && expression[i - 1] == '(')))
+                {
+                    // if the above is true, then, the token for that negative number will be "-1", not "-","1".
+                    vector = vector + ch;
+
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1] == '.' || expression[i + 1] == 'd'))
+                    {
+                        i++;
+                        vector = vector + expression[i];
+                    }
+
+                    tokens.Add(vector);
+                    vector = string.Empty;
+                }
+                else if (ch == '(')
+                {
+                    // if an open parenthesis, then if we didn't have an operator, then default to multiplication.
+                    if (i != 0 && (char.IsDigit(expression[i - 1]) || char.IsDigit(expression[i - 1]) || expression[i - 1] == ')'))
+                    {
+                        tokens.Add("x");
+                    }
+
+                    tokens.Add(ch.ToString());
+                }
+                else if (ch == ')')
+                {
+                    tokens.Add(ch.ToString());
+
+                    /* todo: replace with operator list. */
+                    if ((i + 1) < expression.Length &&
+                        (char.IsDigit(expression[i + 1]) ||
+                        (expression[i + 1] != ')' && expression[i + 1] != 'x' && expression[i + 1] != '/' && expression[i + 1] != '+' && expression[i + 1] != '-')))
+                    {
+                        tokens.Add("x");
+                    }
+                }
+                else
+                {
+                    tokens.Add(ch.ToString());
+                }
+            }
+
+            return tokens;
+        }
+        #endregion
+
+        #region Old Parse method
 
         /// <summary>
         /// Parses the specified dice expression and converts it into a
@@ -102,6 +210,21 @@ namespace OnePlat.DiceNotation
         #endregion
 
         #region Parsing helper methods
+
+        /// <summary>
+        /// Cleanup the expression text to lower case, remove spaces, and replace duplicate operatiors.
+        /// </summary>
+        /// <param name="expression">Expression to clean up</param>
+        /// <returns>Corrected expression text</returns>
+        private string CorrectExpression(string expression)
+        {
+            string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
+            result = result.Replace("+-", "-");
+            result = result.Replace("-+", "-");
+            result = result.Replace("--", "+");
+
+            return result;
+        }
 
         /// <summary>
         /// Parsing handler for the Die operation.
