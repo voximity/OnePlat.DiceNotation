@@ -212,9 +212,6 @@ namespace OnePlat.DiceNotation
 
             return tokens;
         }
-        #endregion
-
-        #region Old Parse method
 
         /// <summary>
         /// Parses the specified dice expression and converts it into a
@@ -222,7 +219,57 @@ namespace OnePlat.DiceNotation
         /// </summary>
         /// <param name="expression">String expression to parse</param>
         /// <returns>Dice instance</returns>
+        public IDice Parse2(string expression)
+        {
+            List<string> tokens = this.Tokenize(expression);
+            return this.ParseLogic(tokens);
+        }
+
+        /// <summary>
+        /// Parses the specified list of tokens with appropriate logic to convert
+        /// it into a Dice instance to evaluate oprations on.
+        /// </summary>
+        /// <param name="tokens">String expression to parse</param>
+        /// <returns>Dice instance</returns>
+        public IDice ParseLogic(List<string> tokens)
+        {
+            IDice dice = new Dice();
+
+            foreach (string t in tokens)
+            {
+                this.HandleBasicOperation(dice, new List<string> { t });
+            }
+
+            return dice;
+        }
+
+        private void HandleBasicOperation(IDice dice, List<string> tokens)
+        {
+            if (tokens.Count == 0)
+            {
+                return;
+            }
+            else if (tokens.Count == 1)
+            {
+                // if there is only one token, then it much be a constant.
+                dice.Constant(int.Parse(tokens[0]));
+            }
+
+            return;
+        }
+        #endregion
+
+        #region Old Parse method
+
+#pragma warning disable SA1202 // Elements must be ordered by access
+        /// <summary>
+        /// Parses the specified dice expression and converts it into a
+        /// Dice instance to perform oprations on.
+        /// </summary>
+        /// <param name="expression">String expression to parse</param>
+        /// <returns>Dice instance</returns>
         public IDice Parse(string expression)
+#pragma warning restore SA1202 // Elements must be ordered by access
         {
             // first clean up expression
             expression = whitespaceRegex.Replace(expression.ToLower(), string.Empty);

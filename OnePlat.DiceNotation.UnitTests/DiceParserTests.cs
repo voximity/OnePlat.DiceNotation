@@ -257,7 +257,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("42");
+            IDice dice = parser.Parse2("42");
             DiceResult result = dice.Roll(this.testRoller);
 
             // validate results
