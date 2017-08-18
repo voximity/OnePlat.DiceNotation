@@ -51,26 +51,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> MathOperators { get; } = new List<string> { "/", "x", "*", "-", "+" };
-
-        /// <summary>
-        /// Gets the list of dice operators for this parser.
-        /// Caller can customize the operators list by adding/removing elements in the list.
-        /// </summary>
-        public List<string> DiceOperators { get; } = new List<string> { "d", "k" };
-
-        /// <summary>
-        /// Gets the list of all operators (combination of dice and math operator lists).
-        /// </summary>
-        public List<string> Operators
-        {
-            get
-            {
-                List<string> result = new List<string>(this.DiceOperators);
-                result.AddRange(this.MathOperators);
-                return result;
-            }
-        }
+        public List<string> Operators { get; } = new List<string> { "d", "k", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -138,7 +119,7 @@ namespace OnePlat.DiceNotation
 
                     vector += ch;
 
-                    if (!this.MathOperators.Contains(ch))
+                    if (!this.Operators.Contains(ch))
                     {
                         while ((i + 1) < expression.Length && char.IsLetterOrDigit(expression[i + 1]))
                         {
@@ -155,7 +136,7 @@ namespace OnePlat.DiceNotation
                     // if it's a digit, then increment char until you find the end of the number
                     vector = vector + ch;
 
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator || this.DiceOperators.Contains(expression[i + 1].ToString())))
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator))
                     {
                         i++;
                         vector += expression[i];
@@ -165,15 +146,15 @@ namespace OnePlat.DiceNotation
                     vector = string.Empty;
                 }
                 else if ((i + 1) < expression.Length &&
-                         this.MathOperators.Contains(ch) &&
+                         this.Operators.Contains(ch) &&
                          char.IsDigit(expression[i + 1]) && (i == 0 ||
-                         this.MathOperators.Contains(prev) ||
+                         this.Operators.Contains(prev) ||
                          ((i - 1) > 0 && prev == this.GroupStartOperator)))
                 {
                     // if the above is true, then, the token for that negative number will be "-1", not "-","1".
                     vector = vector + ch;
 
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator || this.DiceOperators.Contains(expression[i + 1].ToString())))
+                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator))
                     {
                         i++;
                         vector = vector + expression[i];
@@ -196,9 +177,8 @@ namespace OnePlat.DiceNotation
                 {
                     tokens.Add(ch);
 
-                    if ((i + 1) < expression.Length &&
-                        (char.IsDigit(next, 0) ||
-                        (next != this.GroupEndOperator && !this.MathOperators.Contains(next))))
+                    if ((i + 1) < expression.Length && (char.IsDigit(next, 0) ||
+                        (next != this.GroupEndOperator && !this.Operators.Contains(next))))
                     {
                         tokens.Add(this.DefaultOperator);
                     }
