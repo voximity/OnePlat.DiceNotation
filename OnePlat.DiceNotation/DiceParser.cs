@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/16/2017
+// Last Modified On : 8/18/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -45,6 +45,14 @@ namespace OnePlat.DiceNotation
         private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiceParser"/> class.
+        /// </summary>
+        public DiceParser()
+        {
+            this.OperatorActions.Add("d", (dice, numberA, numberB) => this.DieOperatorAction(dice, numberA, numberB));
+        }
+
         #region Properties
 
         /// <summary>
@@ -58,13 +66,13 @@ namespace OnePlat.DiceNotation
         /// then it should have a corresponding operation here.
         /// Caller can customize the operator actions by adding/updating elements in this list.
         /// </summary>
-        public Dictionary<string, Func<decimal, decimal, decimal>> OperatorActions { get; } = new Dictionary<string, Func<decimal, decimal, decimal>>
+        public Dictionary<string, Func<IDice, int, int, int>> OperatorActions { get; } = new Dictionary<string, Func<IDice, int, int, int>>
         {
-            { "/", (numberA, numberB) => numberA / numberB },
-            { "x", (numberA, numberB) => numberA * numberB },
-            { "*", (numberA, numberB) => numberA * numberB },
-            { "-", (numberA, numberB) => numberA - numberB },
-            { "+", (numberA, numberB) => numberA + numberB }
+            { "/", (dice, numberA, numberB) => numberA / numberB },
+            { "x", (dice, numberA, numberB) => numberA * numberB },
+            { "*", (dice, numberA, numberB) => numberA * numberB },
+            { "-", (dice, numberA, numberB) => numberA - numberB },
+            { "+", (dice, numberA, numberB) => numberA + numberB }
         };
 
         /// <summary>
@@ -215,10 +223,7 @@ namespace OnePlat.DiceNotation
         {
             IDice dice = new Dice();
 
-            foreach (string t in tokens)
-            {
-                this.HandleBasicOperation(dice, new List<string> { t });
-            }
+            this.HandleBasicOperation(dice, tokens);
 
             return dice;
         }
@@ -235,7 +240,42 @@ namespace OnePlat.DiceNotation
                 dice.Constant(int.Parse(tokens[0]));
             }
 
-            return;
+            foreach (var op in this.Operators)
+            {
+                while (tokens.IndexOf(op) != -1)
+                {
+                    try
+                    {
+                        var opPlace = tokens.IndexOf(op);
+                        var numberA = int.Parse(tokens[opPlace - 1]);
+                        var numberB = int.Parse(tokens[opPlace + 1]);
+
+                        int result = (int)this.OperatorActions[op](dice, numberA, numberB);
+                        if (result > 0)
+                        {
+                            dice.Constant(result);
+                        }
+
+                        tokens[opPlace - 1] = result.ToString();
+                        tokens.RemoveRange(opPlace, 2);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new FormatException("Dice expression string is incorrect format.", ex);
+                    }
+                }
+
+                if (tokens.Count == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        private int DieOperatorAction(IDice dice, int numberA, int numberB)
+        {
+            dice.Dice(numberB, numberA);
+            return 0;
         }
         #endregion
 
