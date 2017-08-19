@@ -47,9 +47,10 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<string>));
-            Assert.AreEqual(2, result.Count);
-            Assert.AreEqual("d", result[0]);
-            Assert.AreEqual("20", result[1]);
+            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual("1", result[0]);
+            Assert.AreEqual("d", result[1]);
+            Assert.AreEqual("20", result[2]);
         }
 
         [TestMethod]
@@ -100,11 +101,12 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<string>));
-            Assert.AreEqual(4, result.Count);
+            Assert.AreEqual(5, result.Count);
             Assert.AreEqual("2", result[0]);
             Assert.AreEqual("+", result[1]);
-            Assert.AreEqual("d", result[2]);
-            Assert.AreEqual("6", result[3]);
+            Assert.AreEqual("1", result[2]);
+            Assert.AreEqual("d", result[3]);
+            Assert.AreEqual("6", result[4]);
         }
 
         [TestMethod]
@@ -239,17 +241,18 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<string>));
-            Assert.AreEqual(10, result.Count);
+            Assert.AreEqual(11, result.Count);
             Assert.AreEqual("4", result[0]);
             Assert.AreEqual("d", result[1]);
             Assert.AreEqual("6", result[2]);
             Assert.AreEqual("k", result[3]);
             Assert.AreEqual("3", result[4]);
             Assert.AreEqual("+", result[5]);
-            Assert.AreEqual("d", result[6]);
-            Assert.AreEqual("8", result[7]);
-            Assert.AreEqual("+", result[8]);
-            Assert.AreEqual("3", result[9]);
+            Assert.AreEqual("1", result[6]);
+            Assert.AreEqual("d", result[7]);
+            Assert.AreEqual("8", result[8]);
+            Assert.AreEqual("+", result[9]);
+            Assert.AreEqual("3", result[10]);
         }
 
         [TestMethod]
@@ -308,7 +311,7 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<string>));
-            Assert.AreEqual(12, result.Count);
+            Assert.AreEqual(13, result.Count);
             Assert.AreEqual("4", result[0]);
             Assert.AreEqual("d", result[1]);
             Assert.AreEqual("6", result[2]);
@@ -316,11 +319,12 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("3", result[4]);
             Assert.AreEqual("+", result[5]);
             Assert.AreEqual("(", result[6]);
-            Assert.AreEqual("d", result[7]);
-            Assert.AreEqual("8", result[8]);
-            Assert.AreEqual("-", result[9]);
-            Assert.AreEqual("2", result[10]);
-            Assert.AreEqual(")", result[11]);
+            Assert.AreEqual("1", result[7]);
+            Assert.AreEqual("d", result[8]);
+            Assert.AreEqual("8", result[9]);
+            Assert.AreEqual("-", result[10]);
+            Assert.AreEqual("2", result[11]);
+            Assert.AreEqual(")", result[12]);
         }
 
         [TestMethod]
@@ -407,7 +411,7 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<string>));
-            Assert.AreEqual(22, result.Count);
+            Assert.AreEqual(23, result.Count);
             Assert.AreEqual("4", result[0]);
             Assert.AreEqual("d", result[1]);
             Assert.AreEqual("6", result[2]);
@@ -424,12 +428,13 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("2", result[13]);
             Assert.AreEqual("x", result[14]);
             Assert.AreEqual("(", result[15]);
-            Assert.AreEqual("d", result[16]);
-            Assert.AreEqual("8", result[17]);
-            Assert.AreEqual("-", result[18]);
-            Assert.AreEqual("2", result[19]);
-            Assert.AreEqual(")", result[20]);
+            Assert.AreEqual("1", result[16]);
+            Assert.AreEqual("d", result[17]);
+            Assert.AreEqual("8", result[18]);
+            Assert.AreEqual("-", result[19]);
+            Assert.AreEqual("2", result[20]);
             Assert.AreEqual(")", result[21]);
+            Assert.AreEqual(")", result[22]);
         }
     }
 }

@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/18/2017
+// Last Modified On : 8/19/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -44,14 +44,6 @@ namespace OnePlat.DiceNotation
         private static Regex whitespaceRegex = new Regex(@"\s+");
         private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
         #endregion
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DiceParser"/> class.
-        /// </summary>
-        public DiceParser()
-        {
-            this.OperatorActions.Add("d", (dice, numberA, numberB) => this.DieOperatorAction(dice, numberA, numberB));
-        }
 
         #region Properties
 
@@ -92,6 +84,11 @@ namespace OnePlat.DiceNotation
         /// Basic behavior is the ) operator, but can be changed by caller.
         /// </summary>
         public string GroupEndOperator { get; set; } = ")";
+
+        /// <summary>
+        /// Gets or sets the default number of dice when nothing is specified (defaults to 1).
+        /// </summary>
+        public string DefaultNumDice { get; set; } = "1";
         #endregion
 
         #region Main Parse method
@@ -123,6 +120,14 @@ namespace OnePlat.DiceNotation
                     if (i != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator) && !this.Operators.Contains(ch))
                     {
                         tokens.Add(this.DefaultOperator);
+                    }
+
+                    if (ch == "d" && (string.IsNullOrEmpty(prev) ||
+                                      this.Operators.Contains(prev) ||
+                                      prev == this.GroupEndOperator ||
+                                      prev == this.GroupStartOperator))
+                    {
+                        tokens.Add(this.DefaultNumDice);
                     }
 
                     vector += ch;
@@ -246,18 +251,14 @@ namespace OnePlat.DiceNotation
                 {
                     try
                     {
-                        var opPlace = tokens.IndexOf(op);
-                        var numberA = int.Parse(tokens[opPlace - 1]);
-                        var numberB = int.Parse(tokens[opPlace + 1]);
-
-                        int result = (int)this.OperatorActions[op](dice, numberA, numberB);
-                        if (result > 0)
+                        if (op == "d")
                         {
-                            dice.Constant(result);
+                            this.HandleDieOperator(dice, tokens, op);
                         }
-
-                        tokens[opPlace - 1] = result.ToString();
-                        tokens.RemoveRange(opPlace, 2);
+                        else
+                        {
+                            this.HandleArithmeticOperators(dice, tokens, op);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -272,10 +273,38 @@ namespace OnePlat.DiceNotation
             }
         }
 
-        private int DieOperatorAction(IDice dice, int numberA, int numberB)
+        private void HandleArithmeticOperators(IDice dice, List<string> tokens, string op)
         {
-            dice.Dice(numberB, numberA);
-            return 0;
+            var opPosition = tokens.IndexOf(op);
+            var numberA = int.Parse(tokens[opPosition - 1]);
+            var numberB = int.Parse(tokens[opPosition + 1]);
+
+            int result = this.OperatorActions[op](dice, numberA, numberB);
+            dice.Constant(result);
+
+            tokens[opPosition - 1] = result.ToString();
+            tokens.RemoveRange(opPosition, 2);
+        }
+
+        private void HandleDieOperator(IDice dice, List<string> tokens, string op)
+        {
+            int opPosition = tokens.IndexOf(op);
+            int numDice = int.Parse(tokens[opPosition - 1]);
+            int sides = int.Parse(tokens[opPosition + 1]);
+            int? choose = null;
+            int length = 2;
+
+            int choosePos = tokens.IndexOf("k");
+            if (choosePos > 0)
+            {
+                choose = int.Parse(tokens[choosePos + 1]);
+                length += 2;
+            }
+
+            dice.Dice(sides, numDice, 1, choose);
+
+            tokens[opPosition - 1] = "0";
+            tokens.RemoveRange(opPosition, length);
         }
         #endregion
 

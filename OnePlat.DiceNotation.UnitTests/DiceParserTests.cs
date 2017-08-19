@@ -74,7 +74,6 @@ namespace OnePlat.DiceNotation.UnitTests
             // setup test
             DiceParser parser = new DiceParser();
 
-            // todo: fixing tests here...
             // run test
             IDice dice = parser.Parse2("d20");
             DiceResult result = dice.Roll(this.testRoller);
@@ -144,7 +143,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse(" 4  d6 k 3+  2    ");
+            IDice dice = parser.Parse2(" 4  d6 k 3+  2    ");
             DiceResult result = dice.Roll(this.testRoller);
 
             // validate results
@@ -161,7 +160,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("4d6k3 + d8 + 2");
+            IDice dice = parser.Parse2("4d6k3 + d8 + 2");
             DiceResult result = dice.Roll(this.testRoller);
 
             // validate results
@@ -178,7 +177,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("2d8x10");
+            IDice dice = parser.Parse2("2d8x10");
             DiceResult result = dice.Roll(this.testRoller);
 
             // validate results
