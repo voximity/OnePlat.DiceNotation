@@ -16,7 +16,8 @@
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller CommandLine CLI</PackageTags>
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
-    <PackageReleaseNotes>Initial release of a command line tool that lets you test out rolling dice in DiceNotation. Try out various dice strings and see the results.</PackageReleaseNotes>
+    <PackageReleaseNotes>Minor updates to accommodate changes to more complex DiceNotation parsing engine.</PackageReleaseNotes>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
