@@ -269,22 +269,21 @@ namespace OnePlat.DiceNotation.UnitTests
             IDice dice = new Dice();
 
             // run test
-            dice = dice.Parse("3d6+2");
-            DiceResult result = dice.Roll(roller);
+            DiceResult result = dice.Roll("3d6+2", roller);
 
             // validate results
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(5, 20, result.Value);
-            Assert.AreEqual(4, result.Results.Count);
             int sum = 0;
             foreach (TermResult r in result.Results)
             {
                 AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
                 sum += r.Value;
             }
+            sum += 2;
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("3d6+2", dice.ToString());
+            Assert.AreEqual("3d6+2", result.DiceExpression);
         }
 
         [TestMethod]
@@ -294,96 +293,20 @@ namespace OnePlat.DiceNotation.UnitTests
             IDice dice = new Dice();
             
             // run test
-            dice.Parse("4d6k3 + 1d8 + 5");
-            DiceResult result = dice.Roll(new ConstantDieRoller(1));
+            DiceResult result = dice.Roll("4d6k3 + 1d8 + 5", new ConstantDieRoller(1));
 
             // validate results
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.ConstantDieRoller", result.DieRollerUsed);
             Assert.AreEqual(9, result.Value);
-            Assert.AreEqual(5, result.Results.Count);
             int sum = 0;
             foreach (TermResult r in result.Results)
             {
                 sum += r.Value;
             }
+            sum += 5;
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+1d8+5", dice.ToString());
-        }
-
-        [TestMethod]
-        public void Dice_ParseMultipleDiceWithPreexistingTermsTest()
-        {
-            // setup test
-            IDice dice = new Dice();
-            dice.Constant(2);
-
-            // run test
-            dice = dice.Parse("3d6");
-            DiceResult result = dice.Roll(roller);
-
-            // validate results
-            Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
-            AssertHelpers.IsWithinRangeInclusive(5, 20, result.Value);
-            Assert.AreEqual(4, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("2+3d6", dice.ToString());
-        }
-
-        [TestMethod]
-        public void Dice_ParseMultipleDiceWithPostTermsTest()
-        {
-            // setup test
-            IDice dice = new Dice();
-
-            // run test
-            dice = dice.Parse("4d6k3").Dice(8).Constant(5);
-            DiceResult result = dice.Roll(new ConstantDieRoller(1));
-
-            // validate results
-            Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.ConstantDieRoller", result.DieRollerUsed);
-            Assert.AreEqual(9, result.Value);
-            Assert.AreEqual(5, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+1d8+5", dice.ToString());
-        }
-
-        [TestMethod]
-        public void Dice_ConcatOtherDiceTest()
-        {
-            // setup test
-            IDice dice = new Dice().Parse("4d6k3");
-            IDice other = new Dice().Constant(5).Dice(8);
-
-            // run test
-            dice = dice.Concat(other);
-            DiceResult result = dice.Roll(new ConstantDieRoller(1));
-
-            // validate results
-            Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.ConstantDieRoller", result.DieRollerUsed);
-            Assert.AreEqual(9, result.Value);
-            Assert.AreEqual(5, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+5+1d8", dice.ToString());
+            Assert.AreEqual("4d6k3+1d8+5", result.DiceExpression);
         }
 
         [TestMethod]
@@ -391,29 +314,16 @@ namespace OnePlat.DiceNotation.UnitTests
         {
             // setup test
             DiceParser parser = new DiceParser();
-            IDice dice = parser.Parse("d12-3");
 
             // run test
-            dice.HasBoundedResult = false;
-            DiceResult result = dice.Roll(new ConstantDieRoller(1));
+            new Dice().HasBoundedResult = false;
+            DiceResult result = parser.Parse("d12-3", false, new ConstantDieRoller(1));
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("1d12-3", dice.ToString());
-            Assert.AreEqual(2, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("d12-3", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(-2, result.Value);
-        }
-
-        [TestMethod]
-        public void Dice_ConcatNullOtherDiceTest()
-        {
-            // setup test
-            IDice dice = new Dice().Parse("4d6k3");
-
-            // run test
-            Assert.ThrowsException<ArgumentNullException>(() => dice = dice.Concat(null));
-
-            // validate results
         }
     }
 }

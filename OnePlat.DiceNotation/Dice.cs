@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/16/2017
+// Last Modified On : 8/20/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -65,14 +65,6 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        public IDice Parse(string expression)
-        {
-            IDice result = this.parser.Parse(expression);
-            this.Concat(result);
-            return this;
-        }
-
-        /// <inheritdoc/>
         public IDice Concat(IDice otherDice)
         {
             Dice other = (Dice)otherDice;
@@ -90,10 +82,16 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
+        public DiceResult Roll(string expression, IDieRoller dieRoller)
+        {
+            return this.parser.Parse(expression, this.HasBoundedResult, dieRoller);
+        }
+
+        /// <inheritdoc/>
         public DiceResult Roll(IDieRoller dieRoller)
         {
-            IEnumerable<TermResult> termResults = this.terms.SelectMany(t => t.CalculateResults(dieRoller)).ToList();
-            return new DiceResult(termResults, dieRoller.GetType().ToString(), this.HasBoundedResult);
+            List<TermResult> termResults = this.terms.SelectMany(t => t.CalculateResults(dieRoller)).ToList();
+            return new DiceResult(this.ToString(), termResults, dieRoller.GetType().ToString(), this.HasBoundedResult);
         }
 
         /// <inheritdoc/>

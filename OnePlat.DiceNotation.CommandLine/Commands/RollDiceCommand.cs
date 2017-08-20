@@ -8,10 +8,10 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/15/2017
+// Last Modified On : 8/20/2017
 //-----------------------------------------------------------------------
 // <summary>
-//       This project is licensed under the MS-PL license.
+//       This project is licensed under the MIT license.
 //
 //       OnePlat.DiceNotation.CommandLine is an open source project that parses,
 //  evalutes, and rolls dice that conform to the defined Dice notiation. This
@@ -61,9 +61,11 @@ namespace OnePlat.DiceNotation.CommandLine
         {
             try
             {
-                IDice dice = new Dice().Parse(parameter as string);
-                dice.HasBoundedResult = this.vm.HasBoundedResult;
-                DiceResult result = dice.Roll(this.vm.DieRoller);
+                IDice dice = new Dice
+                {
+                    HasBoundedResult = this.vm.HasBoundedResult
+                };
+                DiceResult result = dice.Roll(parameter as string, this.vm.DieRoller);
 
                 if (this.vm.UseVerboseOutput)
                 {
@@ -73,7 +75,7 @@ namespace OnePlat.DiceNotation.CommandLine
                 {
                     this.vm.DisplayText += string.Format(
                         "DiceRoll({0}) => {1} [dice: {2}]",
-                        dice.ToString(),
+                        result.DiceExpression,
                         result.Value,
                         this.DiceRollsToString(result));
                 }
@@ -102,7 +104,7 @@ namespace OnePlat.DiceNotation.CommandLine
 
             output.AppendFormat(
                 "DiceRoll({0}) => {1}\r\n",
-                dice.ToString(),
+                result.DiceExpression,
                 result.Value,
                 this.DiceRollsToString(result));
             output.AppendLine("===============================================");
