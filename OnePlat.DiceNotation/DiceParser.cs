@@ -119,7 +119,6 @@ namespace OnePlat.DiceNotation
 
                     if (ch == "d" && (string.IsNullOrEmpty(prev) ||
                                       this.Operators.Contains(prev) ||
-                                      prev == this.GroupEndOperator ||
                                       prev == this.GroupStartOperator))
                     {
                         tokens.Add(this.DefaultNumDice);
@@ -233,8 +232,38 @@ namespace OnePlat.DiceNotation
         {
             List<TermResult> results = new List<TermResult>();
 
+            while (tokens.IndexOf("(") != -1)
+            {
+                // getting data between grouping symbols: "(" and ")"
+                int open = tokens.LastIndexOf("(");
+                int close = tokens.IndexOf(")", open);
+
+                if (open >= close)
+                {
+                    throw new ArithmeticException("No matching close-open parenthesis.");
+                }
+
+                // get a subexpression list for elements within the grouping symbols
+                List<string> subExpression = new List<string>();
+                for (var i = open + 1; i < close; i++)
+                {
+                    subExpression.Add(tokens[i]);
+                }
+
+                // run the operations on the subexpression
+                int subValue = this.HandleBasicOperation(results, subExpression, dieRoller);
+
+                // when subexpression calculation is done, replace the grouping start symbol
+                // and removing the tokens for the subexpression from the token list
+                tokens[open] = subValue.ToString();
+                tokens.RemoveRange(open + 1, close - open);
+            }
+
+            // at this point, we should have replaced all groups in the expression
+            // with the appropriate values, so need to calculate last simple expression
             int value = this.HandleBasicOperation(results, tokens, dieRoller);
 
+            // now return the dice result from the final value and TermResults list
             return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), boundedResult);
         }
 
