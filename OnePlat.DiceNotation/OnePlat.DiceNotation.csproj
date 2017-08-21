@@ -13,7 +13,10 @@
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller</PackageTags>
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
-    <PackageReleaseNotes>Initial release with dice notation support, parsing of notation strings, and evaluating die rolls and math operations into a result.</PackageReleaseNotes>
+    <PackageReleaseNotes>* Added general purpose parser to handle more math and dice expressions.
+* Added support for grouping using ( ). Now you can parse dice expressions like - (2+1)d4 - (4-2).
+* Test validation for new expressions and grouping.</PackageReleaseNotes>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -58,12 +58,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("3d6");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("3d6", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("3d6", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("3d6", result.DiceExpression);
             Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(6, result.Value);
         }
@@ -75,12 +74,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("d20");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("d20", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("1d20", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("d20", result.DiceExpression);
             Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(2, result.Value);
         }
@@ -92,13 +90,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("2d4+3");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("2d4+3", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("2d4+3", dice.ToString());
-            Assert.AreEqual(3, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("2d4+3", result.DiceExpression);
+            Assert.AreEqual(2, result.Results.Count);
             Assert.AreEqual(7, result.Value);
         }
 
@@ -109,13 +106,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("d12-2");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("d12-2", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("1d12-2", dice.ToString());
-            Assert.AreEqual(2, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("d12-2", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(1, result.Value);
         }
 
@@ -126,12 +122,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("4d6k3");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("4d6k3", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("4d6k3", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4d6k3", result.DiceExpression);
             Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(6, result.Value);
         }
@@ -143,13 +138,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse(" 4  d6 k 3+  2    ");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse(" 4  d6 k 3+  2    ", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("4d6k3+2", dice.ToString());
-            Assert.AreEqual(4, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4d6k3+2", result.DiceExpression);
+            Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(8, result.Value);
         }
 
@@ -160,13 +154,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("4d6k3 + d8 + 2");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("4d6k3 + d8 + 2", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("4d6k3+1d8+2", dice.ToString());
-            Assert.AreEqual(5, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4d6k3+d8+2", result.DiceExpression);
+            Assert.AreEqual(4, result.Results.Count);
             Assert.AreEqual(10, result.Value);
         }
 
@@ -177,12 +170,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("2d8x10");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("2d8x10", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("2d8x10", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("2d8x10", result.DiceExpression);
             Assert.AreEqual(2, result.Results.Count);
             Assert.AreEqual(40, result.Value);
         }
@@ -194,12 +186,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("10x2d8");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("10*2d8", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("2d8x10", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("10*2d8", result.DiceExpression);
             Assert.AreEqual(2, result.Results.Count);
             Assert.AreEqual(40, result.Value);
         }
@@ -211,12 +202,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("3d10 / 2");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("3d10 / 2", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("3d10/2", dice.ToString());
+            Assert.IsNotNull(result);
+            Assert.AreEqual("3d10/2", result.DiceExpression);
             Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(3, result.Value);
         }
@@ -228,9 +218,13 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<ArgumentException>(() => parser.Parse("40 / 1d6"));
+            DiceResult result = parser.Parse("40 / 1d6", true, this.testRoller);
 
             // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("40/1d6", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
+            Assert.AreEqual(20, result.Value);
         }
 
         [TestMethod]
@@ -240,13 +234,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("2 + 4d6k3 + d8");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("2 + 4d6k3 + d8", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("2+4d6k3+1d8", dice.ToString());
-            Assert.AreEqual(5, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("2+4d6k3+d8", result.DiceExpression);
+            Assert.AreEqual(4, result.Results.Count);
             Assert.AreEqual(10, result.Value);
         }
 
@@ -257,30 +250,28 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("42");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("42", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("42", dice.ToString());
-            Assert.AreEqual(1, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("42", result.DiceExpression);
+            Assert.AreEqual(0, result.Results.Count);
             Assert.AreEqual(42, result.Value);
         }
 
         [TestMethod]
-        public void DiceParser_ParseConstantOnlyMultipleTest()
+        public void DiceParser_ParseConstantOnlyAdditionTest()
         {
             // setup test
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("4 + 2");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("4 + 2", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("4+2", dice.ToString());
-            Assert.AreEqual(2, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4+2", result.DiceExpression);
+            Assert.AreEqual(0, result.Results.Count);
             Assert.AreEqual(6, result.Value);
         }
 
@@ -291,13 +282,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("4x2");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("4x2", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("8", dice.ToString());
-            Assert.AreEqual(1, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4x2", result.DiceExpression);
+            Assert.AreEqual(0, result.Results.Count);
             Assert.AreEqual(8, result.Value);
         }
 
@@ -308,27 +298,28 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<ArgumentException>(() => parser.Parse("4/2"));
-
-            // todo: fix this test so that simple division (without a die in denominator) works.
+            DiceResult result = parser.Parse("4/2", true, this.testRoller);
 
             // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4/2", result.DiceExpression);
+            Assert.AreEqual(0, result.Results.Count);
+            Assert.AreEqual(2, result.Value);
         }
 
         [TestMethod]
-        public void DiceParser_ParseDiceNegativeOrderTest()
+        public void DiceParser_ParseDiceSubractOrderTest()
         {
             // setup test
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("100 - 2d12");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("100 - 2d12", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("100-2d12", dice.ToString());
-            Assert.AreEqual(3, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("100-2d12", result.DiceExpression);
+            Assert.AreEqual(2, result.Results.Count);
             Assert.AreEqual(96, result.Value);
         }
 
@@ -339,13 +330,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("-5 + 4d6");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("-5 + 4d6", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("-5+4d6", dice.ToString());
-            Assert.AreEqual(5, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("-5+4d6", result.DiceExpression);
+            Assert.AreEqual(4, result.Results.Count);
             Assert.AreEqual(3, result.Value);
         }
 
@@ -356,13 +346,12 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("6 + d20 - 3");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("6 + d20 - 3", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("6+1d20-3", dice.ToString());
-            Assert.AreEqual(3, result.Results.Count);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("6+d20-3", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(5, result.Value);
         }
 
@@ -373,14 +362,13 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            IDice dice = parser.Parse("1d20+2+3");
-            DiceResult result = dice.Roll(this.testRoller);
+            DiceResult result = parser.Parse("2+1d20+2+3x3-10", true, this.testRoller);
 
             // validate results
-            Assert.IsNotNull(dice);
-            Assert.AreEqual("1d20+2+3", dice.ToString());
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(7, result.Value);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("2+1d20+2+3x3-10", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
+            Assert.AreEqual(5, result.Value);
         }
     }
 }

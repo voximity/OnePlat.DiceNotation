@@ -8,10 +8,10 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/15/2017
+// Last Modified On : 8/20/2017
 //-----------------------------------------------------------------------
 // <summary>
-//       This project is licensed under the MS-PL license.
+//       This project is licensed under the MIT license.
 //
 //       OnePlat.DiceNotation is an open source project that parses,
 //  evalutes, and rolls dice that conform to the defined Dice notiation.
@@ -51,13 +51,6 @@ namespace OnePlat.DiceNotation
         IDice Constant(int constant);
 
         /// <summary>
-        /// Creates the expression terms from the parsed text string.
-        /// </summary>
-        /// <param name="expression">Expression string to parse</param>
-        /// <returns>IDice representing the parsed terms.</returns>
-        IDice Parse(string expression);
-
-        /// <summary>
         /// Concatenates the terms of another Dice expression into this Dice expression.
         /// </summary>
         /// <param name="otherDice">Other IDice terms to concatentate</param>
@@ -70,5 +63,13 @@ namespace OnePlat.DiceNotation
         /// <param name="dieRoller">Die roller to use in calculations</param>
         /// <returns>Dice results</returns>
         DiceResult Roll(IDieRoller dieRoller);
+
+        /// <summary>
+        /// Rolls the dice for the dice expression as a string.
+        /// </summary>
+        /// <param name="expression">Expression string to parse</param>
+        /// <param name="dieRoller">Die roller to use in calculations</param>
+        /// <returns>Dice results</returns>
+        DiceResult Roll(string expression, IDieRoller dieRoller);
     }
 }

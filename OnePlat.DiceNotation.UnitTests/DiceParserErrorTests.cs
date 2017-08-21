@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OnePlat.DiceNotation.DieRoller;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -11,6 +12,8 @@ namespace OnePlat.DiceNotation.UnitTests
     [TestClass]
     public class DiceParserErrorTests
     {
+        IDieRoller roller = new ConstantDieRoller(2);
+
         public DiceParserErrorTests()
         {
         }
@@ -44,7 +47,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<ArgumentException>(() => parser.Parse("1d20g4"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("1d20g4", true, roller));
 
             // validate results
         }
@@ -56,7 +59,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("d"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("d", true, roller));
 
             // validate results
         }
@@ -68,7 +71,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("3d-8"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("3d-8", true, roller));
 
             // validate results
         }
@@ -80,7 +83,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2d+3"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d+3", true, roller));
 
             // validate results
         }
@@ -92,9 +95,9 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4x"));
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4/"));
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4k"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4x", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4/", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4k", true, roller));
 
             // validate results
         }
@@ -106,9 +109,9 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<ArgumentException>(() => parser.Parse("eosnddik+9"));
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2drk4/9"));
-            Assert.ThrowsException<ArgumentException>(() => parser.Parse("7y+2d4k4"));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("eosnddik+9", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2drk4/9", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("7y+2d4k4", true, roller));
 
             // validate results
         }

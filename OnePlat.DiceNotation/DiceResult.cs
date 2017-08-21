@@ -8,10 +8,10 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/15/2017
+// Last Modified On : 8/20/2017
 //-----------------------------------------------------------------------
 // <summary>
-//       This project is licensed under the MS-PL license.
+//       This project is licensed under the MIT license.
 //
 //       OnePlat.DiceNotation is an open source project that parses,
 //  evalutes, and rolls dice that conform to the defined Dice notiation.
@@ -36,17 +36,35 @@ namespace OnePlat.DiceNotation
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceResult"/> class.
         /// </summary>
+        /// <param name="expression">dice expression rolled</param>
         /// <param name="results">List for results for each term in dice expression</param>
         /// <param name="rollerUsed">Define die roller used to get the results</param>
         /// <param name="isBoundedResult">Tells wether this result will be bounded or unbounded</param>
-        public DiceResult(IEnumerable<TermResult> results, string rollerUsed, bool isBoundedResult)
+        public DiceResult(string expression, List<TermResult> results, string rollerUsed, bool isBoundedResult)
+            : this(expression, results.Sum(r => (int)Math.Round(r.Value * r.Scalar)), results, rollerUsed, isBoundedResult)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiceResult"/> class.
+        /// </summary>
+        /// <param name="expression">dice expression rolled</param>
+        /// <param name="value">calculated value of the results</param>
+        /// <param name="results">List for results for each term in dice expression</param>
+        /// <param name="rollerUsed">Define die roller used to get the results</param>
+        /// <param name="isBoundedResult">Tells wether this result will be bounded or unbounded</param>
+        public DiceResult(string expression, int value, List<TermResult> results, string rollerUsed, bool isBoundedResult)
+        {
+            this.DiceExpression = expression;
             this.DieRollerUsed = rollerUsed;
             this.Results = results.ToList();
-            int rawValue = results.Sum(r => (int)Math.Round(r.Value * r.Scalar));
-
-            this.Value = isBoundedResult ? Math.Max(rawValue, BoundedMinimum) : rawValue;
+            this.Value = isBoundedResult ? Math.Max(value, BoundedMinimum) : value;
         }
+
+        /// <summary>
+        /// Gets the dice expression that was evaluated.
+        /// </summary>
+        public string DiceExpression { get; private set; }
 
         /// <summary>
         /// Gets the die roller used to generate this result.

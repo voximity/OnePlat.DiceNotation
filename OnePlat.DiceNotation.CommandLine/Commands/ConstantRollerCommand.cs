@@ -8,10 +8,10 @@
 // Created          : 8/11/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/15/2017
+// Last Modified On : 8/20/2017
 //-----------------------------------------------------------------------
 // <summary>
-//       This project is licensed under the MS-PL license.
+//       This project is licensed under the MIT license.
 //
 //       OnePlat.DiceNotation.CommandLine is an open source project that parses,
 //  evalutes, and rolls dice that conform to the defined Dice notiation. This

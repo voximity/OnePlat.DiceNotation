@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiceParserErrorTests.cs" />
+    <Compile Include="DiceParserGroupingTests.cs" />
     <Compile Include="DiceParserTests.cs" />
+    <Compile Include="DiceParserTokenizeTests.cs" />
     <Compile Include="DiceTerms\ConstantTermTests.cs" />
     <Compile Include="DiceTerms\DiceTermTests.cs" />
     <Compile Include="DiceTests.cs" />
