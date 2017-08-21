@@ -112,45 +112,12 @@ namespace OnePlat.DiceNotation
                 if (char.IsLetter(ch, 0))
                 {
                     // if it's a letter, then increment the char position until we find the end of the text
-                    if (i != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator) && !this.Operators.Contains(ch))
-                    {
-                        tokens.Add(this.DefaultOperator);
-                    }
-
-                    if (ch == "d" && (string.IsNullOrEmpty(prev) ||
-                                      this.Operators.Contains(prev) ||
-                                      prev == this.GroupStartOperator))
-                    {
-                        tokens.Add(this.DefaultNumDice);
-                    }
-
-                    vector += ch;
-
-                    if (!this.Operators.Contains(ch))
-                    {
-                        while ((i + 1) < expression.Length && char.IsLetterOrDigit(expression[i + 1]))
-                        {
-                            i++;
-                            vector += expression[i];
-                        }
-                    }
-
-                    tokens.Add(vector);
-                    vector = string.Empty;
+                    this.TokenizeLetters(expression, tokens, ref vector, ref i, ch, prev);
                 }
                 else if (char.IsDigit(ch, 0))
                 {
                     // if it's a digit, then increment char until you find the end of the number
-                    vector = vector + ch;
-
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator))
-                    {
-                        i++;
-                        vector += expression[i];
-                    }
-
-                    tokens.Add(vector);
-                    vector = string.Empty;
+                    this.TokenizeNumbers(expression, tokens, ref vector, ref i, ch);
                 }
                 else if ((i + 1) < expression.Length &&
                          this.Operators.Contains(ch) &&
@@ -158,20 +125,11 @@ namespace OnePlat.DiceNotation
                          ((i - 1) > 0 && prev == this.GroupStartOperator)))
                 {
                     // if the above is true, then, the token for that negative number will be "-1", not "-","1".
-                    vector = vector + ch;
-
-                    while ((i + 1) < expression.Length && (char.IsDigit(expression[i + 1]) || expression[i + 1].ToString() == decimalSeparator))
-                    {
-                        i++;
-                        vector = vector + expression[i];
-                    }
-
-                    tokens.Add(vector);
-                    vector = string.Empty;
+                    this.TokenizeUnaryOperators(expression, tokens, ref vector, ref i, ch);
                 }
                 else if (ch == this.GroupStartOperator)
                 {
-                    // if an open parenthesis, then if we didn't have an operator, then default to multiplication.
+                    // if an open grouping, then if we didn't have an operator, then append the default operator.
                     if (i != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator))
                     {
                         tokens.Add(this.DefaultOperator);
@@ -181,6 +139,7 @@ namespace OnePlat.DiceNotation
                 }
                 else if (ch == this.GroupEndOperator)
                 {
+                    // if closing grouping and there's no operator, then append the default operator.
                     tokens.Add(ch);
 
                     if ((i + 1) < expression.Length && (char.IsDigit(next, 0) ||
@@ -212,8 +171,112 @@ namespace OnePlat.DiceNotation
             // first clean up expression
             expression = this.CorrectExpression(expression);
 
+            // then break the expression down into tokens.
             List<string> tokens = this.Tokenize(expression);
+
+            // finally parse and evaluate the expression tokens
             return this.ParseLogic(expression, tokens, boundedResult, dieRoller);
+        }
+        #endregion
+
+        #region Tokenize helper methods
+
+        /// <summary>
+        /// Handle processing unary operators and number in the expression and breaking down to the
+        /// appropriate tokens.
+        /// </summary>
+        /// <param name="expression">expression to parse</param>
+        /// <param name="tokens">toke list to update</param>
+        /// <param name="substring">portion being tokenized</param>
+        /// <param name="position">current position in expression</param>
+        /// <param name="ch">current character</param>
+        private void TokenizeUnaryOperators(string expression, List<string> tokens, ref string substring, ref int position, string ch)
+        {
+            // adds the operator to the current token string
+            substring += ch;
+
+            while ((position + 1) < expression.Length &&
+                   (char.IsDigit(expression[position + 1]) || expression[position + 1].ToString() == decimalSeparator))
+            {
+                // handles processing a number after a single unary operator
+                position++;
+                substring = substring + expression[position];
+            }
+
+            // now add the element to the token list
+            tokens.Add(substring);
+            substring = string.Empty;
+        }
+
+        /// <summary>
+        /// Handle processing numbers in the expression and breaking down to the
+        /// appropriate tokens.
+        /// </summary>
+        /// <param name="expression">expression to parse</param>
+        /// <param name="tokens">toke list to update</param>
+        /// <param name="substring">portion being tokenized</param>
+        /// <param name="position">current position in expression</param>
+        /// <param name="ch">current character</param>
+        private void TokenizeNumbers(string expression, List<string> tokens, ref string substring, ref int position, string ch)
+        {
+            substring += ch;
+
+            while ((position + 1) < expression.Length &&
+                   (char.IsDigit(expression[position + 1]) || expression[position + 1].ToString() == decimalSeparator))
+            {
+                // keep processing this element while you have digits (support multi-digit numbers)
+                position++;
+                substring += expression[position];
+            }
+
+            // now add the element to the token list
+            tokens.Add(substring);
+            substring = string.Empty;
+        }
+
+        /// <summary>
+        /// Handle processing letters in the expression and breaking down to the
+        /// appropriate tokens.
+        /// </summary>
+        /// <param name="expression">expression to parse</param>
+        /// <param name="tokens">toke list to update</param>
+        /// <param name="substring">portion being tokenized</param>
+        /// <param name="position">current position in expression</param>
+        /// <param name="ch">current character</param>
+        /// <param name="prev">previous character</param>
+        private void TokenizeLetters(
+            string expression, List<string> tokens, ref string substring, ref int position, string ch, string prev)
+        {
+            if (position != 0 && (char.IsDigit(prev, 0) || prev == this.GroupEndOperator) && !this.Operators.Contains(ch))
+            {
+                tokens.Add(this.DefaultOperator);
+            }
+
+            // if we have a single die operator (d), then default to having a default
+            // number of dice (1)
+            if (ch == "d" && (string.IsNullOrEmpty(prev) ||
+                              this.Operators.Contains(prev) ||
+                              prev == this.GroupStartOperator))
+            {
+                tokens.Add(this.DefaultNumDice);
+            }
+
+            // append the current character
+            substring += ch;
+
+            if (!this.Operators.Contains(ch))
+            {
+                // if the character isn't an operator, then loop ahead while the expression has letters
+                while ((position + 1) < expression.Length && char.IsLetterOrDigit(expression[position + 1]))
+                {
+                    position++;
+                    substring += expression[position];
+                }
+            }
+
+            // now add the element to the tokens
+            tokens.Add(substring);
+            substring = string.Empty;
         }
         #endregion
 
@@ -279,41 +342,52 @@ namespace OnePlat.DiceNotation
         {
             if (tokens.Count == 0)
             {
+                // if there's nothing in the list, just return 0
                 return 0;
             }
             else if (tokens.Count == 1)
             {
-                // if there is only one token, then it much be a constant.
+                // if there is only one token, then it much be a constant
                 return int.Parse(tokens[0]);
             }
 
+            // loop through each operator in our operator list
+            // operators order in the list signify their order of operations
             foreach (var op in this.Operators)
             {
+                // loop through all of the tokens until we find the operator in the list
                 while (tokens.IndexOf(op) != -1)
                 {
                     try
                     {
                         if (op == "d")
                         {
+                            // if current operator is the die operator, then process
+                            // that part of the expression accordingly
                             this.HandleDieOperator(results, tokens, op, dieRoller);
                         }
                         else
                         {
+                            // otherwise, treat the operator as an arimethic operator,
+                            // and perform the correct math operation
                             this.HandleArithmeticOperators(results, tokens, op);
                         }
                     }
                     catch (Exception ex)
                     {
+                        // if any error happens within this processing, then throw an exception
                         throw new FormatException("Dice expression string is incorrect format.", ex);
                     }
                 }
 
+                // if we are out of tokens, then just stop processing
                 if (tokens.Count == 0)
                 {
                     break;
                 }
             }
 
+            // return the first token as the evaluation of this list of tokens
             return int.Parse(tokens[0]);
         }
 
@@ -326,12 +400,17 @@ namespace OnePlat.DiceNotation
         /// <param name="op">current operator</param>
         private void HandleArithmeticOperators(List<TermResult> results, List<string> tokens, string op)
         {
+            // find the previous and next numbers in the token list
             var opPosition = tokens.IndexOf(op);
             var numberA = int.Parse(tokens[opPosition - 1]);
             var numberB = int.Parse(tokens[opPosition + 1]);
 
+            // find the action that corresponds to the current operator, then
+            // run that action to evaluate the math function
             int result = this.OperatorActions[op](numberA, numberB);
 
+            // put the evaluation result in the first entry and remove
+            // the remaining processed tokens
             tokens[opPosition - 1] = result.ToString();
             tokens.RemoveRange(opPosition, 2);
         }
@@ -346,24 +425,32 @@ namespace OnePlat.DiceNotation
         /// <param name="dieRoller">Die roller to use</param>
         private void HandleDieOperator(List<TermResult> results, List<string> tokens, string op, IDieRoller dieRoller)
         {
+            // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
             int numDice = int.Parse(tokens[opPosition - 1]);
             int sides = int.Parse(tokens[opPosition + 1]);
             int? choose = null;
             int length = 2;
 
+            // look-ahead to find other dice operators (like the choose-keep operator)
             int choosePos = tokens.IndexOf("k");
             if (choosePos > 0)
             {
+                // if that operator is found, then get the next number token
                 choose = int.Parse(tokens[choosePos + 1]);
                 length += 2;
             }
 
+            // create a dice term based on the values
             DiceTerm term = new DiceTerm(numDice, sides, 1, choose);
+
+            // then evaluate the dice term to roll dice and get the result
             IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
             int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
             results.AddRange(t);
 
+            // put the evaluation result in the first entry and remove
+            // the remaining processed tokens
             tokens[opPosition - 1] = value.ToString();
             tokens.RemoveRange(opPosition, length);
         }
@@ -375,7 +462,10 @@ namespace OnePlat.DiceNotation
         /// <returns>Corrected expression text</returns>
         private string CorrectExpression(string expression)
         {
+            // first remove any whitespace from the expression
             string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
+
+            // then replace duplicate operators with their resulting value
             result = result.Replace("+-", "-");
             result = result.Replace("-+", "-");
             result = result.Replace("--", "+");
