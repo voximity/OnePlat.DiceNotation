@@ -38,6 +38,7 @@ You can build up the dice to roll by coding the various parts that make up a dic
 
 ```csharp
 IDice dice = new Dice();
+// equivalent of dice expression: 4d6k3 + d8 + 5
 dice.Dice(6, 4, choose: 3).Dice(8).Constant(5);
 DiceResult result = dice.Roll(new RandomDieRoller());
 Console.WriteLine("Roll result = " + result.Value);
