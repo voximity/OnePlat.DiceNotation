@@ -370,5 +370,21 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(5, result.Value);
         }
+
+        [TestMethod]
+        public void DiceParser_ParseDicePercentileTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("d%+5", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("d100+5", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
+            Assert.AreEqual(7, result.Value);
+        }
     }
 }

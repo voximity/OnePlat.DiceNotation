@@ -115,5 +115,17 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
         }
+
+        [TestMethod]
+        public void DiceParser_ParseDicePercentilErrorTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d6%3", true, roller));
+
+            // validate results
+        }
     }
 }

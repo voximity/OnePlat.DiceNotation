@@ -36,6 +36,8 @@ namespace OnePlat.DiceNotation
     public class DiceParser
     {
         #region Members
+        private const string PercentileNotation = "d%";
+        private const string D100EquivalentNotation = "d100";
         private static Regex whitespaceRegex = new Regex(@"\s+");
         private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
         #endregion
@@ -180,6 +182,27 @@ namespace OnePlat.DiceNotation
         #endregion
 
         #region Tokenize helper methods
+
+        /// <summary>
+        /// Cleanup the expression text to lower case, remove spaces, and replace duplicate operatiors.
+        /// </summary>
+        /// <param name="expression">Expression to clean up</param>
+        /// <returns>Corrected expression text</returns>
+        private string CorrectExpression(string expression)
+        {
+            // first remove any whitespace from the expression
+            string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
+
+            // then replace duplicate operators with their resulting value
+            result = result.Replace("+-", "-");
+            result = result.Replace("-+", "-");
+            result = result.Replace("--", "+");
+
+            // replace any percentile notation with appropriate dice faces
+            result = result.Replace(PercentileNotation, D100EquivalentNotation);
+
+            return result;
+        }
 
         /// <summary>
         /// Handle processing unary operators and number in the expression and breaking down to the
@@ -387,8 +410,16 @@ namespace OnePlat.DiceNotation
                 }
             }
 
-            // return the first token as the evaluation of this list of tokens
-            return int.Parse(tokens[0]);
+            if (tokens.Count == 1)
+            {
+                // if there is only one token left, then return it as the evaluation of this list of tokens
+                return int.Parse(tokens[0]);
+            }
+            else
+            {
+                // if there are left over toknes, then the parsing/evaluation failed
+                throw new FormatException("Dice expression string is incorrect format: unexpected symbols in the string expression.");
+            }
         }
 
         /// <summary>
@@ -453,24 +484,6 @@ namespace OnePlat.DiceNotation
             // the remaining processed tokens
             tokens[opPosition - 1] = value.ToString();
             tokens.RemoveRange(opPosition, length);
-        }
-
-        /// <summary>
-        /// Cleanup the expression text to lower case, remove spaces, and replace duplicate operatiors.
-        /// </summary>
-        /// <param name="expression">Expression to clean up</param>
-        /// <returns>Corrected expression text</returns>
-        private string CorrectExpression(string expression)
-        {
-            // first remove any whitespace from the expression
-            string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
-
-            // then replace duplicate operators with their resulting value
-            result = result.Replace("+-", "-");
-            result = result.Replace("-+", "-");
-            result = result.Replace("--", "+");
-
-            return result;
         }
         #endregion
     }
