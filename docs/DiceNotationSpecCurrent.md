@@ -14,18 +14,22 @@ __XdY [-] [+] [x] [/] N__          X dice with Y-sides operated on by (
 
 A second roll of different dice could be used instead of a fixed operating number.
 
-__XdY [-] [+] AdB__        The first roll of X dice with Y-sides is operated on by (-, +) with a second roll of A dice with B-sides. 
-**future support:** x, / operations
+__XdY [-] [+] [x] [/] AdB__        The first roll of X dice with Y-sides is operated on by (-, +. x, /) with a second roll of A dice with B-sides.
 
 ### Math Operators 
 Dice notation supports the basic arithmetic operators in any mathematical formula: +, -, x (multiply), and / (divide).
 
 Operations are performed by order of precedence, just like in normal mathematics. From highest to lowest precedence: 
-* Multiplication (x), division (/), in the order they appear (left-to-right) in the formula 
-* Addition (+) and subtraction (-), in the order they appear (left-to-right) in the formula 
-**Note** Division only works after the dice definition. Cannot currently use dice roll as the denominator (perhaps in the future)
+* Grouping with parentheses (( and )); just like other math expresssions, you can modify the precedence ordering of a dice expression by wrapping parentheses around values 
+* Division (/), in the order they appear (left-to-right) in the formula 
+* Multiplication (x), in the order they appear (left-to-right) in the formula 
+* Subtraction (-), in the order they appear (left-to-right) in the formula 
+* Addition (+), in the order they appear (left-to-right) in the formula 
 
 ### Order of Operations 
 While the Dice Notation does support basic math operations, there are special rules for handling dice operations that modify the order of operations. Here is the general order of operations: 
-* Roll queries are executed (the player making the roll is asked to provide a value for each query, and that value is substituted in where the roll query appears in the formula) 
-* The remaining roll is executed: first, dice are rolled for any dice (e.g. "2d6" is rolled; including any special dice operations such as kept), then the result of that roll is substituted into the formula. Finally, the entire remaining formula is evaluated, including observing proper math order of operations (parentheses first, then multiplication/division, then addition/subtraction). 
+* First, parentheses are evaluated to group subexpressions and operations are performed on those subexpressions.
+* Then, dice are rolled for any dice notation (e.g. "2d6" is rolled; including any special dice operations such as kept).
+* This includes all of the modifiers to a dice expression (dice sides, choose operator, etc).
+* Then the result of that roll is substituted into the formula. 
+* Finally, the entire remaining formula is evaluated, including observing proper math order of operations (parentheses, then multiplication/division, then addition/subtraction). 
