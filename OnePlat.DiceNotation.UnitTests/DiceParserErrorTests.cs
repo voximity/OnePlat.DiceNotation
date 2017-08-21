@@ -89,6 +89,18 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void DiceParser_ParseDiceDropNumberErrorTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<FormatException>(() => parser.Parse("4d6l4", true, roller));
+
+            // validate results
+        }
+
+        [TestMethod]
         public void DiceParser_ParseDiceOperatorNoValueTest()
         {
             // setup test
@@ -98,6 +110,20 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4x", true, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4/", true, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4k", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4l", true, roller));
+
+            // validate results
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceOperatorMultipleTimesTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4k1k2", true, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d4l1l2", true, roller));
 
             // validate results
         }

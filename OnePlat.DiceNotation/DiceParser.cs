@@ -48,7 +48,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> Operators { get; } = new List<string> { "d", "k", "/", "x", "*", "-", "+" };
+        public List<string> Operators { get; } = new List<string> { "d", "k", "l", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -463,12 +463,20 @@ namespace OnePlat.DiceNotation
             int? choose = null;
             int length = 2;
 
-            // look-ahead to find other dice operators (like the choose-keep operator)
-            int choosePos = tokens.IndexOf("k");
-            if (choosePos > 0)
+            // look-ahead to find other dice operators (like the choose-keep/drop operators)
+            int keepPos = tokens.IndexOf("k");
+            if (keepPos > 0)
             {
                 // if that operator is found, then get the next number token
-                choose = int.Parse(tokens[choosePos + 1]);
+                choose = int.Parse(tokens[keepPos + 1]);
+                length += 2;
+            }
+
+            int dropPos = tokens.IndexOf("l");
+            if (dropPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                choose = numDice - int.Parse(tokens[dropPos + 1]);
                 length += 2;
             }
 

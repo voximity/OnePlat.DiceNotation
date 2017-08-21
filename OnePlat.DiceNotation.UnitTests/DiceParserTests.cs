@@ -116,7 +116,7 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
-        public void DiceParser_ParseDiceWithChooseTest()
+        public void DiceParser_ParseDiceWithKeepTest()
         {
             // setup test
             DiceParser parser = new DiceParser();
@@ -127,6 +127,38 @@ namespace OnePlat.DiceNotation.UnitTests
             // validate results
             Assert.IsNotNull(result);
             Assert.AreEqual("4d6k3", result.DiceExpression);
+            Assert.AreEqual(3, result.Results.Count);
+            Assert.AreEqual(6, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithDropLowestTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("6d6l2", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("6d6l2", result.DiceExpression);
+            Assert.AreEqual(4, result.Results.Count);
+            Assert.AreEqual(8, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithEquivalentKeepDropTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("4d6l1", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4d6l1", result.DiceExpression);
             Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(6, result.Value);
         }
