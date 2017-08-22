@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/22/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -48,7 +48,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> Operators { get; } = new List<string> { "d", "k", "l", "/", "x", "*", "-", "+" };
+        public List<string> Operators { get; } = new List<string> { "d", "k", "l", "!", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -460,7 +460,7 @@ namespace OnePlat.DiceNotation
             int opPosition = tokens.IndexOf(op);
             int numDice = int.Parse(tokens[opPosition - 1]);
             int sides = int.Parse(tokens[opPosition + 1]);
-            int? choose = null;
+            int? choose = null, explode = null;
             int length = 2;
 
             // look-ahead to find other dice operators (like the choose-keep/drop operators)
@@ -480,8 +480,24 @@ namespace OnePlat.DiceNotation
                 length += 2;
             }
 
+            int explodePos = tokens.IndexOf("!");
+            if (explodePos > 0)
+            {
+                // if that operator is found, then get the associated number
+                if (explodePos + 1 < tokens.Count && char.IsDigit(tokens[explodePos + 1], 0))
+                {
+                    explode = int.Parse(tokens[explodePos + 1]);
+                    length += 2;
+                }
+                else
+                {
+                    explode = sides;
+                    length++;
+                }
+            }
+
             // create a dice term based on the values
-            DiceTerm term = new DiceTerm(numDice, sides, 1, choose);
+            DiceTerm term = new DiceTerm(numDice, sides, 1, choose, explode);
 
             // then evaluate the dice term to roll dice and get the result
             IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);

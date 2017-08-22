@@ -230,6 +230,65 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void DiceParser_TokenizeDropLowestTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            List<string> result = parser.Tokenize("4d6l2");
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(List<string>));
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual("4", result[0]);
+            Assert.AreEqual("d", result[1]);
+            Assert.AreEqual("6", result[2]);
+            Assert.AreEqual("l", result[3]);
+            Assert.AreEqual("2", result[4]);
+        }
+
+        [TestMethod]
+        public void DiceParser_TokenizeExplodingTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            List<string> result = parser.Tokenize("4d6!5");
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(List<string>));
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual("4", result[0]);
+            Assert.AreEqual("d", result[1]);
+            Assert.AreEqual("6", result[2]);
+            Assert.AreEqual("!", result[3]);
+            Assert.AreEqual("5", result[4]);
+        }
+
+        [TestMethod]
+        public void DiceParser_TokenizeExplodingNoValueTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            List<string> result = parser.Tokenize("4d6!");
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(List<string>));
+            Assert.AreEqual(4, result.Count);
+            Assert.AreEqual("4", result[0]);
+            Assert.AreEqual("d", result[1]);
+            Assert.AreEqual("6", result[2]);
+            Assert.AreEqual("!", result[3]);
+        }
+
+        [TestMethod]
         public void DiceParser_TokenizeChainedDiceExpressionTest()
         {
             // setup test

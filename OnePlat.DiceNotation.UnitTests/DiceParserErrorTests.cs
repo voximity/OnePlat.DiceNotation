@@ -138,7 +138,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.ThrowsException<FormatException>(() => parser.Parse("eosnddik+9", true, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("2drk4/9", true, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("7y+2d4k4", true, roller));
-
+            Assert.ThrowsException<FormatException>(() => parser.Parse("7!y+2d4", true, roller));
             // validate results
         }
 

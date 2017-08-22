@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OnePlat.DiceNotation.DiceTerms;
 using OnePlat.DiceNotation.DieRoller;
+using OnePlat.DiceNotation.UnitTests.Helpers;
 using System;
 
 namespace OnePlat.DiceNotation.UnitTests
@@ -161,6 +163,106 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("4d6l1", result.DiceExpression);
             Assert.AreEqual(3, result.Results.Count);
             Assert.AreEqual(6, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithExplodingTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("6d6!6", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("6d6!6", result.DiceExpression);
+            Assert.AreEqual(6, result.Results.Count);
+            Assert.AreEqual(12, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithExplodingRandomTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("10d6!6", true, new RandomDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("10d6!6", result.DiceExpression);
+            int sum = 0, count = 10;
+            foreach (TermResult r in result.Results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
+                Assert.AreEqual("DiceTerm.d6", r.Type);
+                sum += r.Value;
+                if (r.Value >= 6) count++;
+            }
+            Assert.AreEqual(count, result.Results.Count);
+            Assert.AreEqual(sum, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithExplodingNoValueTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("6d6!", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("6d6!", result.DiceExpression);
+            Assert.AreEqual(6, result.Results.Count);
+            Assert.AreEqual(12, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithExplodingNoValueRandomTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("10d6!", true, new RandomDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("10d6!", result.DiceExpression);
+            int sum = 0, count = 10;
+            foreach (TermResult r in result.Results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
+                Assert.AreEqual("DiceTerm.d6", r.Type);
+                sum += r.Value;
+                if (r.Value >= 6) count++;
+            }
+            Assert.AreEqual(count, result.Results.Count);
+            Assert.AreEqual(sum, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithExplodingNoValueModifierTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("6d6!+2", true, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("6d6!+2", result.DiceExpression);
+            Assert.AreEqual(6, result.Results.Count);
+            Assert.AreEqual(14, result.Value);
         }
 
         [TestMethod]
