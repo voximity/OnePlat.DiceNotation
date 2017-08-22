@@ -107,6 +107,19 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
         }
 
         [TestMethod]
+        public void DiceTerm_ConstructorInvalidExplodingTest()
+        {
+            // setup test
+
+            // run test
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, exploding: 0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, exploding: -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiceTerm(3, 6, exploding: 7));
+
+            // validate results
+        }
+
+        [TestMethod]
         public void DiceTerm_CalculateResultsTest()
         {
             // setup test
@@ -165,6 +178,106 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
                 Assert.AreEqual(1, r.Value);
                 Assert.AreEqual("DiceTerm.d6", r.Type);
             }
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsExplodingNoneDiceTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(5, 6, exploding: 6);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(constantRoller);
+
+            // validate results
+            Assert.IsNotNull(results);
+            Assert.AreEqual(5, results.Count);
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                Assert.AreEqual(1, r.Value);
+                Assert.AreEqual("DiceTerm.d6", r.Type);
+            }
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsExplodingRandomDiceTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(10, 6, exploding: 6);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(new RandomDieRoller());
+
+            // validate results
+            Assert.IsNotNull(results);
+            int count = 10;
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
+                if (r.Value >= 6) count++;
+                Assert.AreEqual("DiceTerm.d6", r.Type);
+            }
+            Assert.AreEqual(count, results.Count);
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsExplodingLowerThanMaxTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(10, 12, exploding: 9);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(new RandomDieRoller());
+
+            // validate results
+            Assert.IsNotNull(results);
+            int count = 10;
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 12, r.Value);
+                if (r.Value >= 9) count++;
+                Assert.AreEqual("DiceTerm.d12", r.Type);
+            }
+            Assert.AreEqual(count, results.Count);
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsExplodingAndChooseTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(10, 12, choose: 8, exploding: 9);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(new RandomDieRoller());
+
+            // validate results
+            Assert.IsNotNull(results);
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 12, r.Value);
+                Assert.AreEqual("DiceTerm.d12", r.Type);
+            }
+            Assert.AreEqual(8, results.Count);
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsErrorMaxRerollsTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(10, 12, exploding: 9);
+
+            // run test
+            Assert.ThrowsException<OverflowException>(() => term.CalculateResults(new ConstantDieRoller(10)));
+
+            // validate results
         }
 
         [TestMethod]
@@ -243,17 +356,45 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
         }
 
         [TestMethod]
-        public void DiceTerm_ToStringAllTermsTest()
+        public void DiceTerm_ToStringExplodingNoneDiceTest()
         {
             // setup test
-            IExpressionTerm term = new DiceTerm(4, 6, 10, 3);
+            IExpressionTerm term = new DiceTerm(5, 6, exploding: 6);
 
             // run test
             string result = term.ToString();
 
             // validate results
             Assert.IsFalse(string.IsNullOrEmpty(result));
-            Assert.AreEqual("4d6k3x10", result);
+            Assert.AreEqual("5d6!6", result);
+        }
+
+        [TestMethod]
+        public void DiceTerm_ToStringExplodingLowerThanMaxTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(10, 12, exploding: 9);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("10d12!9", result);
+        }
+
+        [TestMethod]
+        public void DiceTerm_ToStringAllTermsTest()
+        {
+            // setup test
+            IExpressionTerm term = new DiceTerm(4, 6, 10, 3, 6);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("4d6k3!6x10", result);
         }
     }
 }
