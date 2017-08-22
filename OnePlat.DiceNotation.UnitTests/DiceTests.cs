@@ -122,7 +122,7 @@ namespace OnePlat.DiceNotation.UnitTests
             {
                 Assert.AreEqual(3, r.Value);
             }
-            Assert.AreEqual("3", dice.ToString());
+            Assert.AreEqual("3", result.DiceExpression);
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += r.Value;
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("1d20", dice.ToString());
+            Assert.AreEqual("1d20", result.DiceExpression);
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += r.Value;
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("3d6", dice.ToString());
+            Assert.AreEqual("3d6", result.DiceExpression);
         }
 
         [TestMethod]
@@ -197,7 +197,7 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += (int)(r.Value * r.Scalar);
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("2d8x10", dice.ToString());
+            Assert.AreEqual("2d8x10", result.DiceExpression);
         }
 
         [TestMethod]
@@ -222,7 +222,35 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += r.Value;
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3", dice.ToString());
+            Assert.AreEqual("4d6k3", result.DiceExpression);
+        }
+
+        [TestMethod]
+        public void Dice_RollExplodingDiceTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice.Dice(6, 4, exploding: 6);
+
+            // run test
+            DiceResult result = dice.Roll(roller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
+            int sum = 0, count = 4;
+            foreach (TermResult r in result.Results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
+                Assert.AreEqual("DiceTerm.d6", r.Type);
+                sum += r.Value;
+                if (r.Value >= 6) count++;
+            }
+            Assert.AreEqual(count, result.Results.Count);
+            Assert.AreEqual(sum, result.Value);
+            Assert.AreEqual("4d6!6", result.DiceExpression);
         }
 
         [TestMethod]
@@ -246,7 +274,7 @@ namespace OnePlat.DiceNotation.UnitTests
                 sum += r.Value;
             }
             Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+1d8+5", dice.ToString());
+            Assert.AreEqual("4d6k3+1d8+5", result.DiceExpression);
         }
 
         [TestMethod]

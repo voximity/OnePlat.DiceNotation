@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/22/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -58,9 +58,9 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        IDice IDice.Dice(int sides, int numberDice, double scalar, int? choose)
+        IDice IDice.Dice(int sides, int numberDice, double scalar, int? choose, int? exploding)
         {
-            this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose));
+            this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose, exploding));
             return this;
         }
 

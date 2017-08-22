@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/22/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -40,8 +40,9 @@ namespace OnePlat.DiceNotation
         /// <param name="numberDice">number of dice</param>
         /// <param name="scalar">scalar multiplier</param>
         /// <param name="choose">choose how many results to return</param>
+        /// <param name="exploding">Exploding threshold for dice re-rolls</param>
         /// <returns>IDice representing the current terms.</returns>
-        IDice Dice(int sides, int numberDice = 1, double scalar = 1, int? choose = null);
+        IDice Dice(int sides, int numberDice = 1, double scalar = 1, int? choose = null, int? exploding = null);
 
         /// <summary>
         /// Creates a ConstantTerm with the specified value for this dice expression.

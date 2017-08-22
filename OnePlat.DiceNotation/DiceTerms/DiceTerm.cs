@@ -52,7 +52,7 @@ namespace OnePlat.DiceNotation.DiceTerms
         /// <param name="sides">Type of die based on number of sides</param>
         /// <param name="scalar">Scalar multiplier to dice term</param>
         /// <param name="choose">How many dice to use (value should be between 1 and number of dice)</param>
-        /// <param name="exploding">Exploding threshold for dice roll</param>
+        /// <param name="exploding">Exploding threshold for dice re-rolls</param>
         public DiceTerm(int numberDice, int sides, double scalar = 1, int? choose = null, int? exploding = null)
         {
             if (numberDice <= 0)
