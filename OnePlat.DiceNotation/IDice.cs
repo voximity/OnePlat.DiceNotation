@@ -29,9 +29,9 @@ namespace OnePlat.DiceNotation
     public interface IDice
     {
         /// <summary>
-        /// Gets or sets a value indicating whether these dice have their results bounded to 1 or greater.
+        /// Gets the current configuration for this set of Dice.
         /// </summary>
-        bool HasBoundedResult { get; set; }
+        DiceConfiguration Configuration { get; }
 
         /// <summary>
         /// Creates a DiceTerm with specified values for this dice expression.

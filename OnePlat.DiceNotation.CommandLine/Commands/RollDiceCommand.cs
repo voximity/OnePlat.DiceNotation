@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/22/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -61,10 +61,9 @@ namespace OnePlat.DiceNotation.CommandLine
         {
             try
             {
-                IDice dice = new Dice
-                {
-                    HasBoundedResult = this.vm.HasBoundedResult
-                };
+                IDice dice = new Dice();
+                dice.Configuration.HasBoundedResult = this.vm.HasBoundedResult;
+
                 DiceResult result = dice.Roll(parameter as string, this.vm.DieRoller);
 
                 if (this.vm.UseVerboseOutput)

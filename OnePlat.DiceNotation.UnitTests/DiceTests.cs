@@ -53,7 +53,8 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsInstanceOfType(dice, typeof(IDice));
             Assert.IsInstanceOfType(dice, typeof(Dice));
             Assert.IsTrue(string.IsNullOrEmpty(dice.ToString()));
-            Assert.IsTrue(dice.HasBoundedResult);
+            Assert.IsTrue(dice.Configuration.HasBoundedResult);
+            Assert.AreEqual(1, dice.Configuration.BoundedResultMinimum);
         }
 
         [TestMethod]
@@ -344,8 +345,9 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            new Dice().HasBoundedResult = false;
-            DiceResult result = parser.Parse("d12-3", false, new ConstantDieRoller(1));
+            IDice dice = new Dice();
+            dice.Configuration.HasBoundedResult = false;
+            DiceResult result = parser.Parse("d12-3", dice.Configuration, new ConstantDieRoller(1));
 
             // validate results
             Assert.IsNotNull(result);

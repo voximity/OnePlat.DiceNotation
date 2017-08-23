@@ -43,7 +43,7 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        public bool HasBoundedResult { get; set; } = true;
+        public DiceConfiguration Configuration { get; } = new DiceConfiguration();
 
         /// <inheritdoc/>
         public IDice Constant(int constant)
@@ -84,14 +84,14 @@ namespace OnePlat.DiceNotation
         /// <inheritdoc/>
         public DiceResult Roll(string expression, IDieRoller dieRoller)
         {
-            return this.parser.Parse(expression, this.HasBoundedResult, dieRoller);
+            return this.parser.Parse(expression, this.Configuration, dieRoller);
         }
 
         /// <inheritdoc/>
         public DiceResult Roll(IDieRoller dieRoller)
         {
             List<TermResult> termResults = this.terms.SelectMany(t => t.CalculateResults(dieRoller)).ToList();
-            return new DiceResult(this.ToString(), termResults, dieRoller.GetType().ToString(), this.HasBoundedResult);
+            return new DiceResult(this.ToString(), termResults, dieRoller.GetType().ToString(), this.Configuration);
         }
 
         /// <inheritdoc/>

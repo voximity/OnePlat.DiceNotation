@@ -165,10 +165,10 @@ namespace OnePlat.DiceNotation
         /// Dice instance to perform oprations on.
         /// </summary>
         /// <param name="expression">String expression to parse</param>
-        /// <param name="boundedResult">Specifies whether the result should be bounded to a minimum</param>
+        /// <param name="config">Dice config to tell whether this result will be bounded or unbounded</param>
         /// <param name="dieRoller">Die roller to use</param>
         /// <returns>Dice result</returns>
-        public DiceResult Parse(string expression, bool boundedResult, IDieRoller dieRoller)
+        public DiceResult Parse(string expression, DiceConfiguration config, IDieRoller dieRoller)
         {
             // first clean up expression
             expression = this.CorrectExpression(expression);
@@ -177,7 +177,7 @@ namespace OnePlat.DiceNotation
             List<string> tokens = this.Tokenize(expression);
 
             // finally parse and evaluate the expression tokens
-            return this.ParseLogic(expression, tokens, boundedResult, dieRoller);
+            return this.ParseLogic(expression, tokens, config, dieRoller);
         }
         #endregion
 
@@ -311,10 +311,10 @@ namespace OnePlat.DiceNotation
         /// </summary>
         /// <param name="expression">dice expression rolled</param>
         /// <param name="tokens">String expression to parse</param>
-        /// <param name="boundedResult">Specifies whether the result should be bounded to a minimum</param>
+        /// <param name="config">Dice config to tell parser how to behave</param>
         /// <param name="dieRoller">Die roller to use</param>
         /// <returns>Dice result</returns>
-        private DiceResult ParseLogic(string expression, List<string> tokens, bool boundedResult, IDieRoller dieRoller)
+        private DiceResult ParseLogic(string expression, List<string> tokens, DiceConfiguration config, IDieRoller dieRoller)
         {
             List<TermResult> results = new List<TermResult>();
 
@@ -350,7 +350,7 @@ namespace OnePlat.DiceNotation
             int value = this.HandleBasicOperation(results, tokens, dieRoller);
 
             // now return the dice result from the final value and TermResults list
-            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), boundedResult);
+            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), config);
         }
 
         /// <summary>
