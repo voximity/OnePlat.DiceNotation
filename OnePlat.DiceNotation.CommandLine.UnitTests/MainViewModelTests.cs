@@ -171,6 +171,22 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
         }
 
         [TestMethod]
+        public void MainViewModel_RollDiceFudgeTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("4f+1");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("4f+1"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4f+1)"));
+            Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
         public void MainViewModel_RollDiceVerboseTest()
         {
             // setup test

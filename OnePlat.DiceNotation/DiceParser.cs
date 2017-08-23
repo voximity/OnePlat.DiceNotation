@@ -465,6 +465,11 @@ namespace OnePlat.DiceNotation
         /// <param name="dieRoller">Die roller to use</param>
         private void HandleDieOperator(List<TermResult> results, List<string> tokens, string op, IDieRoller dieRoller)
         {
+            if (tokens.IndexOf("f") >= 0)
+            {
+                throw new FormatException("Fudge dice and regular dice cannot be used in the same expression");
+            }
+
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
             int sides = 0;
@@ -566,7 +571,7 @@ namespace OnePlat.DiceNotation
             }
 
             // create a dice term based on the values
-            DiceTerm term = new DiceTerm(numDice, 6, 1, choose);
+            IExpressionTerm term = new FudgeDiceTerm(numDice, choose);
 
             // then evaluate the dice term to roll dice and get the result
             IReadOnlyList<TermResult> t = term.CalculateResults(new FudgeDieRoller());

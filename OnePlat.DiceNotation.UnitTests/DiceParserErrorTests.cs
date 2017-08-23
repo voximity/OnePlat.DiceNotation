@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using System;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -76,6 +74,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4/", this.config, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4k", this.config, roller));
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d4l", this.config, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2+l2d4", this.config, roller));
 
             // validate results
         }
@@ -115,6 +114,19 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // run test
             Assert.ThrowsException<FormatException>(() => parser.Parse("2d6%3", this.config, roller));
+
+            // validate results
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceFudgeErrorTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<FormatException>(() => parser.Parse("2d6f", this.config, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("6fd", this.config, roller));
 
             // validate results
         }

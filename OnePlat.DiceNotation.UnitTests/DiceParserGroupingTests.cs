@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using OnePlat.DiceNotation.UnitTests.Helpers;
+using System;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -136,6 +135,22 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("(4d10-2)/(1+1)", result.DiceExpression);
             Assert.AreEqual(4, result.Results.Count);
             Assert.AreEqual(3, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseParensFudgeTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("(10f-2) / (1+1)", this.config, new FudgeDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("(10f-2)/(1+1)", result.DiceExpression);
+            Assert.AreEqual(10, result.Results.Count);
+            AssertHelpers.IsWithinRangeInclusive(-5, 5, result.Value);
         }
 
         [TestMethod]
