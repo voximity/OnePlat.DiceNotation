@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -40,6 +40,8 @@ namespace OnePlat.DiceNotation
         private const string D100EquivalentNotation = "d100";
         private static Regex whitespaceRegex = new Regex(@"\s+");
         private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+
+        private DiceConfiguration config = null;
         #endregion
 
         #region Properties
@@ -170,6 +172,8 @@ namespace OnePlat.DiceNotation
         /// <returns>Dice result</returns>
         public DiceResult Parse(string expression, DiceConfiguration config, IDieRoller dieRoller)
         {
+            this.config = config;
+
             // first clean up expression
             expression = this.CorrectExpression(expression);
 
@@ -177,7 +181,7 @@ namespace OnePlat.DiceNotation
             List<string> tokens = this.Tokenize(expression);
 
             // finally parse and evaluate the expression tokens
-            return this.ParseLogic(expression, tokens, config, dieRoller);
+            return this.ParseLogic(expression, tokens, dieRoller);
         }
         #endregion
 
@@ -311,10 +315,9 @@ namespace OnePlat.DiceNotation
         /// </summary>
         /// <param name="expression">dice expression rolled</param>
         /// <param name="tokens">String expression to parse</param>
-        /// <param name="config">Dice config to tell parser how to behave</param>
         /// <param name="dieRoller">Die roller to use</param>
         /// <returns>Dice result</returns>
-        private DiceResult ParseLogic(string expression, List<string> tokens, DiceConfiguration config, IDieRoller dieRoller)
+        private DiceResult ParseLogic(string expression, List<string> tokens, IDieRoller dieRoller)
         {
             List<TermResult> results = new List<TermResult>();
 
@@ -350,7 +353,7 @@ namespace OnePlat.DiceNotation
             int value = this.HandleBasicOperation(results, tokens, dieRoller);
 
             // now return the dice result from the final value and TermResults list
-            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), config);
+            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), this.config);
         }
 
         /// <summary>
@@ -458,10 +461,23 @@ namespace OnePlat.DiceNotation
         {
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
-            int numDice = int.Parse(tokens[opPosition - 1]);
-            int sides = int.Parse(tokens[opPosition + 1]);
+            int sides = 0;
             int? choose = null, explode = null;
-            int length = 2;
+            int length = 0;
+
+            int numDice = int.Parse(tokens[opPosition - 1]);
+
+            // allow default value for dice (if not digit is specified)
+            if (opPosition + 1 < tokens.Count && char.IsDigit(tokens[opPosition + 1], 0))
+            {
+                sides = int.Parse(tokens[opPosition + 1]);
+                length += 2;
+            }
+            else
+            {
+                sides = this.config.DefaultDieSides;
+                length++;
+            }
 
             // look-ahead to find other dice operators (like the choose-keep/drop operators)
             int keepPos = tokens.IndexOf("k");

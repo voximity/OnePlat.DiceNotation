@@ -196,11 +196,11 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             MainViewModel vm = new MainViewModel();
 
             // run test
-            bool result = vm.RollDiceCommand.Execute("2d+4");
+            bool result = vm.RollDiceCommand.Execute("2dk+4");
 
             // validate results
             Assert.IsFalse(result);
-            Assert.IsTrue(vm.RollDiceCommand.CanExecute("2d+4"));
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("2dk+4"));
             Assert.IsFalse(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
             Assert.IsTrue(vm.DisplayText.Contains("FormatException"));
         }

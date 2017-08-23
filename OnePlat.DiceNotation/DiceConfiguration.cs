@@ -8,7 +8,7 @@
 // Created          : 8/21/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -19,6 +19,8 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
+using System;
+
 namespace OnePlat.DiceNotation
 {
     /// <summary>
@@ -27,6 +29,8 @@ namespace OnePlat.DiceNotation
     /// </summary>
     public class DiceConfiguration
     {
+        private int defaultDieSides = 6;
+
         /// <summary>
         /// Gets or sets a value indicating whether these dice have their results bounded to 1 or greater.
         /// </summary>
@@ -40,6 +44,22 @@ namespace OnePlat.DiceNotation
         /// <summary>
         /// Gets or sets the defualt sides of dice to use when it's omitted from dice notation.
         /// </summary>
-        public int DefaultDieSides { get; set; } = 6;
+        public int DefaultDieSides
+        {
+            get
+            {
+                return this.defaultDieSides;
+            }
+
+            set
+            {
+                if (value < 2)
+                {
+                    throw new ArgumentOutOfRangeException("DefaultDieSides");
+                }
+
+                this.defaultDieSides = value;
+            }
+        }
     }
 }

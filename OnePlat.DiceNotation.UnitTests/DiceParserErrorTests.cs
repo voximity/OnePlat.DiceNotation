@@ -54,42 +54,6 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
-        public void DiceParser_ParseSingleDieNoSidesTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("d", this.config, roller));
-
-            // validate results
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseSingleDieNegativeSidesTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("3d-8", this.config, roller));
-
-            // validate results
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseDiceNoSidesOperatorTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("2d+3", this.config, roller));
-
-            // validate results
-        }
-
-        [TestMethod]
         public void DiceParser_ParseDiceDropNumberErrorTest()
         {
             // setup test

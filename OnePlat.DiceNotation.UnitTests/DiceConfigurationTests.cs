@@ -73,5 +73,37 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(3, result.Value);
         }
+
+        [TestMethod]
+        public void DiceConfiguration_SetDefaultDieSidesTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+
+            // run test
+            dice.Configuration.DefaultDieSides = 10;
+            DiceResult result = dice.Roll("4dk3+3", this.roller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("4dk3+3", result.DiceExpression);
+            Assert.AreEqual(3, result.Results.Count);
+            Assert.AreEqual("DiceTerm.d10", result.Results[0].Type);
+            Assert.AreEqual("DiceTerm.d10", result.Results[1].Type);
+            Assert.AreEqual("DiceTerm.d10", result.Results[2].Type);
+            Assert.AreEqual(9, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceConfiguration_SetDefaultDieSidesErrorTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+
+            // run test
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => dice.Configuration.DefaultDieSides = 1);
+
+            // validate results
+        }
     }
 }

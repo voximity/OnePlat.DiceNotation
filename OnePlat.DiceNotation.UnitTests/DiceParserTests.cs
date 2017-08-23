@@ -521,5 +521,40 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual(1, result.Results.Count);
             Assert.AreEqual(7, result.Value);
         }
+
+        [TestMethod]
+        public void DiceParser_ParseSingleDieNoSidesTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("d", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("d", result.DiceExpression);
+            Assert.AreEqual(1, result.Results.Count);
+            Assert.AreEqual("DiceTerm.d6", result.Results[0].Type);
+            Assert.AreEqual(2, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceNoSidesOperatorTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("2d+3", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("2d+3", result.DiceExpression);
+            Assert.AreEqual(2, result.Results.Count);
+            Assert.AreEqual("DiceTerm.d6", result.Results[0].Type);
+            Assert.AreEqual("DiceTerm.d6", result.Results[1].Type);
+            Assert.AreEqual(7, result.Value);
+        }
     }
 }
