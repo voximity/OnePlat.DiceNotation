@@ -50,7 +50,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> Operators { get; } = new List<string> { "d", "k", "l", "!", "/", "x", "*", "-", "+" };
+        public List<string> Operators { get; } = new List<string> { "d", "f", "k", "l", "!", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -392,6 +392,12 @@ namespace OnePlat.DiceNotation
                             // that part of the expression accordingly
                             this.HandleDieOperator(results, tokens, op, dieRoller);
                         }
+                        else if (op == "f")
+                        {
+                            // if current operator is the fudge die operator, then process
+                            // that part of the expression accordingly
+                            this.HandleFudgeOperator(results, tokens, op);
+                        }
                         else
                         {
                             // otherwise, treat the operator as an arimethic operator,
@@ -517,6 +523,53 @@ namespace OnePlat.DiceNotation
 
             // then evaluate the dice term to roll dice and get the result
             IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
+            int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
+            results.AddRange(t);
+
+            // put the evaluation result in the first entry and remove
+            // the remaining processed tokens
+            tokens[opPosition - 1] = value.ToString();
+            tokens.RemoveRange(opPosition, length);
+        }
+
+        /// <summary>
+        /// Handles the fudge dice operator and its sub-expressions, and returns the result of the
+        /// dice rolls in the results list and token value.
+        /// </summary>
+        /// <param name="results">List of term results</param>
+        /// <param name="tokens">String expression to parse</param>
+        /// <param name="op">current operator</param>
+        private void HandleFudgeOperator(List<TermResult> results, List<string> tokens, string op)
+        {
+            // find the previous and next numbers in the token list
+            int opPosition = tokens.IndexOf(op);
+            int? choose = null;
+
+            int numDice = int.Parse(tokens[opPosition - 1]);
+            int length = 1;
+
+            // look-ahead to find other dice operators (like the choose-keep/drop operators)
+            int keepPos = tokens.IndexOf("k");
+            if (keepPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                choose = int.Parse(tokens[keepPos + 1]);
+                length += 2;
+            }
+
+            int dropPos = tokens.IndexOf("l");
+            if (dropPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                choose = numDice - int.Parse(tokens[dropPos + 1]);
+                length += 2;
+            }
+
+            // create a dice term based on the values
+            DiceTerm term = new DiceTerm(numDice, 6, 1, choose);
+
+            // then evaluate the dice term to roll dice and get the result
+            IReadOnlyList<TermResult> t = term.CalculateResults(new FudgeDieRoller());
             int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
             results.AddRange(t);
 

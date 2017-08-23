@@ -556,5 +556,49 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("DiceTerm.d6", result.Results[1].Type);
             Assert.AreEqual(7, result.Value);
         }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceFudgeTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("3f", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("3f", result.DiceExpression);
+            Assert.AreEqual(3, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                Assert.AreEqual("DiceTerm.f", r.Type);
+                sum += r.Value;
+            }
+            Assert.AreEqual(sum, result.Value);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceFudgeModifierTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("3f+1", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("3f", result.DiceExpression);
+            Assert.AreEqual(3, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                Assert.AreEqual("DiceTerm.f", r.Type);
+                sum += r.Value;
+            }
+            Assert.AreEqual(sum + 1, result.Value);
+        }
     }
 }
