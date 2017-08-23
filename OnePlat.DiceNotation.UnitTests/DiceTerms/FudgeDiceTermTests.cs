@@ -113,15 +113,74 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
             // validate results
             Assert.IsNotNull(results);
             Assert.AreEqual(3, results.Count);
-            int sum = 0;
             foreach (TermResult r in results)
             {
                 Assert.IsNotNull(r);
                 Assert.AreEqual(1, r.Scalar);
                 AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
-                sum += r.Value;
                 Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
             }
+        }
+
+        [TestMethod]
+        public void DiceTerm_CalculateResultsChooseDiceTest()
+        {
+            // setup test
+            IExpressionTerm term = new FudgeDiceTerm(5, 3);
+
+            // run test
+            IReadOnlyList<TermResult> results = term.CalculateResults(roller);
+
+            // validate results
+            Assert.IsNotNull(results);
+            Assert.AreEqual(3, results.Count);
+            foreach (TermResult r in results)
+            {
+                Assert.IsNotNull(r);
+                Assert.AreEqual(1, r.Scalar);
+                AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
+                Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
+            }
+        }
+
+        [TestMethod]
+        public void FudgeDiceTerm_CalculateResultsNullDieRollerTest()
+        {
+            // setup test
+            IExpressionTerm term = new FudgeDiceTerm(1);
+
+            // run test
+            Assert.ThrowsException<ArgumentNullException>(() => term.CalculateResults(null));
+
+            // validate results
+        }
+
+        [TestMethod]
+        public void FudgeDiceTerm_ToStringTest()
+        {
+            // setup test
+            IExpressionTerm term = new FudgeDiceTerm(2);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("2f", result);
+        }
+
+        [TestMethod]
+        public void FudgeDiceTerm_ToStringChooseTest()
+        {
+            // setup test
+            IExpressionTerm term = new FudgeDiceTerm(5, 3);
+
+            // run test
+            string result = term.ToString();
+
+            // validate results
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+            Assert.AreEqual("5fk3", result);
         }
     }
 }

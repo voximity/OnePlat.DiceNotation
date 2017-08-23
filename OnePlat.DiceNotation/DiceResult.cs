@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -31,6 +31,8 @@ namespace OnePlat.DiceNotation
     /// </summary>
     public class DiceResult
     {
+        private const string FudgeDiceIdentifier = "FudgeDie";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceResult"/> class.
         /// </summary>
@@ -56,7 +58,9 @@ namespace OnePlat.DiceNotation
             this.DiceExpression = expression;
             this.DieRollerUsed = rollerUsed;
             this.Results = results.ToList();
-            this.Value = config.HasBoundedResult ? Math.Max(value, config.BoundedResultMinimum) : value;
+
+            bool boundedResult = rollerUsed.Contains(FudgeDiceIdentifier) ? false : config.HasBoundedResult;
+            this.Value = boundedResult ? Math.Max(value, config.BoundedResultMinimum) : value;
         }
 
         /// <summary>

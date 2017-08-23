@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -61,6 +61,13 @@ namespace OnePlat.DiceNotation
         IDice IDice.Dice(int sides, int numberDice, double scalar, int? choose, int? exploding)
         {
             this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose, exploding));
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IDice FudgeDice(int numberDice, int? choose)
+        {
+            this.terms.Add(new FudgeDiceTerm(numberDice, choose));
             return this;
         }
 

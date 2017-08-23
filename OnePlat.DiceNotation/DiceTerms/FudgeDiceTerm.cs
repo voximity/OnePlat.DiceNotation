@@ -22,6 +22,7 @@
 using OnePlat.DiceNotation.DieRoller;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnePlat.DiceNotation.DiceTerms
 {
@@ -32,6 +33,7 @@ namespace OnePlat.DiceNotation.DiceTerms
     {
         #region Members
         private const string FormatResultType = "{0}.dF";
+        private const string FormatDiceTermText = "{0}f{1}";
         private const int FudgeNumberSides = 6;
 
         private int numberDice;
@@ -84,7 +86,17 @@ namespace OnePlat.DiceNotation.DiceTerms
                 });
             }
 
-            return results;
+            // order by their value (high to low) and only take the amount specified in choose.
+            return results.OrderByDescending(d => d.Value).Take(this.choose ?? results.Count).ToList();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            string variableText = (this.choose == null || this.choose == this.numberDice) ? string.Empty : "k" + this.choose;
+            string result = string.Format(FormatDiceTermText, this.numberDice, variableText);
+
+            return result;
         }
     }
 }

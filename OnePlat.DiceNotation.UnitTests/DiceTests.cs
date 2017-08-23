@@ -106,6 +106,22 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void Dice_FudgeDiceNumberTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+
+            // run test
+            IDice result = dice.FudgeDice(3);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(IDice));
+            Assert.IsInstanceOfType(result, typeof(Dice));
+            Assert.AreEqual("3f", dice.ToString());
+        }
+
+        [TestMethod]
         public void Dice_RollConstantTest()
         {
             // setup test
@@ -276,6 +292,81 @@ namespace OnePlat.DiceNotation.UnitTests
             }
             Assert.AreEqual(sum, result.Value);
             Assert.AreEqual("4d6k3+1d8+5", result.DiceExpression);
+        }
+
+        [TestMethod]
+        public void Dice_RollFudgeSingleDieTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice.FudgeDice(1);
+
+            // run test
+            DiceResult result = dice.Roll(new FudgeDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            AssertHelpers.IsWithinRangeInclusive(-1, 1, result.Value);
+            Assert.AreEqual(1, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
+                sum += r.Value;
+            }
+            Assert.AreEqual(sum, result.Value);
+            Assert.AreEqual("1f", result.DiceExpression);
+        }
+
+        [TestMethod]
+        public void Dice_RollMultipleFudgeDiceTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice.FudgeDice(6);
+
+            // run test
+            DiceResult result = dice.Roll(new FudgeDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            AssertHelpers.IsWithinRangeInclusive(-6, 6, result.Value);
+            Assert.AreEqual(6, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
+                sum += r.Value;
+            }
+            Assert.AreEqual(sum, result.Value);
+            Assert.AreEqual("6f", result.DiceExpression);
+        }
+
+        [TestMethod]
+        public void Dice_RollFudgeChooseDiceTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice.FudgeDice(6, 3);
+
+            // run test
+            DiceResult result = dice.Roll(new FudgeDieRoller());
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            AssertHelpers.IsWithinRangeInclusive(-3, 3, result.Value);
+            Assert.AreEqual(3, result.Results.Count);
+            int sum = 0;
+            foreach (TermResult r in result.Results)
+            {
+                AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
+                sum += r.Value;
+            }
+            Assert.AreEqual(sum, result.Value);
+            Assert.AreEqual("6fk3", result.DiceExpression);
         }
 
         [TestMethod]
