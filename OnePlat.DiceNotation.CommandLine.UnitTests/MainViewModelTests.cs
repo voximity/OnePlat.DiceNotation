@@ -27,11 +27,14 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsNotNull(vm.HelpCommand);
             Assert.IsNotNull(vm.RollDiceCommand);
             Assert.IsNotNull(vm.SetVerboseCommand);
+            Assert.IsNotNull(vm.SetUnboundResultCommand);
+            Assert.IsNotNull(vm.SetDefaultNumberDieSidesCommand);
             Assert.AreEqual(vm.RollDiceCommand, vm.DefaultCommand);
             Assert.IsTrue(string.IsNullOrEmpty(vm.DisplayText));
             Assert.IsFalse(vm.UseVerboseOutput);
             Assert.IsNull(vm.ConstantRollerValue);
             Assert.IsTrue(vm.HasBoundedResult);
+            Assert.IsNull(vm.DefaultDieSides);
             Assert.IsNotNull(vm.DieRoller);
             Assert.IsInstanceOfType(vm.DieRoller, typeof(RandomDieRoller));
         }
@@ -48,7 +51,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsFalse(result);
             Assert.IsTrue(vm.HelpCommand.CanExecute(null));
-            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.0) ==="));
+            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.2) ==="));
             Assert.IsTrue(vm.DisplayText.Contains("Dice expressions:"));
         }
 
@@ -80,6 +83,39 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(result);
             Assert.IsTrue(vm.SetUnboundResultCommand.CanExecute(null));
             Assert.IsFalse(vm.HasBoundedResult);
+        }
+
+        [TestMethod]
+        public void MainViewModel_DefaultDieSidesTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.SetDefaultNumberDieSidesCommand.Execute("10");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.SetDefaultNumberDieSidesCommand.CanExecute("10"));
+            Assert.AreEqual(10, vm.DefaultDieSides);
+        }
+
+        [TestMethod]
+        public void MainViewModel_DefaultDieSidesErrorTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+
+            // run test
+            bool result = vm.SetDefaultNumberDieSidesCommand.Execute("f5");
+
+            // validate results
+            Assert.IsFalse(result);
+            Assert.IsTrue(vm.SetDefaultNumberDieSidesCommand.CanExecute("f5"));
+            Assert.IsNull(vm.DefaultDieSides);
+            Assert.IsNotNull(vm.DieRoller);
+            Assert.IsInstanceOfType(vm.DieRoller, typeof(RandomDieRoller));
+            Assert.IsTrue(vm.DisplayText.Contains("FormatException"));
         }
 
         [TestMethod]
@@ -168,6 +204,27 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(2d8-3)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> -1"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
+        }
+
+        [TestMethod]
+        public void MainViewModel_RollDiceDefaultSidesTest()
+        {
+            // setup test
+            MainViewModel vm = new MainViewModel();
+            vm.ConstantRollerCommand.Execute("1");
+            vm.SetVerboseCommand.Execute(null);
+            vm.SetDefaultNumberDieSidesCommand.Execute("10");
+
+            // run test
+            bool result = vm.RollDiceCommand.Execute("4dk3");
+
+            // validate results
+            Assert.IsTrue(result);
+            Assert.IsTrue(vm.RollDiceCommand.CanExecute("4dk3"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4dk3)"));
+            Assert.IsTrue(vm.DisplayText.Contains("=> 3"));
+            Assert.IsTrue(vm.DisplayText.Contains("Terms list:"));
+            Assert.IsTrue(vm.DisplayText.Contains("DiceTerm.d10"));
         }
 
         [TestMethod]

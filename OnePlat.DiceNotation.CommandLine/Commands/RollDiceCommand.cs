@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -63,6 +63,7 @@ namespace OnePlat.DiceNotation.CommandLine
             {
                 IDice dice = new Dice();
                 dice.Configuration.HasBoundedResult = this.vm.HasBoundedResult;
+                dice.Configuration.DefaultDieSides = this.vm.DefaultDieSides ?? 6;
 
                 DiceResult result = dice.Roll(parameter as string, this.vm.DieRoller);
 
@@ -115,6 +116,7 @@ namespace OnePlat.DiceNotation.CommandLine
             foreach (TermResult term in result.Results)
             {
                 output.AppendFormat("    TermResult.Type: {0}\r\n", term.Type);
+                output.AppendFormat("    TermResult.IncludeInResult: {0}\r\n", term.AppliesToResultCalculation);
                 output.AppendFormat("    TermResult.Scalar: {0}\r\n", term.Scalar);
                 output.AppendFormat("    TermResult.Value: {0}\r\n", term.Value);
                 output.AppendLine();
@@ -136,10 +138,22 @@ namespace OnePlat.DiceNotation.CommandLine
         {
             var list = from r in result.Results
                        where r.Type.Contains(nameof(DiceTerm))
-                       select r.Value;
+                       select r;
 
-            string res = string.Join(",", list);
-            return res;
+            string res = string.Empty;
+            foreach (TermResult item in list)
+            {
+                if (item.AppliesToResultCalculation)
+                {
+                    res += item.Value.ToString() + ",";
+                }
+                else
+                {
+                    res += item.Value.ToString() + "*,";
+                }
+            }
+
+            return res.TrimEnd(',');
         }
     }
 }
