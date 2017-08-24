@@ -279,11 +279,11 @@ namespace OnePlat.DiceNotation
                 tokens.Add(this.DefaultOperator);
             }
 
-            // if we have a single die operator (d), then default to having a default
+            // if we have a single die operator (d, f), then default to having a default
             // number of dice (1)
-            if (ch == "d" && (string.IsNullOrEmpty(prev) ||
-                              this.Operators.Contains(prev) ||
-                              prev == this.GroupStartOperator))
+            if ((ch == "d" || ch == "f") && (string.IsNullOrEmpty(prev) ||
+                                             this.Operators.Contains(prev) ||
+                                             prev == this.GroupStartOperator))
             {
                 tokens.Add(this.DefaultNumDice);
             }

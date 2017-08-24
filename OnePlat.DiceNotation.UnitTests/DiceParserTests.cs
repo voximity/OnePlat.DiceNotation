@@ -2,7 +2,6 @@
 using OnePlat.DiceNotation.DiceTerms;
 using OnePlat.DiceNotation.DieRoller;
 using OnePlat.DiceNotation.UnitTests.Helpers;
-using System;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -14,7 +13,6 @@ namespace OnePlat.DiceNotation.UnitTests
     {
         private DiceConfiguration config = new DiceConfiguration();
         private IDieRoller testRoller = new ConstantDieRoller(2);
-        private IDieRoller roller = new RandomDieRoller();
 
         public DiceParserTests()
         {
@@ -544,78 +542,6 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.AreEqual("DiceTerm.d6", result.Results[0].Type);
             Assert.AreEqual("DiceTerm.d6", result.Results[1].Type);
             Assert.AreEqual(7, result.Value);
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseDiceFudgeTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            DiceResult result = parser.Parse("3f", this.config, this.roller);
-
-            // validate results
-            Assert.IsNotNull(result);
-            Assert.AreEqual("3f", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseDiceFudgeModifierTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            DiceResult result = parser.Parse("3f+1", this.config, this.roller);
-
-            // validate results
-            Assert.IsNotNull(result);
-            Assert.AreEqual("3f+1", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum + 1, result.Value);
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseDiceFudgeKeepTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            DiceResult result = parser.Parse("6fk4", this.config, this.roller);
-
-            // validate results
-            Assert.IsNotNull(result);
-            AssertHelpers.AssertDiceChoose(result, "6fk4", "FudgeDiceTerm.dF", 6, 4);
-        }
-
-        [TestMethod]
-        public void DiceParser_ParseDiceFudgeDropTest()
-        {
-            // setup test
-            DiceParser parser = new DiceParser();
-
-            // run test
-            DiceResult result = parser.Parse("6fl3", this.config, this.roller);
-
-            // validate results
-            Assert.IsNotNull(result);
-            AssertHelpers.AssertDiceChoose(result, "6fl3", "FudgeDiceTerm.dF", 6, 3);
         }
     }
 }

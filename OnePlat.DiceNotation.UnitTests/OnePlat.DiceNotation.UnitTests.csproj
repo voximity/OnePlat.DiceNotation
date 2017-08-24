@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DiceConfigurationTests.cs" />
     <Compile Include="DiceParserErrorTests.cs" />
+    <Compile Include="DiceParserFudge.cs" />
     <Compile Include="DiceParserGroupingTests.cs" />
     <Compile Include="DiceParserTests.cs" />
     <Compile Include="DiceParserTokenizeTests.cs" />
