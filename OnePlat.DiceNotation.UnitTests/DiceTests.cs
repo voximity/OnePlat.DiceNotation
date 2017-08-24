@@ -302,11 +302,11 @@ namespace OnePlat.DiceNotation.UnitTests
             dice.FudgeDice(1);
 
             // run test
-            DiceResult result = dice.Roll(new FudgeDieRoller());
+            DiceResult result = dice.Roll(this.roller);
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(-1, 1, result.Value);
             Assert.AreEqual(1, result.Results.Count);
             int sum = 0;
@@ -327,11 +327,11 @@ namespace OnePlat.DiceNotation.UnitTests
             dice.FudgeDice(6);
 
             // run test
-            DiceResult result = dice.Roll(new FudgeDieRoller());
+            DiceResult result = dice.Roll(this.roller);
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(-6, 6, result.Value);
             Assert.AreEqual(6, result.Results.Count);
             int sum = 0;
@@ -352,11 +352,11 @@ namespace OnePlat.DiceNotation.UnitTests
             dice.FudgeDice(6, 3);
 
             // run test
-            DiceResult result = dice.Roll(new FudgeDieRoller());
+            DiceResult result = dice.Roll(this.roller);
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.FudgeDieRoller", result.DieRollerUsed);
+            Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(-3, 3, result.Value);
             Assert.AreEqual(3, result.Results.Count);
             int sum = 0;

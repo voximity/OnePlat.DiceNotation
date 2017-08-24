@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/23/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -396,7 +396,7 @@ namespace OnePlat.DiceNotation
                         {
                             // if current operator is the fudge die operator, then process
                             // that part of the expression accordingly
-                            this.HandleFudgeOperator(results, tokens, op);
+                            this.HandleFudgeOperator(results, tokens, op, dieRoller);
                         }
                         else
                         {
@@ -506,7 +506,8 @@ namespace OnePlat.DiceNotation
         /// <param name="results">List of term results</param>
         /// <param name="tokens">String expression to parse</param>
         /// <param name="op">current operator</param>
-        private void HandleFudgeOperator(List<TermResult> results, List<string> tokens, string op)
+        /// <param name="dieRoller">Die roller to use</param>
+        private void HandleFudgeOperator(List<TermResult> results, List<string> tokens, string op, IDieRoller dieRoller)
         {
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
@@ -521,7 +522,7 @@ namespace OnePlat.DiceNotation
             IExpressionTerm term = new FudgeDiceTerm(numDice, choose);
 
             // then evaluate the dice term to roll dice and get the result
-            this.EvaluateDiceTerm(results, tokens, new FudgeDieRoller(), opPosition, length, term);
+            this.EvaluateDiceTerm(results, tokens, dieRoller, opPosition, length, term);
         }
 
         /// <summary>

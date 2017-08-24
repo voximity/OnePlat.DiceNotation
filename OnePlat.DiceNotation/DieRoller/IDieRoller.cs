@@ -8,7 +8,7 @@
 // Created          : 8/7/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -30,7 +30,8 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Rolls the die with the specified number of sides.
         /// </summary>
         /// <param name="sides">Number of sides on the die (also its max value).</param>
+        /// <param name="factor">Provide a factor to impact the roll (defaults to nothing, but used for fudge dice).</param>
         /// <returns>Random value between 1 and sides</returns>
-        int Roll(int sides);
+        int Roll(int sides, int? factor = null);
     }
 }

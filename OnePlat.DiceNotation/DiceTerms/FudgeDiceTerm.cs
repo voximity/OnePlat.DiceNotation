@@ -8,7 +8,7 @@
 // Created          : 8/23/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/23/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -34,7 +34,8 @@ namespace OnePlat.DiceNotation.DiceTerms
         #region Members
         private const string FormatResultType = "{0}.dF";
         private const string FormatDiceTermText = "{0}f{1}";
-        private const int FudgeNumberSides = 6;
+        private const int FudgeNumberSides = 3;
+        private const int FudgeFactor = -2;
 
         private int numberDice;
         private int? choose;
@@ -76,7 +77,7 @@ namespace OnePlat.DiceNotation.DiceTerms
             // go through the number of dice and roll each one, saving them as term results.
             for (int i = 0; i < this.numberDice; i++)
             {
-                int value = dieRoller.Roll(FudgeNumberSides);
+                int value = dieRoller.Roll(FudgeNumberSides, FudgeFactor);
 
                 results.Add(new TermResult
                 {

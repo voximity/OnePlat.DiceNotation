@@ -9,13 +9,14 @@ using OnePlat.DiceNotation.UnitTests.Helpers;
 
 namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 {
+
     /// <summary>
     /// Summary description for FudgeDiceTermTests
     /// </summary>
     [TestClass]
     public class FudgeDiceTermTests
     {
-        private IDieRoller roller = new FudgeDieRoller();
+        private IDieRoller roller = new RandomDieRoller();
 
         public FudgeDiceTermTests()
         {

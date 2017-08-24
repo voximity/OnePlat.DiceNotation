@@ -13,6 +13,7 @@ namespace OnePlat.DiceNotation.UnitTests
     {
         private DiceConfiguration config = new DiceConfiguration();
         private IDieRoller testRoller = new ConstantDieRoller(2);
+        private IDieRoller roller = new RandomDieRoller();
 
         public DiceParserGroupingTests()
         {
@@ -144,7 +145,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(10f-2) / (1+1)", this.config, new FudgeDieRoller());
+            DiceResult result = parser.Parse("(10f-2) / (1+1)", this.config, this.roller);
 
             // validate results
             Assert.IsNotNull(result);
