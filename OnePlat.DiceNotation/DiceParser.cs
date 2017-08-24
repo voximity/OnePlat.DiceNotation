@@ -472,9 +472,7 @@ namespace OnePlat.DiceNotation
 
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
-            int sides = 0;
-            int? choose = null, explode = null;
-            int length = 0;
+            int sides = 0, length = 0;
 
             int numDice = int.Parse(tokens[opPosition - 1]);
 
@@ -491,50 +489,14 @@ namespace OnePlat.DiceNotation
             }
 
             // look-ahead to find other dice operators (like the choose-keep/drop operators)
-            int keepPos = tokens.IndexOf("k");
-            if (keepPos > 0)
-            {
-                // if that operator is found, then get the next number token
-                choose = int.Parse(tokens[keepPos + 1]);
-                length += 2;
-            }
-
-            int dropPos = tokens.IndexOf("l");
-            if (dropPos > 0)
-            {
-                // if that operator is found, then get the next number token
-                choose = numDice - int.Parse(tokens[dropPos + 1]);
-                length += 2;
-            }
-
-            int explodePos = tokens.IndexOf("!");
-            if (explodePos > 0)
-            {
-                // if that operator is found, then get the associated number
-                if (explodePos + 1 < tokens.Count && char.IsDigit(tokens[explodePos + 1], 0))
-                {
-                    explode = int.Parse(tokens[explodePos + 1]);
-                    length += 2;
-                }
-                else
-                {
-                    explode = sides;
-                    length++;
-                }
-            }
+            int? choose = this.ChooseLookAhead(tokens, opPosition, numDice, ref length);
+            int? explode = this.ExplodeLookAhead(tokens, opPosition, sides, ref length);
 
             // create a dice term based on the values
             DiceTerm term = new DiceTerm(numDice, sides, 1, choose, explode);
 
             // then evaluate the dice term to roll dice and get the result
-            IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
-            int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
-            results.AddRange(t);
-
-            // put the evaluation result in the first entry and remove
-            // the remaining processed tokens
-            tokens[opPosition - 1] = value.ToString();
-            tokens.RemoveRange(opPosition, length);
+            this.EvaluateDiceTerm(results, tokens, dieRoller, opPosition, length, term);
         }
 
         /// <summary>
@@ -548,33 +510,95 @@ namespace OnePlat.DiceNotation
         {
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
-            int? choose = null;
 
             int numDice = int.Parse(tokens[opPosition - 1]);
             int length = 1;
 
             // look-ahead to find other dice operators (like the choose-keep/drop operators)
-            int keepPos = tokens.IndexOf("k");
-            if (keepPos > 0)
-            {
-                // if that operator is found, then get the next number token
-                choose = int.Parse(tokens[keepPos + 1]);
-                length += 2;
-            }
-
-            int dropPos = tokens.IndexOf("l");
-            if (dropPos > 0)
-            {
-                // if that operator is found, then get the next number token
-                choose = numDice - int.Parse(tokens[dropPos + 1]);
-                length += 2;
-            }
+            int? choose = this.ChooseLookAhead(tokens, opPosition, numDice, ref length);
 
             // create a dice term based on the values
             IExpressionTerm term = new FudgeDiceTerm(numDice, choose);
 
             // then evaluate the dice term to roll dice and get the result
-            IReadOnlyList<TermResult> t = term.CalculateResults(new FudgeDieRoller());
+            this.EvaluateDiceTerm(results, tokens, new FudgeDieRoller(), opPosition, length, term);
+        }
+
+        /// <summary>
+        /// Looks ahead in a die expression for the choose operators.
+        /// </summary>
+        /// <param name="tokens">Tokenized string expression</param>
+        /// <param name="opPosition">current operator position</param>
+        /// <param name="numDice">number of dice in expression</param>
+        /// <param name="length">length of subexpression</param>
+        /// <returns>Returns the value for choose, or null if not specified.</returns>
+        private int? ChooseLookAhead(List<string> tokens, int opPosition, int numDice, ref int length)
+        {
+            int? result = null;
+
+            int keepPos = tokens.IndexOf("k", opPosition);
+            if (keepPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                result = int.Parse(tokens[keepPos + 1]);
+                length += 2;
+            }
+
+            int dropPos = tokens.IndexOf("l", opPosition);
+            if (dropPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                result = numDice - int.Parse(tokens[dropPos + 1]);
+                length += 2;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Looks ahead in a die expression for the choose operators.
+        /// </summary>
+        /// <param name="tokens">Tokenized string expression</param>
+        /// <param name="opPosition">current operator position</param>
+        /// <param name="sides">number of sides in expression</param>
+        /// <param name="length">length of subexpression</param>
+        /// <returns>Returns the value for choose, or null if not specified.</returns>
+        private int? ExplodeLookAhead(List<string> tokens, int opPosition, int sides, ref int length)
+        {
+            int? result = null;
+
+            int explodePos = tokens.IndexOf("!", opPosition);
+            if (explodePos > 0)
+            {
+                // if that operator is found, then get the associated number
+                if (explodePos + 1 < tokens.Count && char.IsDigit(tokens[explodePos + 1], 0))
+                {
+                    result = int.Parse(tokens[explodePos + 1]);
+                    length += 2;
+                }
+                else
+                {
+                    result = sides;
+                    length++;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Evaluate the term and save the value and results, and updates the token list to
+        /// reflect the completion of the operation.
+        /// </summary>
+        /// <param name="results">List of term results</param>
+        /// <param name="tokens">String expression to parse</param>
+        /// <param name="dieRoller">Die roller to use</param>
+        /// <param name="opPosition">Current operator position in tokens list</param>
+        /// <param name="length">length of tokens that were affected</param>
+        /// <param name="term">Dice term to evaluate</param>
+        private void EvaluateDiceTerm(List<TermResult> results, List<string> tokens, IDieRoller dieRoller, int opPosition, int length, IExpressionTerm term)
+        {
+            IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
             int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
             results.AddRange(t);
 
