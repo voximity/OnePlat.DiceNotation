@@ -41,7 +41,7 @@ namespace OnePlat.DiceNotation
         /// <param name="rollerUsed">Define die roller used to get the results</param>
         /// <param name="config">Dice config to tell whether this result will be bounded or unbounded</param>
         public DiceResult(string expression, List<TermResult> results, string rollerUsed, DiceConfiguration config)
-            : this(expression, results.Sum(r => (int)Math.Round(r.Value * r.Scalar)), results, rollerUsed, config)
+            : this(expression, results.Sum(r => (int)Math.Round(r.AppliesToResultCalculation ? r.Value * r.Scalar : 0)), results, rollerUsed, config)
         {
         }
 

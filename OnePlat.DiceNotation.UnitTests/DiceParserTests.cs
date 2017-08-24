@@ -130,9 +130,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d6k3", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(6, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3", "DiceTerm.d6", 4, 3);
         }
 
         [TestMethod]
@@ -146,9 +144,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("6d6l2", result.DiceExpression);
-            Assert.AreEqual(4, result.Results.Count);
-            Assert.AreEqual(8, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "6d6l2", "DiceTerm.d6", 6, 4);
         }
 
         [TestMethod]
@@ -162,9 +158,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d6l1", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(6, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d6l1", "DiceTerm.d6", 4, 3);
         }
 
         [TestMethod]
@@ -278,9 +272,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d6k3+2", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(8, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3+2", "DiceTerm.d6", 4, 3, 2);
         }
 
         [TestMethod]
@@ -294,9 +286,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d6k3+d8+2", result.DiceExpression);
-            Assert.AreEqual(4, result.Results.Count);
-            Assert.AreEqual(10, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3+d8+2", "DiceTerm", 5, 4, 2);
         }
 
         [TestMethod]
@@ -374,9 +364,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("2+4d6k3+d8", result.DiceExpression);
-            Assert.AreEqual(4, result.Results.Count);
-            Assert.AreEqual(10, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "2+4d6k3+d8", "DiceTerm", 5, 4, 2);
         }
 
         [TestMethod]
@@ -613,15 +601,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("6fk4", result.DiceExpression);
-            Assert.AreEqual(4, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "6fk4", "FudgeDiceTerm.dF", 6, 4);
         }
 
         [TestMethod]
@@ -635,15 +615,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("6fl3", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "6fl3", "FudgeDiceTerm.dF", 6, 3);
         }
     }
 }

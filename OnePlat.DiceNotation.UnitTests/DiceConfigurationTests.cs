@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using OnePlat.DiceNotation.UnitTests.Helpers;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -86,12 +87,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4dk3+3", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual("DiceTerm.d10", result.Results[0].Type);
-            Assert.AreEqual("DiceTerm.d10", result.Results[1].Type);
-            Assert.AreEqual("DiceTerm.d10", result.Results[2].Type);
-            Assert.AreEqual(9, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4dk3+3", "DiceTerm.d10", 4, 3, 3);
         }
 
         [TestMethod]

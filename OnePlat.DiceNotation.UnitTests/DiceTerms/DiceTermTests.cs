@@ -170,14 +170,17 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 
             // validate results
             Assert.IsNotNull(results);
-            Assert.AreEqual(3, results.Count);
+            Assert.AreEqual(5, results.Count);
+            int included = 0;
             foreach (TermResult r in results)
             {
                 Assert.IsNotNull(r);
                 Assert.AreEqual(1, r.Scalar);
                 Assert.AreEqual(1, r.Value);
                 Assert.AreEqual("DiceTerm.d6", r.Type);
+                if (r.AppliesToResultCalculation) included++;
             }
+            Assert.AreEqual(3, included);
         }
 
         [TestMethod]
@@ -258,14 +261,16 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 
             // validate results
             Assert.IsNotNull(results);
+            int included = 0;
             foreach (TermResult r in results)
             {
                 Assert.IsNotNull(r);
                 Assert.AreEqual(1, r.Scalar);
                 AssertHelpers.IsWithinRangeInclusive(1, 12, r.Value);
                 Assert.AreEqual("DiceTerm.d12", r.Type);
+                if (r.AppliesToResultCalculation) included++;
             }
-            Assert.AreEqual(8, results.Count);
+            Assert.AreEqual(8, included);
         }
 
         [TestMethod]

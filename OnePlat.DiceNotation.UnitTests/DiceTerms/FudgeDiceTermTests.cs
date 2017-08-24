@@ -134,14 +134,17 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 
             // validate results
             Assert.IsNotNull(results);
-            Assert.AreEqual(3, results.Count);
+            Assert.AreEqual(5, results.Count);
+            int included = 0;
             foreach (TermResult r in results)
             {
                 Assert.IsNotNull(r);
                 Assert.AreEqual(1, r.Scalar);
                 AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
                 Assert.AreEqual("FudgeDiceTerm.dF", r.Type);
+                if (r.AppliesToResultCalculation) included++;
             }
+            Assert.AreEqual(3, included);
         }
 
         [TestMethod]

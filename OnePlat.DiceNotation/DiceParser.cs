@@ -600,7 +600,7 @@ namespace OnePlat.DiceNotation
         private void EvaluateDiceTerm(List<TermResult> results, List<string> tokens, IDieRoller dieRoller, int opPosition, int length, IExpressionTerm term)
         {
             IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
-            int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
+            int value = t.Sum(r => (int)Math.Round(r.AppliesToResultCalculation ? r.Value * r.Scalar : 0));
             results.AddRange(t);
 
             // put the evaluation result in the first entry and remove

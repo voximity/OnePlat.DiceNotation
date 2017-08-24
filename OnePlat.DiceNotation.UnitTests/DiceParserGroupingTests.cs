@@ -100,9 +100,7 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d(2x3)k(1+2)", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(6, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d(2x3)k(1+2)", "DiceTerm.d6", 4, 3);
         }
 
         [TestMethod]

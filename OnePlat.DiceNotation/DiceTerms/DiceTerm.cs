@@ -141,7 +141,13 @@ namespace OnePlat.DiceNotation.DiceTerms
             }
 
             // order by their value (high to low) and only take the amount specified in choose.
-            return results.OrderByDescending(d => d.Value).Take(this.choose ?? results.Count).ToList();
+            var ordered = results.OrderByDescending(d => d.Value).ToList();
+            for (int i = this.choose ?? results.Count; i < ordered.Count(); i++)
+            {
+                ordered[i].AppliesToResultCalculation = false;
+            }
+
+            return results;
         }
         #endregion
 

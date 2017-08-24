@@ -231,15 +231,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(3, 18, result.Value);
-            Assert.AreEqual(3, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                AssertHelpers.IsWithinRangeInclusive(1, 6, r.Value);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3", result.DiceExpression);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3", "DiceTerm.d6", 4, 3);
         }
 
         [TestMethod]
@@ -284,14 +276,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.ConstantDieRoller", result.DieRollerUsed);
             Assert.AreEqual(9, result.Value);
-            Assert.AreEqual(5, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+1d8+5", result.DiceExpression);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3+1d8+5", "", 6, 5);
         }
 
         [TestMethod]
@@ -358,15 +343,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.RandomDieRoller", result.DieRollerUsed);
             AssertHelpers.IsWithinRangeInclusive(-3, 3, result.Value);
-            Assert.AreEqual(3, result.Results.Count);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                AssertHelpers.IsWithinRangeInclusive(-1, 1, r.Value);
-                sum += r.Value;
-            }
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("6fk3", result.DiceExpression);
+            AssertHelpers.AssertDiceChoose(result, "6fk3", "FudgeDiceTerm.dF", 6, 3);
         }
 
         [TestMethod]
@@ -419,14 +396,7 @@ namespace OnePlat.DiceNotation.UnitTests
             Assert.IsNotNull(result);
             Assert.AreEqual("OnePlat.DiceNotation.DieRoller.ConstantDieRoller", result.DieRollerUsed);
             Assert.AreEqual(9, result.Value);
-            int sum = 0;
-            foreach (TermResult r in result.Results)
-            {
-                sum += r.Value;
-            }
-            sum += 5;
-            Assert.AreEqual(sum, result.Value);
-            Assert.AreEqual("4d6k3+1d8+5", result.DiceExpression);
+            AssertHelpers.AssertDiceChoose(result, "4d6k3+1d8+5", "DiceTerm", 5, 4, 5);
         }
 
         [TestMethod]
