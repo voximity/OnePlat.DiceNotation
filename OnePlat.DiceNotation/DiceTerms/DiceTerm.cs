@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/22/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -32,8 +32,8 @@ namespace OnePlat.DiceNotation.DiceTerms
     public class DiceTerm : IExpressionTerm
     {
         #region Members
-        private const string FormatResultType = "{0}.d{1}";
-        private const string FormatDiceTermText = "{0}d{1}{2}";
+        private const string DiceFormatResultType = "{0}.d{1}";
+        private const string DiceFormatDiceTermText = "{0}d{1}{2}";
         private const string FormatDiceMultiplyTermText = "{0}d{1}{2}x{3}";
         private const string FormatDiceDivideTermText = "{0}d{1}{2}/{3}";
         private const int MaxRerollsAllowed = 1000;
@@ -44,6 +44,8 @@ namespace OnePlat.DiceNotation.DiceTerms
         private int? choose;
         private int? exploding;
         #endregion
+
+        #region Constuctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceTerm"/> class.
@@ -86,6 +88,22 @@ namespace OnePlat.DiceNotation.DiceTerms
             this.choose = choose;
             this.exploding = exploding;
         }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the format string for ResultTerm type.
+        /// </summary>
+        protected string FormatResultType { get; set; } = DiceFormatResultType;
+
+        /// <summary>
+        /// Gets or sets the format string for die operator display text.
+        /// </summary>
+        protected string FormatDiceTermText { get; set; } = DiceFormatDiceTermText;
+        #endregion
+
+        #region IExpressionTerm methods
 
         /// <inheritdoc/>
         public IReadOnlyList<TermResult> CalculateResults(IDieRoller dieRoller)
@@ -97,13 +115,13 @@ namespace OnePlat.DiceNotation.DiceTerms
             }
 
             List<TermResult> results = new List<TermResult>();
-            string termType = string.Format(FormatResultType, this.GetType().Name, this.sides);
+            string termType = string.Format(this.FormatResultType, this.GetType().Name, this.sides);
             int rerolls = 0;
 
             // go through the number of dice and roll each one, saving them as term results.
             for (int i = 0; i < this.numberDice + rerolls; i++)
             {
-                int value = dieRoller.Roll(this.sides);
+                int value = this.RollTerm(dieRoller, this.sides);
                 if (this.exploding != null && value >= this.exploding)
                 {
                     if (rerolls > MaxRerollsAllowed)
@@ -125,6 +143,9 @@ namespace OnePlat.DiceNotation.DiceTerms
             // order by their value (high to low) and only take the amount specified in choose.
             return results.OrderByDescending(d => d.Value).Take(this.choose ?? results.Count).ToList();
         }
+        #endregion
+
+        #region Helper methods
 
         /// <inheritdoc/>
         public override string ToString()
@@ -135,11 +156,11 @@ namespace OnePlat.DiceNotation.DiceTerms
 
             if (this.scalar == 1)
             {
-                result = string.Format(FormatDiceTermText, this.numberDice, this.sides, variableText);
+                result = string.Format(this.FormatDiceTermText, this.numberDice, this.sides, variableText);
             }
             else if (this.scalar == -1)
             {
-                result = string.Format(FormatDiceTermText, -this.numberDice, this.sides, variableText);
+                result = string.Format(this.FormatDiceTermText, -this.numberDice, this.sides, variableText);
             }
             else if (this.scalar > 1)
             {
@@ -152,5 +173,17 @@ namespace OnePlat.DiceNotation.DiceTerms
 
             return result;
         }
+
+        /// <summary>
+        /// Performs the actual dice rolls for this term.
+        /// </summary>
+        /// <param name="dieRoller">IDieRoller to use</param>
+        /// <param name="sides">Number of sides to roll</param>
+        /// <returns>Returns rolled value.</returns>
+        protected virtual int RollTerm(IDieRoller dieRoller, int sides)
+        {
+            return dieRoller.Roll(sides);
+        }
+        #endregion
     }
 }
