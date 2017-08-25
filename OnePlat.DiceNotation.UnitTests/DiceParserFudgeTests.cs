@@ -9,12 +9,12 @@ namespace OnePlat.DiceNotation.UnitTests
     /// Summary description for DiceParserFudge
     /// </summary>
     [TestClass]
-    public class DiceParserFudge
+    public class DiceParserFudgeTests
     {
         private DiceConfiguration config = new DiceConfiguration();
         private IDieRoller roller = new RandomDieRoller();
 
-        public DiceParserFudge()
+        public DiceParserFudgeTests()
         {
         }
 
