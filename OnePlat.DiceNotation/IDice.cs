@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -29,9 +29,9 @@ namespace OnePlat.DiceNotation
     public interface IDice
     {
         /// <summary>
-        /// Gets or sets a value indicating whether these dice have their results bounded to 1 or greater.
+        /// Gets the current configuration for this set of Dice.
         /// </summary>
-        bool HasBoundedResult { get; set; }
+        DiceConfiguration Configuration { get; }
 
         /// <summary>
         /// Creates a DiceTerm with specified values for this dice expression.
@@ -40,8 +40,17 @@ namespace OnePlat.DiceNotation
         /// <param name="numberDice">number of dice</param>
         /// <param name="scalar">scalar multiplier</param>
         /// <param name="choose">choose how many results to return</param>
+        /// <param name="exploding">Exploding threshold for dice re-rolls</param>
         /// <returns>IDice representing the current terms.</returns>
-        IDice Dice(int sides, int numberDice = 1, double scalar = 1, int? choose = null);
+        IDice Dice(int sides, int numberDice = 1, double scalar = 1, int? choose = null, int? exploding = null);
+
+        /// <summary>
+        /// Creates a FudgeDiceTerm with specified values for this dice expression.
+        /// </summary>
+        /// <param name="numberDice">number of dice</param>
+        /// <param name="choose">choose how many results to return</param>
+        /// <returns>IDice representing the current terms.</returns>
+        IDice FudgeDice(int numberDice = 1, int? choose = null);
 
         /// <summary>
         /// Creates a ConstantTerm with the specified value for this dice expression.

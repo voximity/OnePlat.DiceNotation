@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -36,8 +36,12 @@ namespace OnePlat.DiceNotation
     public class DiceParser
     {
         #region Members
+        private const string PercentileNotation = "d%";
+        private const string D100EquivalentNotation = "d100";
         private static Regex whitespaceRegex = new Regex(@"\s+");
         private static string decimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+
+        private DiceConfiguration config = null;
         #endregion
 
         #region Properties
@@ -46,7 +50,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> Operators { get; } = new List<string> { "d", "k", "/", "x", "*", "-", "+" };
+        public List<string> Operators { get; } = new List<string> { "d", "f", "k", "l", "!", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -163,11 +167,13 @@ namespace OnePlat.DiceNotation
         /// Dice instance to perform oprations on.
         /// </summary>
         /// <param name="expression">String expression to parse</param>
-        /// <param name="boundedResult">Specifies whether the result should be bounded to a minimum</param>
+        /// <param name="config">Dice config to tell whether this result will be bounded or unbounded</param>
         /// <param name="dieRoller">Die roller to use</param>
         /// <returns>Dice result</returns>
-        public DiceResult Parse(string expression, bool boundedResult, IDieRoller dieRoller)
+        public DiceResult Parse(string expression, DiceConfiguration config, IDieRoller dieRoller)
         {
+            this.config = config;
+
             // first clean up expression
             expression = this.CorrectExpression(expression);
 
@@ -175,11 +181,32 @@ namespace OnePlat.DiceNotation
             List<string> tokens = this.Tokenize(expression);
 
             // finally parse and evaluate the expression tokens
-            return this.ParseLogic(expression, tokens, boundedResult, dieRoller);
+            return this.ParseLogic(expression, tokens, dieRoller);
         }
         #endregion
 
         #region Tokenize helper methods
+
+        /// <summary>
+        /// Cleanup the expression text to lower case, remove spaces, and replace duplicate operatiors.
+        /// </summary>
+        /// <param name="expression">Expression to clean up</param>
+        /// <returns>Corrected expression text</returns>
+        private string CorrectExpression(string expression)
+        {
+            // first remove any whitespace from the expression
+            string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
+
+            // then replace duplicate operators with their resulting value
+            result = result.Replace("+-", "-");
+            result = result.Replace("-+", "-");
+            result = result.Replace("--", "+");
+
+            // replace any percentile notation with appropriate dice faces
+            result = result.Replace(PercentileNotation, D100EquivalentNotation);
+
+            return result;
+        }
 
         /// <summary>
         /// Handle processing unary operators and number in the expression and breaking down to the
@@ -252,11 +279,11 @@ namespace OnePlat.DiceNotation
                 tokens.Add(this.DefaultOperator);
             }
 
-            // if we have a single die operator (d), then default to having a default
+            // if we have a single die operator (d, f), then default to having a default
             // number of dice (1)
-            if (ch == "d" && (string.IsNullOrEmpty(prev) ||
-                              this.Operators.Contains(prev) ||
-                              prev == this.GroupStartOperator))
+            if ((ch == "d" || ch == "f") && (string.IsNullOrEmpty(prev) ||
+                                             this.Operators.Contains(prev) ||
+                                             prev == this.GroupStartOperator))
             {
                 tokens.Add(this.DefaultNumDice);
             }
@@ -288,10 +315,9 @@ namespace OnePlat.DiceNotation
         /// </summary>
         /// <param name="expression">dice expression rolled</param>
         /// <param name="tokens">String expression to parse</param>
-        /// <param name="boundedResult">Specifies whether the result should be bounded to a minimum</param>
         /// <param name="dieRoller">Die roller to use</param>
         /// <returns>Dice result</returns>
-        private DiceResult ParseLogic(string expression, List<string> tokens, bool boundedResult, IDieRoller dieRoller)
+        private DiceResult ParseLogic(string expression, List<string> tokens, IDieRoller dieRoller)
         {
             List<TermResult> results = new List<TermResult>();
 
@@ -327,7 +353,7 @@ namespace OnePlat.DiceNotation
             int value = this.HandleBasicOperation(results, tokens, dieRoller);
 
             // now return the dice result from the final value and TermResults list
-            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), boundedResult);
+            return new DiceResult(expression, value, results, dieRoller.GetType().ToString(), this.config);
         }
 
         /// <summary>
@@ -366,6 +392,12 @@ namespace OnePlat.DiceNotation
                             // that part of the expression accordingly
                             this.HandleDieOperator(results, tokens, op, dieRoller);
                         }
+                        else if (op == "f")
+                        {
+                            // if current operator is the fudge die operator, then process
+                            // that part of the expression accordingly
+                            this.HandleFudgeOperator(results, tokens, op, dieRoller);
+                        }
                         else
                         {
                             // otherwise, treat the operator as an arimethic operator,
@@ -387,8 +419,16 @@ namespace OnePlat.DiceNotation
                 }
             }
 
-            // return the first token as the evaluation of this list of tokens
-            return int.Parse(tokens[0]);
+            if (tokens.Count == 1)
+            {
+                // if there is only one token left, then return it as the evaluation of this list of tokens
+                return int.Parse(tokens[0]);
+            }
+            else
+            {
+                // if there are left over toknes, then the parsing/evaluation failed
+                throw new FormatException("Dice expression string is incorrect format: unexpected symbols in the string expression.");
+            }
         }
 
         /// <summary>
@@ -425,52 +465,148 @@ namespace OnePlat.DiceNotation
         /// <param name="dieRoller">Die roller to use</param>
         private void HandleDieOperator(List<TermResult> results, List<string> tokens, string op, IDieRoller dieRoller)
         {
+            if (tokens.IndexOf("f") >= 0)
+            {
+                throw new FormatException("Fudge dice and regular dice cannot be used in the same expression");
+            }
+
             // find the previous and next numbers in the token list
             int opPosition = tokens.IndexOf(op);
-            int numDice = int.Parse(tokens[opPosition - 1]);
-            int sides = int.Parse(tokens[opPosition + 1]);
-            int? choose = null;
-            int length = 2;
+            int sides = 0, length = 0;
 
-            // look-ahead to find other dice operators (like the choose-keep operator)
-            int choosePos = tokens.IndexOf("k");
-            if (choosePos > 0)
+            int numDice = int.Parse(tokens[opPosition - 1]);
+
+            // allow default value for dice (if not digit is specified)
+            if (opPosition + 1 < tokens.Count && char.IsDigit(tokens[opPosition + 1], 0))
+            {
+                sides = int.Parse(tokens[opPosition + 1]);
+                length += 2;
+            }
+            else
+            {
+                sides = this.config.DefaultDieSides;
+                length++;
+            }
+
+            // look-ahead to find other dice operators (like the choose-keep/drop operators)
+            int? choose = this.ChooseLookAhead(tokens, opPosition, numDice, ref length);
+            int? explode = this.ExplodeLookAhead(tokens, opPosition, sides, ref length);
+
+            // create a dice term based on the values
+            DiceTerm term = new DiceTerm(numDice, sides, 1, choose, explode);
+
+            // then evaluate the dice term to roll dice and get the result
+            this.EvaluateDiceTerm(results, tokens, dieRoller, opPosition, length, term);
+        }
+
+        /// <summary>
+        /// Handles the fudge dice operator and its sub-expressions, and returns the result of the
+        /// dice rolls in the results list and token value.
+        /// </summary>
+        /// <param name="results">List of term results</param>
+        /// <param name="tokens">String expression to parse</param>
+        /// <param name="op">current operator</param>
+        /// <param name="dieRoller">Die roller to use</param>
+        private void HandleFudgeOperator(List<TermResult> results, List<string> tokens, string op, IDieRoller dieRoller)
+        {
+            // find the previous and next numbers in the token list
+            int opPosition = tokens.IndexOf(op);
+
+            int numDice = int.Parse(tokens[opPosition - 1]);
+            int length = 1;
+
+            // look-ahead to find other dice operators (like the choose-keep/drop operators)
+            int? choose = this.ChooseLookAhead(tokens, opPosition, numDice, ref length);
+
+            // create a dice term based on the values
+            IExpressionTerm term = new FudgeDiceTerm(numDice, choose);
+
+            // then evaluate the dice term to roll dice and get the result
+            this.EvaluateDiceTerm(results, tokens, dieRoller, opPosition, length, term);
+        }
+
+        /// <summary>
+        /// Looks ahead in a die expression for the choose operators.
+        /// </summary>
+        /// <param name="tokens">Tokenized string expression</param>
+        /// <param name="opPosition">current operator position</param>
+        /// <param name="numDice">number of dice in expression</param>
+        /// <param name="length">length of subexpression</param>
+        /// <returns>Returns the value for choose, or null if not specified.</returns>
+        private int? ChooseLookAhead(List<string> tokens, int opPosition, int numDice, ref int length)
+        {
+            int? result = null;
+
+            int keepPos = tokens.IndexOf("k", opPosition);
+            if (keepPos > 0)
             {
                 // if that operator is found, then get the next number token
-                choose = int.Parse(tokens[choosePos + 1]);
+                result = int.Parse(tokens[keepPos + 1]);
                 length += 2;
             }
 
-            // create a dice term based on the values
-            DiceTerm term = new DiceTerm(numDice, sides, 1, choose);
+            int dropPos = tokens.IndexOf("l", opPosition);
+            if (dropPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                result = numDice - int.Parse(tokens[dropPos + 1]);
+                length += 2;
+            }
 
-            // then evaluate the dice term to roll dice and get the result
+            return result;
+        }
+
+        /// <summary>
+        /// Looks ahead in a die expression for the choose operators.
+        /// </summary>
+        /// <param name="tokens">Tokenized string expression</param>
+        /// <param name="opPosition">current operator position</param>
+        /// <param name="sides">number of sides in expression</param>
+        /// <param name="length">length of subexpression</param>
+        /// <returns>Returns the value for choose, or null if not specified.</returns>
+        private int? ExplodeLookAhead(List<string> tokens, int opPosition, int sides, ref int length)
+        {
+            int? result = null;
+
+            int explodePos = tokens.IndexOf("!", opPosition);
+            if (explodePos > 0)
+            {
+                // if that operator is found, then get the associated number
+                if (explodePos + 1 < tokens.Count && char.IsDigit(tokens[explodePos + 1], 0))
+                {
+                    result = int.Parse(tokens[explodePos + 1]);
+                    length += 2;
+                }
+                else
+                {
+                    result = sides;
+                    length++;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Evaluate the term and save the value and results, and updates the token list to
+        /// reflect the completion of the operation.
+        /// </summary>
+        /// <param name="results">List of term results</param>
+        /// <param name="tokens">String expression to parse</param>
+        /// <param name="dieRoller">Die roller to use</param>
+        /// <param name="opPosition">Current operator position in tokens list</param>
+        /// <param name="length">length of tokens that were affected</param>
+        /// <param name="term">Dice term to evaluate</param>
+        private void EvaluateDiceTerm(List<TermResult> results, List<string> tokens, IDieRoller dieRoller, int opPosition, int length, IExpressionTerm term)
+        {
             IReadOnlyList<TermResult> t = term.CalculateResults(dieRoller);
-            int value = t.Sum(r => (int)Math.Round(r.Value * r.Scalar));
+            int value = t.Sum(r => (int)Math.Round(r.AppliesToResultCalculation ? r.Value * r.Scalar : 0));
             results.AddRange(t);
 
             // put the evaluation result in the first entry and remove
             // the remaining processed tokens
             tokens[opPosition - 1] = value.ToString();
             tokens.RemoveRange(opPosition, length);
-        }
-
-        /// <summary>
-        /// Cleanup the expression text to lower case, remove spaces, and replace duplicate operatiors.
-        /// </summary>
-        /// <param name="expression">Expression to clean up</param>
-        /// <returns>Corrected expression text</returns>
-        private string CorrectExpression(string expression)
-        {
-            // first remove any whitespace from the expression
-            string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
-
-            // then replace duplicate operators with their resulting value
-            result = result.Replace("+-", "-");
-            result = result.Replace("-+", "-");
-            result = result.Replace("--", "+");
-
-            return result;
         }
         #endregion
     }

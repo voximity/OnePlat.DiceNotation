@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/23/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -43,7 +43,7 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        public bool HasBoundedResult { get; set; } = true;
+        public DiceConfiguration Configuration { get; } = new DiceConfiguration();
 
         /// <inheritdoc/>
         public IDice Constant(int constant)
@@ -58,9 +58,16 @@ namespace OnePlat.DiceNotation
         }
 
         /// <inheritdoc/>
-        IDice IDice.Dice(int sides, int numberDice, double scalar, int? choose)
+        IDice IDice.Dice(int sides, int numberDice, double scalar, int? choose, int? exploding)
         {
-            this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose));
+            this.terms.Add(new DiceTerm(numberDice, sides, scalar, choose, exploding));
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IDice FudgeDice(int numberDice, int? choose)
+        {
+            this.terms.Add(new FudgeDiceTerm(numberDice, choose));
             return this;
         }
 
@@ -84,14 +91,14 @@ namespace OnePlat.DiceNotation
         /// <inheritdoc/>
         public DiceResult Roll(string expression, IDieRoller dieRoller)
         {
-            return this.parser.Parse(expression, this.HasBoundedResult, dieRoller);
+            return this.parser.Parse(expression, this.Configuration, dieRoller);
         }
 
         /// <inheritdoc/>
         public DiceResult Roll(IDieRoller dieRoller)
         {
             List<TermResult> termResults = this.terms.SelectMany(t => t.CalculateResults(dieRoller)).ToList();
-            return new DiceResult(this.ToString(), termResults, dieRoller.GetType().ToString(), this.HasBoundedResult);
+            return new DiceResult(this.ToString(), termResults, dieRoller.GetType().ToString(), this.Configuration);
         }
 
         /// <inheritdoc/>

@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -57,12 +57,13 @@ namespace OnePlat.DiceNotation.CommandLine
         public bool Execute(object parameter = null)
         {
             StringBuilder output = new StringBuilder();
-            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.0) ===");
+            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.2) ===");
             output.AppendLine("Usage: dice [dice-expression] [common-options]");
             output.AppendLine();
             output.AppendLine("Common options:");
             output.AppendLine("  -v        Enable verbose output");
-            output.AppendLine("  -c:X       Enable using constant die roller, with value of X. Helpful in debugging dice notation expressions");
+            output.AppendLine("  -c:X       Enable using constant die roller, with value of X. Helpful in debugging dice notation expressions.");
+            output.AppendLine("  -s:X       Sets using default number of dice sides, with value of X.");
             output.AppendLine("  -h | -?   Show help");
             output.AppendLine();
             output.AppendLine("Dice expressions:");

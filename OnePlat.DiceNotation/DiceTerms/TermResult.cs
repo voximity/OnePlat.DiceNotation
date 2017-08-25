@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -40,5 +40,11 @@ namespace OnePlat.DiceNotation.DiceTerms
         /// Gets or sets the type of the term
         /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        ///  Gets or sets a value indicating whether this term applies to
+        ///  the final result calculation.
+        /// </summary>
+        public bool AppliesToResultCalculation { get; set; } = true;
     }
 }

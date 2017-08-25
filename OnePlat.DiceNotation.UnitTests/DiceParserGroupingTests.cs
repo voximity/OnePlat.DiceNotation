@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
+using OnePlat.DiceNotation.UnitTests.Helpers;
+using System;
 
 namespace OnePlat.DiceNotation.UnitTests
 {
@@ -12,7 +11,9 @@ namespace OnePlat.DiceNotation.UnitTests
     [TestClass]
     public class DiceParserGroupingTests
     {
+        private DiceConfiguration config = new DiceConfiguration();
         private IDieRoller testRoller = new ConstantDieRoller(2);
+        private IDieRoller roller = new RandomDieRoller();
 
         public DiceParserGroupingTests()
         {
@@ -47,7 +48,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(1d20+2)", true, this.testRoller);
+            DiceResult result = parser.Parse("(1d20+2)", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -63,7 +64,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(1+3)d8", true, this.testRoller);
+            DiceResult result = parser.Parse("(1+3)d8", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -79,7 +80,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("2d(2x3)+2", true, this.testRoller);
+            DiceResult result = parser.Parse("2d(2x3)+2", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -95,13 +96,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("4d(2x3)k(1+2)", true, this.testRoller);
+            DiceResult result = parser.Parse("4d(2x3)k(1+2)", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
-            Assert.AreEqual("4d(2x3)k(1+2)", result.DiceExpression);
-            Assert.AreEqual(3, result.Results.Count);
-            Assert.AreEqual(6, result.Value);
+            AssertHelpers.AssertDiceChoose(result, "4d(2x3)k(1+2)", "DiceTerm.d6", 4, 3);
         }
 
         [TestMethod]
@@ -111,7 +110,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(2d10+1) * 10", true, this.testRoller);
+            DiceResult result = parser.Parse("(2d10+1) * 10", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -128,7 +127,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(4d10-2) / (1+1)", true, this.testRoller);
+            DiceResult result = parser.Parse("(4d10-2) / (1+1)", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -138,13 +137,29 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void DiceParser_ParseParensFudgeTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("(10f-2) / (1+1)", this.config, this.roller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.AreEqual("(10f-2)/(1+1)", result.DiceExpression);
+            Assert.AreEqual(10, result.Results.Count);
+            AssertHelpers.IsWithinRangeInclusive(-5, 5, result.Value);
+        }
+
+        [TestMethod]
         public void DiceParser_ParseParensComplexTest()
         {
             // setup test
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10", true, this.testRoller);
+            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -160,7 +175,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10+()", true, this.testRoller);
+            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10+()", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -176,7 +191,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10+(3)", true, this.testRoller);
+            DiceResult result = parser.Parse("(2+1d20+(2+3))x3-10+(3)", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -192,7 +207,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("(((2+1d20)+(2+3))x3-10+(3))", true, this.testRoller);
+            DiceResult result = parser.Parse("(((2+1d20)+(2+3))x3-10+(3))", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
@@ -208,7 +223,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<ArithmeticException>(() => parser.Parse("(2+1d20+(2+3)x3-10+(3)", true, this.testRoller));
+            Assert.ThrowsException<ArithmeticException>(() => parser.Parse("(2+1d20+(2+3)x3-10+(3)", this.config, this.testRoller));
 
             // validate results
         }
@@ -220,7 +235,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("(2+1d20+2+3))x3-10+(3)", true, this.testRoller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("(2+1d20+2+3))x3-10+(3)", this.config, this.testRoller));
 
             // validate results
         }

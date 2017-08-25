@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -31,7 +31,7 @@ namespace OnePlat.DiceNotation
     /// </summary>
     public class DiceResult
     {
-        private const int BoundedMinimum = 1;
+        private const string FudgeDiceIdentifier = "f";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceResult"/> class.
@@ -39,9 +39,9 @@ namespace OnePlat.DiceNotation
         /// <param name="expression">dice expression rolled</param>
         /// <param name="results">List for results for each term in dice expression</param>
         /// <param name="rollerUsed">Define die roller used to get the results</param>
-        /// <param name="isBoundedResult">Tells wether this result will be bounded or unbounded</param>
-        public DiceResult(string expression, List<TermResult> results, string rollerUsed, bool isBoundedResult)
-            : this(expression, results.Sum(r => (int)Math.Round(r.Value * r.Scalar)), results, rollerUsed, isBoundedResult)
+        /// <param name="config">Dice config to tell whether this result will be bounded or unbounded</param>
+        public DiceResult(string expression, List<TermResult> results, string rollerUsed, DiceConfiguration config)
+            : this(expression, results.Sum(r => (int)Math.Round(r.AppliesToResultCalculation ? r.Value * r.Scalar : 0)), results, rollerUsed, config)
         {
         }
 
@@ -52,13 +52,15 @@ namespace OnePlat.DiceNotation
         /// <param name="value">calculated value of the results</param>
         /// <param name="results">List for results for each term in dice expression</param>
         /// <param name="rollerUsed">Define die roller used to get the results</param>
-        /// <param name="isBoundedResult">Tells wether this result will be bounded or unbounded</param>
-        public DiceResult(string expression, int value, List<TermResult> results, string rollerUsed, bool isBoundedResult)
+        /// <param name="config">Dice config to tell whether this result will be bounded or unbounded</param>
+        public DiceResult(string expression, int value, List<TermResult> results, string rollerUsed, DiceConfiguration config)
         {
             this.DiceExpression = expression;
             this.DieRollerUsed = rollerUsed;
             this.Results = results.ToList();
-            this.Value = isBoundedResult ? Math.Max(value, BoundedMinimum) : value;
+
+            bool boundedResult = expression.Contains(FudgeDiceIdentifier) ? false : config.HasBoundedResult;
+            this.Value = boundedResult ? Math.Max(value, config.BoundedResultMinimum) : value;
         }
 
         /// <summary>

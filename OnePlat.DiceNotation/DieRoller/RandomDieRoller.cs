@@ -8,7 +8,7 @@
 // Created          : 8/7/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/20/2017
+// Last Modified On : 8/24/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -53,9 +53,15 @@ namespace OnePlat.DiceNotation.DieRoller
         }
 
         /// <inheritdoc/>
-        public int Roll(int sides)
+        public int Roll(int sides, int? factor = null)
         {
-            return this.random.Next(sides) + 1;
+            int result = this.random.Next(sides) + 1;
+            if (factor != null)
+            {
+                result += factor.Value;
+            }
+
+            return result;
         }
     }
 }
