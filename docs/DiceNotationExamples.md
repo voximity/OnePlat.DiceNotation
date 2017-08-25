@@ -1,4 +1,4 @@
-# Examples of Dice Notations
+r# Examples of Dice Notations
 
 The OnePlat.DiceNotation library supports many complex dice expressions. There is a well defined [dice language](DiceNotationSpecCurrent.md) for what is possible, but sometimes those are hard to wrap your head around. So here are some example expressions that may help better understand what is possible.
 
@@ -15,7 +15,7 @@ There are more possible combinations than are shown here, but this gives you a f
 * **d%+5**: rolls percentile (or d100) dice and adds 5 to result
 * **3d+5**: rolls 3 default(6-sided) dice and adds 5 to result
 * **6d6!**: rolls 6 six-sided dice and performs extra rolls for any max rolls (6) [this is known as exploding or penetration rolls]
-* **4d8!7**: rolls 4 eight-sided dice and performs extra folls for any rolls of 7 or greater.
+* **4d8!7**: rolls 4 eight-sided dice and performs extra rolls for any results of 7 or greater.
 * **4d6k3 + d8 + 5**: rolls 4 six-sided dice and keeps the highest 3 results; then rolls 1 eight-sided die; then adds both results together and adds another 5 modifier 
 
 ### Examples - Math order
