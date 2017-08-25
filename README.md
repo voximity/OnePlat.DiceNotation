@@ -25,7 +25,7 @@ dotnet dice.dll 4d6k3 -v
 # Installation
 To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
 ```  
-PM > Install-Package OnePlat.DiceNotation -Version 1.0.1 
+PM > Install-Package OnePlat.DiceNotation -Version 1.0.2
 ``` 
 
 To install in the Visual Studio UI, go to the Tools menu > "Manage NuGet Packages". Then search for OnePlat.DiceNotation and install it from there.
