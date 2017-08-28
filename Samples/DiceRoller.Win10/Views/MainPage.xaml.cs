@@ -4,6 +4,7 @@
 
 using DiceRoller.Win10.Services;
 using DiceRoller.Win10.ViewModels;
+using DiceRoller.Win10.Views;
 using OnePlat.DiceNotation;
 using OnePlat.DiceNotation.DieRoller;
 using System;
@@ -38,6 +39,7 @@ namespace DiceRoller.Win10
             // set control default values.
             this.DiceTypeCombobox.SelectedIndex = 5;
             this.DiceExpresssionGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
         }
 
         #region Properties
@@ -108,8 +110,9 @@ namespace DiceRoller.Win10
             catch (Exception ex)
             {
                 // if there's an error in parsing the expression string, show an error message.
-                string message = "There was a error parsing the dice expression: \r\n" +
-                                 ex.Message +
+                string message = "There was a error parsing the dice expression: " +
+                                 this.DiceExpressionTextbox.Text +
+                                 "\r\nException Text: " + ex.Message +
                                  "\r\nPlease correct the expression and try again.";
 
                 MessageDialog dialog = new MessageDialog(message, "Dice Parsing Error");
@@ -134,6 +137,16 @@ namespace DiceRoller.Win10
                 this.DiceRollGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 this.DiceExpresssionGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
+        }
+
+        /// <summary>
+        /// Click handler for Settings page navigation.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void SettingsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(SettingsPage));
         }
         #endregion
     }
