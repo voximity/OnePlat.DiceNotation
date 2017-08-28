@@ -130,5 +130,18 @@ namespace OnePlat.DiceNotation.UnitTests
 
             // validate results
         }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceEmptyNullExpressionTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            Assert.ThrowsException<ArgumentNullException>(() => parser.Parse("", this.config, roller));
+            Assert.ThrowsException<ArgumentNullException>(() => parser.Parse(null, this.config, roller));
+
+            // validate results
+        }
     }
 }

@@ -106,6 +106,24 @@ namespace OnePlat.DiceNotation.UnitTests
         }
 
         [TestMethod]
+        public void Dice_DiceClearTest()
+        {
+            // setup test
+            IDice dice = new Dice();
+            dice = dice.Dice(6, 4, choose: 3).Dice(8).Constant(5);
+
+            // run test
+            dice.Clear();
+            dice = dice.Dice(6, 1);
+
+            // validate results
+            Assert.IsNotNull(dice);
+            Assert.IsInstanceOfType(dice, typeof(IDice));
+            Assert.IsInstanceOfType(dice, typeof(Dice));
+            Assert.AreEqual("1d6", dice.ToString());
+        }
+
+        [TestMethod]
         public void Dice_FudgeDiceNumberTest()
         {
             // setup test
