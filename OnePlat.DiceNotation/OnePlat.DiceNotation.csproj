@@ -13,13 +13,9 @@
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller</PackageTags>
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
-    <PackageReleaseNotes>* Added support percentile (d%) notation.
-* Added support for dropping lowest N dice (similar to keeping highest N dice).
-* Added support for Fudge/FATE dice notation.
-* Added support for exploding or pentrating dice rolls.
-* Added support for default dice sides (3d =&gt;3d6), and ability to set default number of sides as dice config.
-</PackageReleaseNotes>
-    <Version>1.0.2</Version>
+    <PackageReleaseNotes>Added value converters for DiceResult and TermResultList to help with default display of these classes as text.
+Two bug fixes</PackageReleaseNotes>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -51,6 +51,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\DiceResultConverterTests.cs" />
+    <Compile Include="Converters\TermResultListConverterTests.cs" />
     <Compile Include="DiceConfigurationTests.cs" />
     <Compile Include="DiceParserErrorTests.cs" />
     <Compile Include="DiceParserFudgeTests.cs" />

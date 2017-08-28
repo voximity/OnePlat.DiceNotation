@@ -16,9 +16,8 @@
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller CommandLine CLI</PackageTags>
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
-    <PackageReleaseNotes>* New notation support from OnePlat.DiceNotation release 1.0.2.
-* Command line option to set default dice value (-s:10) with command-line expression.</PackageReleaseNotes>
-    <Version>1.0.2</Version>
+    <PackageReleaseNotes>* Support for OnePlat.DiceNotation release 1.0.2.</PackageReleaseNotes>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
