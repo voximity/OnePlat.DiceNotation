@@ -15,6 +15,31 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="SmallViewState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="DiceElementsPanel.Orientation" Value="Vertical" />
+                        <Setter Target="DiceElementsPanel.Margin" Value="36,0" />
+                        <Setter Target="DiceExpressionTextbox.MinWidth" Value="240" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="480" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="64" />
             <RowDefinition Height="Auto" />
@@ -27,9 +52,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Foreground="White" Grid.Column="0" FontSize="32" VerticalAlignment="Center" Text="d20 Dice Roller" />
+            <TextBlock Foreground="White" Grid.Column="0" FontSize="28" VerticalAlignment="Center" Text="d20 Dice Roller" />
             <Button x:Name="SettingsButton" Grid.Column="1" Foreground="White" Background="Transparent"
-                    FontFamily="Segoe MDL2 Assets" FontSize="32" Content="&#xE115;"
+                    FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE115;"
                     Click="SettingsButton_Click"/>
         </Grid>
         <Grid Grid.Row="1" Padding="12,4" MaxWidth="640" Margin="2,0,-2,0">
@@ -47,29 +72,30 @@
 
         <Grid x:Name="DiceRollGrid" Grid.Row="2" Padding="12,0" MaxWidth="640">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <c:NumericUpDown x:Name="DiceNumberNumeric" Grid.Column="0" Margin="4,4" 
+            <StackPanel x:Name="DiceElementsPanel" Grid.Column="0" Orientation="Horizontal">
+                <c:NumericUpDown x:Name="DiceNumberNumeric" Grid.Column="0" Margin="4" HorizontalAlignment="Stretch"
                              Minimum="1" Maximum="100" SmallChange="1" LargeChange="10" ValueFormat="F0"/>
-            <ComboBox x:Name="DiceTypeCombobox" Grid.Column="1" Margin="4,4" 
-                      Height="32" Width="108" ItemsSource="{Binding DiceTypes}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="0">
-                            <Image Width="32" Height="32" Margin="0" Source="{Binding ImageUri}" />
-                            <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DisplayText}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <c:NumericUpDown x:Name="DiceModifierNumeric" Grid.Column="2" Margin="4,4"
+                <ComboBox x:Name="DiceTypeCombobox" Grid.Column="1" Margin="4,4" HorizontalAlignment="Stretch"
+                      Height="32" MinWidth="108" ItemsSource="{Binding DiceTypes}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0">
+                                <Image Width="32" Height="32" Margin="0" Source="{Binding ImageUri}" />
+                                <TextBlock VerticalAlignment="Center" Margin="4,0,0,0" Text="{Binding DisplayText}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <c:NumericUpDown x:Name="DiceModifierNumeric" Grid.Column="2" Margin="4" HorizontalAlignment="Stretch"
                              Minimum="-100" Maximum="100" SmallChange="1" LargeChange="10"
                              Value="0" ValueFormat="F0"/>
-            <Button x:Name="RollButton" Grid.Column="3" HorizontalAlignment="Right"
+            </StackPanel>
+
+            <Button x:Name="RollButton" Grid.Column="1" Margin="8,4,0,0" VerticalAlignment="Top"
                     Content="Roll!" Click="RollButton_Click" />
         </Grid>
 
