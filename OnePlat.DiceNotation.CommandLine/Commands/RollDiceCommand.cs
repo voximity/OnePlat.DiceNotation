@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/24/2017
+// Last Modified On : 8/28/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -21,9 +21,9 @@
 // </summary>
 //-----------------------------------------------------------------------
 using OnePlat.DiceNotation.CommandLine.Core;
+using OnePlat.DiceNotation.Converters;
 using OnePlat.DiceNotation.DiceTerms;
 using System;
-using System.Linq;
 using System.Text;
 
 namespace OnePlat.DiceNotation.CommandLine
@@ -34,6 +34,8 @@ namespace OnePlat.DiceNotation.CommandLine
     public class RollDiceCommand : ICommand
     {
         private MainViewModel vm;
+        private DiceResultConverter diceConverter = new DiceResultConverter();
+        private TermResultListConverter listConverter = new TermResultListConverter();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RollDiceCommand"/> class.
@@ -74,10 +76,9 @@ namespace OnePlat.DiceNotation.CommandLine
                 else
                 {
                     this.vm.DisplayText += string.Format(
-                        "DiceRoll({0}) => {1} [dice: {2}]",
-                        result.DiceExpression,
-                        result.Value,
-                        this.DiceRollsToString(result));
+                        "DiceRoll => {0} [dice: {1}]",
+                        this.diceConverter.Convert(result, typeof(string), null, "default"),
+                        this.listConverter.Convert(result.Results, typeof(string), null, "default"));
                 }
 
                 return true;
@@ -103,10 +104,9 @@ namespace OnePlat.DiceNotation.CommandLine
             StringBuilder output = new StringBuilder();
 
             output.AppendFormat(
-                "DiceRoll({0}) => {1}\r\n",
-                result.DiceExpression,
-                result.Value,
-                this.DiceRollsToString(result));
+               "DiceRoll => {0}",
+                this.diceConverter.Convert(result, typeof(string), null, "default"));
+
             output.AppendLine("===============================================");
             output.AppendFormat("  DiceResult.DieRollerUsed: {0}\r\n", result.DieRollerUsed);
             output.AppendFormat("  DiceResult.NumberTerms: {0}\r\n", result.Results.Count);
@@ -126,34 +126,6 @@ namespace OnePlat.DiceNotation.CommandLine
             output.AppendFormat("  Total Roll: {0}\r\n", result.Value);
 
             return output.ToString();
-        }
-
-        /// <summary>
-        /// Converts the DiceResult to a string representation of a list of
-        /// dice roll results.
-        /// </summary>
-        /// <param name="result">DiceResult to use</param>
-        /// <returns>string represenation of DiceResult dice rolls</returns>
-        private string DiceRollsToString(DiceResult result)
-        {
-            var list = from r in result.Results
-                       where r.Type.Contains(nameof(DiceTerm))
-                       select r;
-
-            string res = string.Empty;
-            foreach (TermResult item in list)
-            {
-                if (item.AppliesToResultCalculation)
-                {
-                    res += item.Value.ToString() + ",";
-                }
-                else
-                {
-                    res += item.Value.ToString() + "*,";
-                }
-            }
-
-            return res.TrimEnd(',');
         }
     }
 }

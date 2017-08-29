@@ -51,7 +51,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsFalse(result);
             Assert.IsTrue(vm.HelpCommand.CanExecute(null));
-            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.2) ==="));
+            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.3) ==="));
             Assert.IsTrue(vm.DisplayText.Contains("Dice expressions:"));
         }
 
@@ -165,7 +165,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(4d6k3+1)"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
         }
 
@@ -182,7 +182,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(4d6k3+1)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> 4"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
         }
@@ -201,7 +201,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("2d8-3"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(2d8-3)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(2d8-3)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> -1"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
         }
@@ -221,7 +221,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4dk3"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4dk3)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(4dk3)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> 3"));
             Assert.IsTrue(vm.DisplayText.Contains("Terms list:"));
             Assert.IsTrue(vm.DisplayText.Contains("DiceTerm.d10"));
@@ -239,7 +239,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4f+1"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4f+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(4f+1)"));
             Assert.IsFalse(vm.DisplayText.Contains("Terms list:"));
         }
 
@@ -257,7 +257,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsTrue(result);
             Assert.IsTrue(vm.RollDiceCommand.CanExecute("4d6k3+1"));
-            Assert.IsTrue(vm.DisplayText.Contains("DiceRoll(4d6k3+1)"));
+            Assert.IsTrue(vm.DisplayText.Contains("(4d6k3+1)"));
             Assert.IsTrue(vm.DisplayText.Contains("=> 7"));
             Assert.IsTrue(vm.DisplayText.Contains("Terms list:"));
         }
