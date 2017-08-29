@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 namespace DiceRoller.Win10
@@ -23,6 +24,7 @@ namespace DiceRoller.Win10
     public sealed partial class MainPage : Page
     {
         #region Members
+        private AppSettingsService appSettings = AppServices.Instance.AppSettingsService;
         private IDice diceService = AppServices.Instance.DiceService;
         private IDieRoller dieRoller = new RandomDieRoller();
         #endregion
@@ -60,6 +62,35 @@ namespace DiceRoller.Win10
         #endregion
 
         #region Helper methods
+
+        /// <inheritdoc/>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // when focus comes back to this page, then reset any app settings that may have
+            // changed,
+            if (this.appSettings != null)
+            {
+                if (this.ViewToggleButton.IsChecked != this.appSettings.UseDiceExpressionEditor)
+                {
+                    // if the dice roll view has changed since last view, then reset the UI.
+                    this.ViewToggleButton.IsChecked = this.appSettings.UseDiceExpressionEditor;
+                    this.ViewToggleButton_Click(this, null);
+                }
+
+                if (this.appSettings.ClearResultsList == true)
+                {
+                    // if user wanted results list cleared, then clear the list and reset the setting.
+                    this.DiceRollResults.Clear();
+                    this.appSettings.ClearResultsList = false;
+                }
+
+                // set the dice configuration.
+                this.diceService.Configuration.DefaultDieSides = this.appSettings.DefaultDiceSides;
+                this.diceService.Configuration.HasBoundedResult = !this.appSettings.UseUnboundedResults;
+            }
+        }
 
         /// <summary>
         /// Initializes the data elements for this page.

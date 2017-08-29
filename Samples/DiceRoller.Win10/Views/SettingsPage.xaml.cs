@@ -27,5 +27,15 @@ namespace DiceRoller.Win10.Views
         /// Gets the app settings for this page.
         /// </summary>
         public AppSettingsService Settings { get; } = AppServices.Instance.AppSettingsService;
+
+        /// <summary>
+        /// Click handler to clear the current results list.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void ClearResultsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Settings.ClearResultsList = true;
+        }
     }
 }

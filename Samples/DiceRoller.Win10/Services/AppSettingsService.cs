@@ -18,6 +18,8 @@ namespace DiceRoller.Win10.Services
         private const bool DefaultUseUnboundedResults = false;
         private const string KeyDefaultDiceSides = "DefaultDiceSidesKey";
         private const int DefaultDiceSidesDefault = 6;
+        private const string KeyClearResultsList = "ClearResultsListKey";
+        private const bool DefaultClearResultsList = false;
 
         private ApplicationDataContainer appSettings = ApplicationData.Current.RoamingSettings;
         #endregion
@@ -70,6 +72,22 @@ namespace DiceRoller.Win10.Services
             set
             {
                 this.appSettings.Values[KeyDefaultDiceSides] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the results list should be cleared.
+        /// </summary>
+        public bool ClearResultsList
+        {
+            get
+            {
+                return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList);
+            }
+
+            set
+            {
+                this.appSettings.Values[KeyClearResultsList] = value;
             }
         }
         #endregion

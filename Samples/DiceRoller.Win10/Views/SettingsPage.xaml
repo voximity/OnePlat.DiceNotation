@@ -20,7 +20,8 @@
                 <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
                                  SmallChange="1" LargeChange="10" ValueFormat="F0"
                                  Value="{Binding Settings.DefaultDiceSides, Mode=TwoWay}" />
-                <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List" />
+                <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List"
+                        Click="ClearResultsButton_Click" />
 
             </StackPanel>
         </PivotItem>
