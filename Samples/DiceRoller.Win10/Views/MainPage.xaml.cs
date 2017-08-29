@@ -27,6 +27,8 @@ namespace DiceRoller.Win10
         private IDieRoller dieRoller = new RandomDieRoller();
         #endregion
 
+        #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainPage"/> class.
         /// </summary>
@@ -42,6 +44,7 @@ namespace DiceRoller.Win10
             this.DiceExpresssionGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
         }
+        #endregion
 
         #region Properties
 
@@ -55,6 +58,8 @@ namespace DiceRoller.Win10
         /// </summary>
         public ObservableCollection<DiceResult> DiceRollResults { get; } = new ObservableCollection<DiceResult>();
         #endregion
+
+        #region Helper methods
 
         /// <summary>
         /// Initializes the data elements for this page.
@@ -72,6 +77,7 @@ namespace DiceRoller.Win10
                 new DiceType { DisplayText = "d%", DiceSides = 100, ImageUri = "ms-appx:///Assets/Dice100.png" },
             };
         }
+        #endregion
 
         #region Event handlers
 
