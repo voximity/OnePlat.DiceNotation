@@ -10,14 +10,16 @@
     <Pivot Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <PivotItem Header="Settings" Padding="12">
             <StackPanel>
-                <ToggleSwitch x:Name="DefaultDiceInputToggle" Header="Select default dice input:" 
-                              OffContent="Simple Input" OnContent="Dice Expression string" />
+                <ToggleSwitch x:Name="DefaultDiceInputToggle" Header="Select default dice input on home screen:" 
+                              OffContent="Simple Input" OnContent="Dice Expression string"
+                              IsOn="{Binding Settings.UseDiceExpressionEditor, Mode=TwoWay}" />
                 <ToggleSwitch x:Name="DefaultUnboundedResultToggle" Header="Use unbounded dice result:" 
-                              OffContent="Bounded" OnContent="Unbounded" />
+                              OffContent="Bounded" OnContent="Unbounded"
+                              IsOn="{Binding Settings.UseUnboundedResults, Mode=TwoWay}" />
                 <TextBlock Margin="0,0,0,8" Text="Use default number of dice sides:" />
                 <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
-                                 SmallChange="1" LargeChange="10"
-                                 Value="6" ValueFormat="F0" />
+                                 SmallChange="1" LargeChange="10" ValueFormat="F0"
+                                 Value="{Binding Settings.DefaultDiceSides, Mode=TwoWay}" />
                 <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List" />
 
             </StackPanel>

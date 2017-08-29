@@ -2,6 +2,7 @@
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
+using DiceRoller.Win10.Services;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,6 +19,13 @@ namespace DiceRoller.Win10.Views
         public SettingsPage()
         {
             this.InitializeComponent();
+
+            this.DataContext = this;
         }
+
+        /// <summary>
+        /// Gets the app settings for this page.
+        /// </summary>
+        public AppSettingsService Settings { get; } = AppServices.Instance.AppSettingsService;
     }
 }

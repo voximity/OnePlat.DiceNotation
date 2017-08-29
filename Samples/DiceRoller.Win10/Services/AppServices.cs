@@ -1,12 +1,8 @@
 ﻿// <copyright file="AppServices.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
+
 using OnePlat.DiceNotation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiceRoller.Win10.Services
 {
@@ -40,6 +36,7 @@ namespace DiceRoller.Win10.Services
 
         #region Members
         private IDice diceService = new Dice();
+        private AppSettingsService appSettings = new AppSettingsService();
         #endregion
 
         /// <summary>
@@ -48,6 +45,14 @@ namespace DiceRoller.Win10.Services
         public IDice DiceService
         {
             get { return this.diceService; }
+        }
+
+        /// <summary>
+        /// Gets the app settings service.
+        /// </summary>
+        public AppSettingsService AppSettingsService
+        {
+            get { return this.appSettings; }
         }
     }
 }
