@@ -80,7 +80,8 @@
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="DiceExpressionTextbox" Grid.Column="0" Margin="4" 
-                     MinWidth="412" PlaceholderText="Dice expression (1d20+2)" />
+                     MinWidth="412" PlaceholderText="Dice expression (1d20+2)"
+                     KeyUp="DiceExpressionTextbox_KeyUp" />
             <Button x:Name="RollExpressionButton" Grid.Row="1" Grid.Column="3" 
                     Margin="4,0,0,0" Content="Roll!"
                     Click="RollExpressionButton_Click"/>

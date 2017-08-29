@@ -10,6 +10,7 @@ using OnePlat.DiceNotation.DieRoller;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 
@@ -147,6 +148,19 @@ namespace DiceRoller.Win10
         private void SettingsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(SettingsPage));
+        }
+
+        /// <summary>
+        /// Key handler for DiceExpression textbox to handle processing of Enter key.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void DiceExpressionTextbox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                this.RollExpressionButton_Click(sender, e);
+            }
         }
         #endregion
     }
