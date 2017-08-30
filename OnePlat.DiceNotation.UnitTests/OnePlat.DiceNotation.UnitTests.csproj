@@ -65,6 +65,7 @@
     <Compile Include="DiceTests.cs" />
     <Compile Include="DieRoller\ConstantDieRollerTests.cs" />
     <Compile Include="DieRoller\DieRollTrackerTests.cs" />
+    <Compile Include="DieRoller\DieRollTrackerWithRandomRollerTests.cs" />
     <Compile Include="DieRoller\RandomDieRollerTests.cs" />
     <Compile Include="Helpers\AssertHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

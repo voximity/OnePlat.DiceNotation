@@ -33,13 +33,15 @@ namespace OnePlat.DiceNotation.DieRoller
         private static readonly Random DefaultRandomGenerator = new Random();
 
         private Random random;
+        private IDieRollTracker tracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomDieRoller"/> class.
         /// Uses the default static random number generator.
         /// </summary>
-        public RandomDieRoller()
-            : this(DefaultRandomGenerator)
+        /// <param name="tracker">Tracking service to remember die rolls</param>
+        public RandomDieRoller(IDieRollTracker tracker = null)
+            : this(DefaultRandomGenerator, tracker)
         {
         }
 
@@ -47,18 +49,27 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Initializes a new instance of the <see cref="RandomDieRoller"/> class.
         /// </summary>
         /// <param name="random">Random number generator to use</param>
-        public RandomDieRoller(Random random)
+        /// <param name="tracker">Tracking service to remember die rolls</param>
+        public RandomDieRoller(Random random, IDieRollTracker tracker)
         {
             this.random = random;
+            this.tracker = tracker;
         }
 
         /// <inheritdoc/>
         public int Roll(int sides, int? factor = null)
         {
+            // roll the actual random value
             int result = this.random.Next(sides) + 1;
             if (factor != null)
             {
                 result += factor.Value;
+            }
+
+            // if the user provided a roll tracker, then use it
+            if (this.tracker != null)
+            {
+                this.tracker.AddDieRoll(sides, result, this.GetType());
             }
 
             return result;

@@ -63,7 +63,7 @@ namespace OnePlat.DiceNotation.DieRoller
                 result = result.Where(e => e.DieSides == dieSides);
             }
 
-            return result.ToList();
+            return result.OrderBy(e => e.DieSides).ThenBy(e => e.Result).ToList();
         }
 
         /// <inheritdoc/>

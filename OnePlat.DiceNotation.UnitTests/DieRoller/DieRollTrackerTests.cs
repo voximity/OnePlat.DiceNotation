@@ -143,7 +143,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             // run test
             t.AddDieRoll(6, 4, typeof(RandomDieRoller));
             t.AddDieRoll(6, 3, typeof(RandomDieRoller));
-            t.AddDieRoll(6, 1, typeof(RandomDieRoller));
+            t.AddDieRoll(6, 5, typeof(RandomDieRoller));
             t.AddDieRoll(6, 6, typeof(RandomDieRoller));
             t.AddDieRoll(6, 2, typeof(ConstantDieRoller));
             t.AddDieRoll(6, 2, typeof(ConstantDieRoller));
@@ -153,18 +153,18 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             Assert.IsNotNull(d);
             Assert.AreEqual(6, d.Count);
             int i;
-            for (i = 0; i < 4; i++)
+            for (i = 0; i < 2; i++)
             {
                 DieTrackingData e = d[i];
-                Assert.AreEqual("RandomDieRoller", e.RollerType);
+                Assert.AreEqual("ConstantDieRoller", e.RollerType);
                 Assert.AreEqual("6", e.DieSides);
                 AssertHelpers.IsWithinRangeInclusive(1, 6, e.Result);
             }
 
-            for (int x = i; x < 5; x++)
+            for (int x = i; x < 6; x++)
             {
                 DieTrackingData e = d[x];
-                Assert.AreEqual("ConstantDieRoller", e.RollerType);
+                Assert.AreEqual("RandomDieRoller", e.RollerType);
                 Assert.AreEqual("6", e.DieSides);
                 AssertHelpers.IsWithinRangeInclusive(1, 6, e.Result);
             }
