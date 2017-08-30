@@ -5,23 +5,7 @@ Dice notation (also known as dice algebra, common dice notation, RPG dice notati
 
 The specification for the dice notation supported in the current version on the library is located [here](docs/DiceNotationSpecCurrent.md). There are also [examples of dice notation](docs/DiceNotationExamples.md) strings.
 
-# Build
-To build this project, you will need to clone this repository locally.
-
-This was built using Visual Studio 2017 Update 3 (version 15.3.3). It will work with other versions of Visual Studio, but wasn't tested with them.
-
-* Launch the solution in Visual Studio.
-* Be sure to update "Restore NuGet Packages" on the solution.
-* Then Rebuild the full solution.
-
-You can run the OnePlat.DiceNotation.CommandLine project to launch a command-line applet that lets you play with the functionality.
-
-From a command project in the output folder, run the following int he command prompt:
-
-```
-dotnet dice.dll d20+3
-dotnet dice.dll 4d6k3 -v
-```
+To build the source code, please read [Building Code](BuildProject.md) page.
 
 # Installation
 To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
