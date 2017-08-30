@@ -6,7 +6,7 @@
     <Authors>DarthPedro</Authors>
     <Company />
     <Product>DiceNotation Parsing and Rolling</Product>
-    <Description>Library to parse and roll any dice notation. Use this libary in your applications to roll random dice without having to write all of the code yourself.</Description>
+    <Description>Library to parse and roll any dice notation. Use this library in your applications to roll random dice without having to write all of the code yourself.</Description>
     <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
     <PackageLicenseUrl>https://github.com/DarthPedro/OnePlat.DiceNotation/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
