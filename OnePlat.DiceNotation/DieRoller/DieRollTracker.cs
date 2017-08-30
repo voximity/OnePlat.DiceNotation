@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace OnePlat.DiceNotation.DieRoller
 {
@@ -35,6 +36,28 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <inheritdoc/>
         public void AddDieRoll(int dieSides, int result, Type dieRoller)
         {
+            // check input values first
+            if (dieSides < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(dieSides));
+            }
+
+            if (result < -1 || result > dieSides)
+            {
+                throw new ArgumentOutOfRangeException(nameof(result));
+            }
+
+            if (dieRoller == null)
+            {
+                throw new ArgumentNullException(nameof(dieRoller));
+            }
+
+            if (typeof(IDieRoller).GetTypeInfo().IsAssignableFrom(dieRoller.GetTypeInfo()) == false)
+            {
+                throw new ArgumentException(nameof(dieRoller));
+            }
+
+            // create tracking data entry
             DateTime timestamp = DateTime.Now;
             DieTrackingData entry = new DieTrackingData
             {
@@ -45,6 +68,7 @@ namespace OnePlat.DiceNotation.DieRoller
                 Timpstamp = DateTime.Now
             };
 
+            // save it to list
             this.rollData.Add(entry);
         }
 

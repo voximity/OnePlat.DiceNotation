@@ -171,6 +171,24 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
         }
 
         [TestMethod]
+        public void DieRollTracker_AddDieRollErrorsTest()
+        {
+            // setup test
+            IDieRollTracker t = new DieRollTracker();
+
+            // run test
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => t.AddDieRoll(1, 1, typeof(RandomDieRoller)));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => t.AddDieRoll(0, 5, typeof(RandomDieRoller)));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => t.AddDieRoll(-4, 5, typeof(RandomDieRoller)));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => t.AddDieRoll(6, 8, typeof(RandomDieRoller)));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => t.AddDieRoll(6, -2, typeof(RandomDieRoller)));
+            Assert.ThrowsException<ArgumentNullException>(() => t.AddDieRoll(6, 4, null));
+            Assert.ThrowsException<ArgumentException>(() => t.AddDieRoll(6, 4, this.GetType()));
+
+            // validate results
+        }
+
+        [TestMethod]
         public void DieRollTracker_ClearTest()
         {
             // setup test
@@ -257,6 +275,34 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
                 Assert.AreEqual("RandomDieRoller", e.RollerType);
                 Assert.AreEqual("20", e.DieSides);
             }
+        }
+
+        [TestMethod]
+        public void DieRollTracker_GetTrackingDataFilterDieTypeErrorTest()
+        {
+            // setup test
+            IDieRollTracker t = new DieRollTracker();
+            this.SetupTrackingSampleData(t);
+
+            // run test
+            IList<DieTrackingData> data = t.GetTrackingData("FooDieRoller", "20");
+
+            // validate results
+            Assert.AreEqual(0, data.Count);
+        }
+
+        [TestMethod]
+        public void DieRollTracker_GetTrackingDataFilterDieSidesErrorTest()
+        {
+            // setup test
+            IDieRollTracker t = new DieRollTracker();
+            this.SetupTrackingSampleData(t);
+
+            // run test
+            IList<DieTrackingData> data = t.GetTrackingData("RandomDieRoller", "foo");
+
+            // validate results
+            Assert.AreEqual(0, data.Count);
         }
 
         private void SetupTrackingSampleData(IDieRollTracker tracker)
