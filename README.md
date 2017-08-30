@@ -43,6 +43,11 @@ Both of these options use the RandomDieRoller, which uses the .NET random class 
 
 Finally, the library defines a IDieRoller interface that you can use to build your own custom die rollers. If the pseudo-random generation of the .NET Random class isn't good enough, you can override it with your own rolling implementation.
 
+### Samples:
+For more detailed examples on how to use the OnePlat.DiceNotation library, please review the following samples:
+
+* [Sample - DiceRoller Windows 10](docs/SampleWin10.md)
+
 # Feedback
 If you use this library and have any feedback, bugs, or suggestions, please file them in the Issues section of this GitHub repository.
 
