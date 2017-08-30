@@ -8,7 +8,7 @@ The specification for the dice notation supported in the current version on the 
 # Build
 To build this project, you will need to clone this repository locally.
 
-This was built using Visual Studio 2017 Update 2 (version 15.2 - 26430.15). It will work with other versions of Visual Studio, but wasn't tested with them.
+This was built using Visual Studio 2017 Update 3 (version 15.3.3). It will work with other versions of Visual Studio, but wasn't tested with them.
 
 * Launch the solution in Visual Studio.
 * Be sure to update "Restore NuGet Packages" on the solution.
@@ -19,6 +19,7 @@ You can run the OnePlat.DiceNotation.CommandLine project to launch a command-lin
 From a command project in the output folder, run the following int he command prompt:
 
 ```
+dotnet dice.dll d20+3
 dotnet dice.dll 4d6k3 -v
 ```
 
