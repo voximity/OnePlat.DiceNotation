@@ -119,16 +119,16 @@ namespace DiceRoller.Win10
         /// <param name="e">event args</param>
         private void RollButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            // todo: rewrite this code to use DiceService when IDice is fixed to have a Clear method.
-            IDice diceTemp = new Dice();
+            // first clear any expression in the dice service
+            this.diceService.Clear();
 
             // setup the dice expression
             DiceType diceType = (DiceType)this.DiceTypeCombobox.SelectedItem;
-            diceTemp.Dice(diceType.DiceSides, (int)this.DiceNumberNumeric.Value);
-            diceTemp.Constant((int)this.DiceModifierNumeric.Value);
+            this.diceService.Dice(diceType.DiceSides, (int)this.DiceNumberNumeric.Value);
+            this.diceService.Constant((int)this.DiceModifierNumeric.Value);
 
             // roll the dice and save the results
-            DiceResult result = diceTemp.Roll(this.dieRoller);
+            DiceResult result = this.diceService.Roll(this.dieRoller);
             this.DiceRollResults.Insert(0, result);
         }
 
