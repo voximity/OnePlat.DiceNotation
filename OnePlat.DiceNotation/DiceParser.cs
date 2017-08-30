@@ -8,7 +8,7 @@
 // Created          : 8/9/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/24/2017
+// Last Modified On : 8/28/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -194,6 +194,12 @@ namespace OnePlat.DiceNotation
         /// <returns>Corrected expression text</returns>
         private string CorrectExpression(string expression)
         {
+            // first verify we have an expression to parse.
+            if (string.IsNullOrWhiteSpace(expression))
+            {
+                throw new ArgumentNullException(nameof(expression), "The expression string is empty or null.");
+            }
+
             // first remove any whitespace from the expression
             string result = whitespaceRegex.Replace(expression.ToLower(), string.Empty);
 

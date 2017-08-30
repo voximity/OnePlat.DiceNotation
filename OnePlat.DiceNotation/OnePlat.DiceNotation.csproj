@@ -6,20 +6,31 @@
     <Authors>DarthPedro</Authors>
     <Company />
     <Product>DiceNotation Parsing and Rolling</Product>
-    <Description>Library to parse and roll any dice notation. Use this libary in your applications to roll random dice without having to write all of the code yourself.</Description>
+    <Description>Library to parse and roll any dice notation. Use this library in your applications to roll random dice without having to write all of the code yourself.</Description>
     <Copyright>Copyright (c) 2017 DarthPedro. All rights reserved.</Copyright>
     <PackageLicenseUrl>https://github.com/DarthPedro/OnePlat.DiceNotation/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Dice DiceNotation d20 DiceRolls DiceRoller</PackageTags>
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
-    <PackageReleaseNotes>* Added support percentile (d%) notation.
-* Added support for dropping lowest N dice (similar to keeping highest N dice).
-* Added support for Fudge/FATE dice notation.
-* Added support for exploding or pentrating dice rolls.
+    <PackageReleaseNotes>Latest:
+* Added value converters for DiceResult and TermResultList to help with default display of these classes as text.
+* Two bug fixes:
+    - Added IDice.Clear method to allow dice to be reused with new expressions (without needing to recreating instance).
+    - Dice.Parse now throws an exception if null or empty string is used.
+
+Release 1.0.2:
+* Added support percentile (d%) notation. 
+* Added support for dropping lowest N dice (similar to keeping highest N dice). 
+* Added support for Fudge/FATE dice notation. 
+* Added support for exploding or pentrating dice rolls. 
 * Added support for default dice sides (3d =&gt;3d6), and ability to set default number of sides as dice config.
-</PackageReleaseNotes>
-    <Version>1.0.2</Version>
+
+Release 1.0.1:
+* Added general purpose parser to handle more math and dice expressions.
+* Added support for grouping using ( ). Now you can parse dice expressions like - (2+1)d4 - (4-2).
+* Test validation for new expressions and grouping.</PackageReleaseNotes>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

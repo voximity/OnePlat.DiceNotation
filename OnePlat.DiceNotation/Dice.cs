@@ -8,7 +8,7 @@
 // Created          : 8/8/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/23/2017
+// Last Modified On : 8/28/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -44,6 +44,12 @@ namespace OnePlat.DiceNotation
 
         /// <inheritdoc/>
         public DiceConfiguration Configuration { get; } = new DiceConfiguration();
+
+        /// <inheritdoc/>
+        public void Clear()
+        {
+            this.terms.Clear();
+        }
 
         /// <inheritdoc/>
         public IDice Constant(int constant)

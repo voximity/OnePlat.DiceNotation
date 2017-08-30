@@ -8,7 +8,7 @@
 // Created          : 8/10/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/24/2017
+// Last Modified On : 8/28/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -57,7 +57,7 @@ namespace OnePlat.DiceNotation.CommandLine
         public bool Execute(object parameter = null)
         {
             StringBuilder output = new StringBuilder();
-            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.2) ===");
+            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.3) ===");
             output.AppendLine("Usage: dice [dice-expression] [common-options]");
             output.AppendLine();
             output.AppendLine("Common options:");
@@ -70,6 +70,7 @@ namespace OnePlat.DiceNotation.CommandLine
             output.AppendLine("  Dice notations that conform to the following forms:");
             output.AppendLine("    XdY [-] [+] [x] [/] N    X dice with Y-sides operated on by (-, +, x, /) with number N");
             output.AppendLine("    XdY [-] [+] AdB          The first roll of X dice with Y-sides is operated on by (-, +) with a second roll of A dice with B-sides.");
+            output.AppendLine("    Xf [-] [+] [x] [/] N     X Fudge/FATE dice operated on by (-, +, x, /) with number N");
             output.AppendLine();
             output.AppendLine("  Example: 3d6+2, d20, 3+1d8, 3d6+1d8, 2d4x10, 4d6k3, ...");
             output.AppendLine();
