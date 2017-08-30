@@ -8,7 +8,7 @@ The specification for the dice notation supported in the current version on the 
 To build the source code, please read [Building Code](BuildProject.md) page.
 
 # Installation
-To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
+This library is a NuGet package so it is easy to add to your project. To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
 ```  
 PM > Install-Package OnePlat.DiceNotation -Version 1.0.3
 ``` 
