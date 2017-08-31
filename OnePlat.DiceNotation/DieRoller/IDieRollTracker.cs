@@ -47,8 +47,22 @@ namespace OnePlat.DiceNotation.DieRoller
         IList<DieTrackingData> GetTrackingData(string dieType = null, string dieSides = null);
 
         /// <summary>
+        /// Gets a frequency view of the tracking data in memory for reporting
+        /// purposes.
+        /// </summary>
+        /// <returns>Frequency of rolls in Dictionary hierarchy.</returns>
+        RollFrequencyDictionary GetFrequencyData();
+
+        /// <summary>
         /// Clears the current set of die tracking data.
         /// </summary>
         void Clear();
+    }
+
+    /// <summary>
+    /// Encapusulating class for roll frequency data.
+    /// </summary>
+    public class RollFrequencyDictionary : Dictionary<string, Dictionary<string, Tuple<int, int>>>
+    {
     }
 }

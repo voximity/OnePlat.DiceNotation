@@ -95,5 +95,37 @@ namespace OnePlat.DiceNotation.DieRoller
         {
             this.rollData.Clear();
         }
+
+        /// <inheritdoc/>
+        public RollFrequencyDictionary GetFrequencyData()
+        {
+            var dieTypes = this.GetTrackingData().Select(d => d.RollerType).Distinct();
+            RollFrequencyDictionary results = new RollFrequencyDictionary();
+
+            foreach (string t in dieTypes)
+            {
+                var diceByType = this.GetTrackingData(t);
+                var dieSides = diceByType.Select(d => d.DieSides).Distinct();
+
+                foreach (string s in dieSides)
+                {
+                    Dictionary<string, Tuple<int, int>> sidesDictionary = new Dictionary<string, Tuple<int, int>>();
+                    var diceBySides = this.GetTrackingData(t, s);
+                    var dieResults = diceBySides.Select(d => d.Result).Distinct();
+
+                    foreach (int r in dieResults)
+                    {
+                        int count = diceBySides.Count(d => d.Result == r);
+                        Tuple<int, int> tuple = new Tuple<int, int>(r, count);
+
+                        sidesDictionary.Add(s, tuple);
+                    }
+
+                    results.Add(t, sidesDictionary);
+                }
+            }
+
+            return results;
+        }
     }
 }

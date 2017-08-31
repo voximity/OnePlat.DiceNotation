@@ -305,6 +305,39 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             Assert.AreEqual(0, data.Count);
         }
 
+        [TestMethod]
+        public void DieRollTracker_GetFrequencyDataTest()
+        {
+            // setup test
+            IDieRollTracker t = new DieRollTracker();
+            this.SetupTrackingSampleData(t);
+
+            // run test
+            RollFrequencyDictionary data = t.GetFrequencyData();
+
+            // validate results
+            Assert.IsNotNull(data);
+            Assert.IsInstanceOfType(data, typeof(RollFrequencyDictionary));
+            Assert.AreEqual(1, data.Count);
+
+            // todo: remaining validation.
+        }
+
+        [TestMethod]
+        public void DieRollTracker_GetFrequencyDataEmptyTest()
+        {
+            // setup test
+            IDieRollTracker t = new DieRollTracker();
+
+            // run test
+            RollFrequencyDictionary data = t.GetFrequencyData();
+
+            // validate results
+            Assert.IsNotNull(data);
+            Assert.IsInstanceOfType(data, typeof(RollFrequencyDictionary));
+            Assert.AreEqual(0, data.Count);
+        }
+
         private void SetupTrackingSampleData(IDieRollTracker tracker)
         {
             tracker.AddDieRoll(6, 4, typeof(RandomDieRoller));
