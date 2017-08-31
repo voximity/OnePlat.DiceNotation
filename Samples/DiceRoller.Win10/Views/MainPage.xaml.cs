@@ -26,7 +26,7 @@ namespace DiceRoller.Win10
         #region Members
         private AppSettingsService appSettings = AppServices.Instance.AppSettingsService;
         private IDice diceService = AppServices.Instance.DiceService;
-        private IDieRoller dieRoller = new RandomDieRoller();
+        private IDieRoller dieRoller = new RandomDieRoller(AppServices.Instance.DiceFrequencyTracker);
         #endregion
 
         #region Constructor
@@ -185,6 +185,16 @@ namespace DiceRoller.Win10
         private void SettingsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(SettingsPage));
+        }
+
+        /// <summary>
+        /// Click handler for Frequency stats page navigation.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void FrequencyStatsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(FrequencyStatsPage));
         }
 
         /// <summary>

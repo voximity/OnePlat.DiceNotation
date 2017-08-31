@@ -11,6 +11,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace DiceRoller.Win10
 {
+    // todo: Replace dll reference in sample with 1.0.4 Nuget package after it is posted.
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>

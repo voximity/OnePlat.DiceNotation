@@ -3,6 +3,7 @@
 // </copyright>
 
 using OnePlat.DiceNotation;
+using OnePlat.DiceNotation.DieRoller;
 
 namespace DiceRoller.Win10.Services
 {
@@ -36,6 +37,7 @@ namespace DiceRoller.Win10.Services
 
         #region Members
         private IDice diceService = new Dice();
+        private IDieRollTracker diceTracker = new DieRollTracker();
         private AppSettingsService appSettings = new AppSettingsService();
         #endregion
 
@@ -45,6 +47,11 @@ namespace DiceRoller.Win10.Services
         public IDice DiceService
         {
             get { return this.diceService; }
+        }
+
+        public IDieRollTracker DiceFrequencyTracker
+        {
+            get { return this.diceTracker; }
         }
 
         /// <summary>

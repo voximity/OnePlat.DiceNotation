@@ -51,9 +51,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <TextBlock Foreground="White" Grid.Column="0" FontSize="28" VerticalAlignment="Center" Text="d20 Dice Roller" />
-            <Button x:Name="SettingsButton" Grid.Column="1" Foreground="White" Background="Transparent"
+            <Button x:Name="FrequencyStatsButton" Grid.Column="1" Foreground="White" Background="Transparent"
+                    FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE14E;"
+                    Click="FrequencyStatsButton_Click"/>
+            <Button x:Name="SettingsButton" Grid.Column="2" Foreground="White" Background="Transparent"
                     FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE115;"
                     Click="SettingsButton_Click"/>
         </Grid>
