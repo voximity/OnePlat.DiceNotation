@@ -8,7 +8,7 @@
 // Created          : 8/30/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/30/2017
+// Last Modified On : 8/31/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -50,19 +50,12 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Gets a frequency view of the tracking data in memory for reporting
         /// purposes.
         /// </summary>
-        /// <returns>Frequency of rolls in Dictionary hierarchy.</returns>
-        RollFrequencyDictionary GetFrequencyData();
+        /// <returns>Frequency of rolls per roller type, sides, and results.</returns>
+        IList<AggregateDieTrackingData> GetFrequencyDataView();
 
         /// <summary>
         /// Clears the current set of die tracking data.
         /// </summary>
         void Clear();
-    }
-
-    /// <summary>
-    /// Encapusulating class for roll frequency data.
-    /// </summary>
-    public class RollFrequencyDictionary : Dictionary<string, Dictionary<string, Tuple<int, int>>>
-    {
     }
 }

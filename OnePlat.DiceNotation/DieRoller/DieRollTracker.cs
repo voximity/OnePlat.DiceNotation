@@ -8,7 +8,7 @@
 // Created          : 8/30/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/30/2017
+// Last Modified On : 8/31/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -97,31 +97,37 @@ namespace OnePlat.DiceNotation.DieRoller
         }
 
         /// <inheritdoc/>
-        public RollFrequencyDictionary GetFrequencyData()
+        public IList<AggregateDieTrackingData> GetFrequencyDataView()
         {
+            IList<AggregateDieTrackingData> results = new List<AggregateDieTrackingData>();
             var dieTypes = this.GetTrackingData().Select(d => d.RollerType).Distinct();
-            RollFrequencyDictionary results = new RollFrequencyDictionary();
 
+            // first go through all of the different DieRoller types
             foreach (string t in dieTypes)
             {
-                var diceByType = this.GetTrackingData(t);
-                var dieSides = diceByType.Select(d => d.DieSides).Distinct();
+                var dieSides = this.GetTrackingData(t).Select(d => d.DieSides).Distinct();
 
+                // then go through all of the different die sides rolled for each roller type
                 foreach (string s in dieSides)
                 {
-                    Dictionary<string, Tuple<int, int>> sidesDictionary = new Dictionary<string, Tuple<int, int>>();
                     var diceBySides = this.GetTrackingData(t, s);
                     var dieResults = diceBySides.Select(d => d.Result).Distinct();
 
+                    // finally go through all fo the results rolled for each die side
                     foreach (int r in dieResults)
                     {
                         int count = diceBySides.Count(d => d.Result == r);
-                        Tuple<int, int> tuple = new Tuple<int, int>(r, count);
+                        AggregateDieTrackingData aggCount = new AggregateDieTrackingData
+                        {
+                            RollerType = t,
+                            DieSides = s,
+                            Result = r,
+                            Count = count
+                        };
 
-                        sidesDictionary.Add(s, tuple);
+                        // add that data into a view for each roller type, sides, result combination
+                        results.Add(aggCount);
                     }
-
-                    results.Add(t, sidesDictionary);
                 }
             }
 
