@@ -1,6 +1,6 @@
 # Sample: DiceRoller - Win10
 
-This sample code shows you how to use the OnePlat.DiceNotation library in your very own Windows 10 application. The sample was simply created from creating a new VS Win10 project, and then installing the OnePlat.DiceNotation.1.0.2 NuGet package.
+This sample code shows you how to use the OnePlat.DiceNotation library in your very own Windows 10 application. The sample was simply created from creating a new VS Win10 project, and then installing the OnePlat.DiceNotation.1.0.3 NuGet package.
 
 The source code can be found in this repository ([/Samples/DiceRoller.Win10](../Samples/DiceRoller.Win10)), and it is pretty easy to digest. The bulk of the interesting code is in MainPage.xaml.cs.
 
@@ -17,16 +17,16 @@ This code takes input from the UI for number of dice, dice sides, and modifier t
     /// <param name="e">event args</param>
     private void RollButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
     {
-        // todo: rewrite this code to use DiceService when IDice is fixed to have a Clear method.
-        IDice diceTemp = new Dice();
+        // first clear any expression in the dice service
+        this.diceService.Clear();
 
         // setup the dice expression
         DiceType diceType = (DiceType)this.DiceTypeCombobox.SelectedItem;
-        diceTemp.Dice(diceType.DiceSides, (int)this.DiceNumberNumeric.Value);
-        diceTemp.Constant((int)this.DiceModifierNumeric.Value);
+        this.diceService.Dice(diceType.DiceSides, (int)this.DiceNumberNumeric.Value);
+        this.diceService.Constant((int)this.DiceModifierNumeric.Value);
 
         // roll the dice and save the results
-        DiceResult result = diceTemp.Roll(this.dieRoller);
+        DiceResult result = this.diceService.Roll(this.dieRoller);
         this.DiceRollResults.Insert(0, result);
     }
 ```
