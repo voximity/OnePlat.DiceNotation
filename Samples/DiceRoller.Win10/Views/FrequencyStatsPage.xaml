@@ -80,7 +80,7 @@
 
                         <TextBlock Grid.Column="0" Margin="4,0" Text="{Binding Result}" />
                         <TextBlock Grid.Column="1" Margin="4,0" Text="{Binding Count}" />
-                        <TextBlock Grid.Column="2" Margin="4,0" Text="%%" />
+                        <TextBlock Grid.Column="2" Margin="4,0" Text="{Binding Percentage}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
