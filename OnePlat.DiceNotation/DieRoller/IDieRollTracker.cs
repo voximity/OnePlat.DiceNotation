@@ -57,5 +57,17 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Clears the current set of die tracking data.
         /// </summary>
         void Clear();
+
+        /// <summary>
+        /// Converts this set of tracker data to a json string representation.
+        /// </summary>
+        /// <returns>Json text representation.</returns>
+        string ToJson();
+
+        /// <summary>
+        /// Loads this object data from a json string.
+        /// </summary>
+        /// <param name="jsonText">text to load</param>
+        void LoadFromJson(string jsonText);
     }
 }

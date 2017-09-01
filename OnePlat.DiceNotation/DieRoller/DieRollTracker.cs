@@ -19,6 +19,7 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +95,19 @@ namespace OnePlat.DiceNotation.DieRoller
         public void Clear()
         {
             this.rollData.Clear();
+        }
+
+        /// <inheritdoc/>
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this.rollData, Formatting.Indented);
+        }
+
+        /// <inheritdoc/>
+        public void LoadFromJson(string jsonText)
+        {
+            object obj = JsonConvert.DeserializeObject(jsonText, typeof(List<DieTrackingData>));
+            this.rollData = obj as List<DieTrackingData>;
         }
 
         /// <inheritdoc/>
