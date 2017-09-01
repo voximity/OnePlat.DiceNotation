@@ -328,6 +328,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
                 Assert.AreEqual(aggExpected[i].DieSides, data[i].DieSides, "Failed die sides for item: " + i.ToString());
                 Assert.AreEqual(aggExpected[i].Result, data[i].Result, "Failed result for item: " + i.ToString());
                 Assert.AreEqual(aggExpected[i].Count, data[i].Count, "Failed count for item: " + i.ToString());
+                Assert.AreEqual(aggExpected[i].Percentage, data[i].Percentage, "Failed percentage for item: " + i.ToString());
             }
         }
 
@@ -401,45 +402,41 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             tracker.AddDieRoll(20, 9, typeof(RandomDieRoller));
 
             List<AggregateDieTrackingData> expectedAggegate = new List<AggregateDieTrackingData>();
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 2, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 8, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 9, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 5, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 11, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 18, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "8", Result = 2, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "8", Result = 4, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "10", Result = 4, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 5, Count = 4 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 8, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 9, Count = 6 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 10, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 11, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 12, Count = 4 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 13, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 14, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 17, Count = 2 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 20, Count = 4 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 1, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 3, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 4, Count = 1 });
-            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 6, Count = 1 });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 2, Count = 1, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 8, Count = 1, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "10", Result = 9, Count = 1, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 5, Count = 2, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 11, Count = 2, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "20", Result = 18, Count = 2, Percentage = 33.3f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "8", Result = 2, Count = 1, Percentage = 50.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "ConstantDieRoller", DieSides = "8", Result = 4, Count = 1, Percentage = 50.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "10", Result = 4, Count = 1, Percentage = 100.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 5, Count = 4, Percentage = 13.8f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 8, Count = 2, Percentage = 6.9f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 9, Count = 6, Percentage = 20.7f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 10, Count = 1, Percentage = 3.4f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 11, Count = 2, Percentage = 6.9f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 12, Count = 4, Percentage = 13.8f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 13, Count = 2, Percentage = 6.9f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 14, Count = 2, Percentage = 6.9f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 17, Count = 2, Percentage = 6.9f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "20", Result = 20, Count = 4, Percentage = 13.8f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 1, Count = 1, Percentage = 25.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 3, Count = 1, Percentage = 25.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 4, Count = 1, Percentage = 25.0f });
+            expectedAggegate.Add(new AggregateDieTrackingData { RollerType = "RandomDieRoller", DieSides = "6", Result = 6, Count = 1, Percentage = 25.0f });
 
             return expectedAggegate;
 
             /* Expected aggregate data view
-                ConstantDieRoller	8	2	1
-                ConstantDieRoller	8	4	1
                 ConstantDieRoller	10	2	1
                 ConstantDieRoller	10	8	1
                 ConstantDieRoller	10	9	1
                 ConstantDieRoller	20	5	2
                 ConstantDieRoller	20	11	2
                 ConstantDieRoller	20	18	2
-                RandomDieRoller	    6	1	1
-                RandomDieRoller	    6	3	1
-                RandomDieRoller	    6	4	1
-                RandomDieRoller	    6	6	1
+                ConstantDieRoller	8	2	1
+                ConstantDieRoller	8	4	1
                 RandomDieRoller	    10	4	1
                 RandomDieRoller	    20	5	4
                 RandomDieRoller	    20	8	2
@@ -451,6 +448,10 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
                 RandomDieRoller	    20	14	2
                 RandomDieRoller	    20	17	2
                 RandomDieRoller	    20	20	4
+                RandomDieRoller	    6	1	1
+                RandomDieRoller	    6	3	1
+                RandomDieRoller	    6	4	1
+                RandomDieRoller	    6	6	1
             */
         }
     }

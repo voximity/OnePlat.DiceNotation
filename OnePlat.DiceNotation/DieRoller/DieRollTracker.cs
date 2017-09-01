@@ -112,6 +112,7 @@ namespace OnePlat.DiceNotation.DieRoller
                 {
                     var diceBySides = this.GetTrackingData(t, s);
                     var dieResults = diceBySides.Select(d => d.Result).Distinct();
+                    float total = diceBySides.Count;
 
                     // finally go through all fo the results rolled for each die side
                     foreach (int r in dieResults)
@@ -122,7 +123,8 @@ namespace OnePlat.DiceNotation.DieRoller
                             RollerType = t,
                             DieSides = s,
                             Result = r,
-                            Count = count
+                            Count = count,
+                            Percentage = (float)Math.Round((count / total) * 100, 1)
                         };
 
                         // add that data into a view for each roller type, sides, result combination

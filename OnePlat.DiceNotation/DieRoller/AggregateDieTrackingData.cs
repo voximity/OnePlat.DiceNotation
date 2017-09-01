@@ -45,5 +45,10 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Gets or sets the instance count of this roll result.
         /// </summary>
         public int Count { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of counts of this roll result.
+        /// </summary>
+        public float Percentage { get; set; }
     }
 }
