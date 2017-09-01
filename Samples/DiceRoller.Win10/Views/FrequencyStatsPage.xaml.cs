@@ -30,6 +30,7 @@ namespace DiceRoller.Win10.Views
             }
         }
 
+        #region Properties
         /// <summary>
         /// Gets the list of types of rollers in the frequency data.
         /// </summary>
@@ -52,6 +53,13 @@ namespace DiceRoller.Win10.Views
         public List<AggregateDieTrackingData> Items { get; private set; }
 
         /// <summary>
+        /// Gets the maximum frequency value for the selected dataset.
+        /// </summary>
+        public float FrequencyMax { get; private set; }
+        #endregion
+
+        #region Helper methods
+        /// <summary>
         /// Updates the frequency data based on the filters selected
         /// on this page.
         /// </summary>
@@ -64,9 +72,11 @@ namespace DiceRoller.Win10.Views
                        where d.RollerType == selectedRollerType && d.DieSides == selectedDiceSides
                        select d;
 
+            this.FrequencyMax = list.Max(d => d.Percentage) + 5;
             this.Items = list.ToList();
             this.StatsListView.ItemsSource = this.Items;
         }
+        #endregion
 
         #region Event handlers
 
