@@ -1,7 +1,9 @@
 ﻿using DiceRoller.Win10.Services;
 using OnePlat.DiceNotation.DieRoller;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -12,7 +14,7 @@ namespace DiceRoller.Win10.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class FrequencyStatsPage : Page
+    public sealed partial class FrequencyStatsPage : Page, INotifyPropertyChanged
     {
         IList<AggregateDieTrackingData> frequencyData;
 
@@ -56,7 +58,22 @@ namespace DiceRoller.Win10.Views
         /// <summary>
         /// Gets the maximum frequency value for the selected dataset.
         /// </summary>
-        public float FrequencyMax { get; private set; }
+        public float FrequencyMax
+        { get; private set; }
+
+        private double listViewWidth = 0;
+        /// <summary>
+        /// Gets or sets the ListViewWidth as it changes.
+        /// </summary>
+        public double ListViewWidth
+        {
+            get { return this.listViewWidth; }
+            set
+            {
+                this.listViewWidth = value;
+                this.OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Helper methods
@@ -75,7 +92,7 @@ namespace DiceRoller.Win10.Views
 
             if (list.Count() > 0)
             {
-                this.FrequencyMax = list.Max(d => d.Percentage) + 5;
+                this.FrequencyMax = list.Max(d => d.Percentage) + 1;
             }
 
             this.Items = list.ToList();
@@ -113,6 +130,43 @@ namespace DiceRoller.Win10.Views
         private void ShowStatsButton_Click(object sender, RoutedEventArgs e)
         {
             this.UpdateFrequencyData();
+        }
+
+        /// <summary>
+        /// Event handler for Stats listview size changing. Updates the property
+        /// used to set the bar graph width.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void StatsListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width != e.PreviousSize.Width)
+            {
+                this.ListViewWidth = e.NewSize.Width;
+            }
+        }
+        #endregion
+
+        #region INotifyPropertyChanged methods
+
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            var changed = this.PropertyChanged;
+            if (changed == null)
+            {
+                return;
+            }
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

@@ -48,7 +48,7 @@
         </Grid>
 
         <ListView x:Name="StatsListView" Grid.Row="2" Padding="0" Margin="8,4" MaxWidth="800" 
-                  BorderBrush="LightGray" BorderThickness="2"
+                  BorderBrush="LightGray" BorderThickness="2" SizeChanged="StatsListView_SizeChanged"
                   ItemsSource="{Binding Items}">
             <ListView.HeaderTemplate>
                 <DataTemplate>
@@ -69,8 +69,8 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{Binding ElementName=StatsListView, Path=ActualWidth}"
-                          Margin="0" Padding="0">
+                    <Grid x:Name="ResultItemGrid"
+                          Width="{Binding Path=DataContext.ListViewWidth, ElementName=StatsListView, Mode=OneWay}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="68"/>
                             <ColumnDefinition Width="68"/>
@@ -81,7 +81,8 @@
                         <TextBlock Grid.Column="0" Margin="4,0" Text="{Binding Result}" />
                         <TextBlock Grid.Column="1" Margin="4,0" Text="{Binding Count}" />
                         <TextBlock Grid.Column="2" Margin="4,0" Text="{Binding Percentage}" />
-                        <ProgressBar Grid.Column="3" Height="20" Foreground="#004A00" Background="#00A400"
+                        <ProgressBar Grid.Column="3" Height="20" Margin="0,0,32,0" 
+                                     Foreground="#004A00" Background="#00A400" HorizontalAlignment="Stretch"
                                      Maximum="{Binding Path=DataContext.FrequencyMax, ElementName=StatsListView}"
                                      Value="{Binding Percentage}" />
                     </Grid>
