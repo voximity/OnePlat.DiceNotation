@@ -32,7 +32,11 @@ namespace OnePlat.DiceNotation.DieRoller
     /// </summary>
     public class DieRollTracker : IDieRollTracker
     {
+        private const int DefaultTrackerDataLimit = 250000;
         private List<DieTrackingData> rollData = new List<DieTrackingData>();
+
+        /// <inheritdoc/>
+        public int TrackerDataLimit { get; set; } = DefaultTrackerDataLimit;
 
         /// <inheritdoc/>
         public void AddDieRoll(int dieSides, int result, Type dieRoller)
@@ -76,7 +80,7 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <inheritdoc/>
         public IList<DieTrackingData> GetTrackingData(string dieType = null, string dieSides = null)
         {
-            IEnumerable<DieTrackingData> result = this.rollData;
+            IEnumerable<DieTrackingData> result = this.GetTrimmedData();
 
             if (!string.IsNullOrEmpty(dieType))
             {
@@ -100,6 +104,7 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <inheritdoc/>
         public string ToJson()
         {
+            this.rollData = this.GetTrimmedData().ToList();
             return JsonConvert.SerializeObject(this.rollData, Formatting.Indented);
         }
 
@@ -107,7 +112,8 @@ namespace OnePlat.DiceNotation.DieRoller
         public void LoadFromJson(string jsonText)
         {
             object obj = JsonConvert.DeserializeObject(jsonText, typeof(List<DieTrackingData>));
-            this.rollData = obj as List<DieTrackingData> ?? new List<DieTrackingData>();
+            var data = obj as List<DieTrackingData> ?? new List<DieTrackingData>();
+            this.rollData = data.Take(this.TrackerDataLimit).ToList();
         }
 
         /// <inheritdoc/>
@@ -148,6 +154,15 @@ namespace OnePlat.DiceNotation.DieRoller
             }
 
             return results;
+        }
+
+        /// <summary>
+        /// Trims the roll data to the tracker limit and returns the list.
+        /// </summary>
+        /// <returns>Limited tracker data list.</returns>
+        private IEnumerable<DieTrackingData> GetTrimmedData()
+        {
+            return this.rollData.OrderByDescending(d => d.Timpstamp).Take(this.TrackerDataLimit);
         }
     }
 }
