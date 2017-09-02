@@ -39,7 +39,10 @@ namespace DiceRoller.Win10.Services
         private IDice diceService = new Dice();
         private IDieRollTracker diceTracker = new DieRollTracker();
         private AppSettingsService appSettings = new AppSettingsService();
+        private TextFileService fileService = new TextFileService();
         #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the dice service.
@@ -61,5 +64,14 @@ namespace DiceRoller.Win10.Services
         {
             get { return this.appSettings; }
         }
+
+        /// <summary>
+        /// Gets the file service.
+        /// </summary>
+        public TextFileService FileService
+        {
+            get { return this.fileService; }
+        }
+        #endregion
     }
 }

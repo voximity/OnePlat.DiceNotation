@@ -31,15 +31,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool UseDiceExpressionEditor
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyUseDiceExpressionEditor, DefaultUseDiceExpressionEditor);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyUseDiceExpressionEditor] = value;
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyUseDiceExpressionEditor, DefaultUseDiceExpressionEditor); }
+            set { this.appSettings.Values[KeyUseDiceExpressionEditor] = value; }
         }
 
         /// <summary>
@@ -47,15 +40,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool UseUnboundedResults
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyUseUnboundedResults, DefaultUseUnboundedResults);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyUseUnboundedResults] = value;
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyUseUnboundedResults, DefaultUseUnboundedResults); }
+            set { this.appSettings.Values[KeyUseUnboundedResults] = value; }
         }
 
         /// <summary>
@@ -64,15 +50,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public int DefaultDiceSides
         {
-            get
-            {
-                return this.GetOrDefaultValue<int>(KeyDefaultDiceSides, DefaultDiceSidesDefault);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyDefaultDiceSides] = value;
-            }
+            get { return this.GetOrDefaultValue<int>(KeyDefaultDiceSides, DefaultDiceSidesDefault); }
+            set { this.appSettings.Values[KeyDefaultDiceSides] = value; }
         }
 
         /// <summary>
@@ -80,15 +59,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool ClearResultsList
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyClearResultsList] = value;
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList); }
+            set { this.appSettings.Values[KeyClearResultsList] = value; }
         }
         #endregion
 

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.System;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -26,7 +27,9 @@ namespace DiceRoller.Win10
         #region Members
         private AppSettingsService appSettings = AppServices.Instance.AppSettingsService;
         private IDice diceService = AppServices.Instance.DiceService;
+        private IDieRollTracker diceFrequencyTracker = AppServices.Instance.DiceFrequencyTracker;
         private IDieRoller dieRoller = new RandomDieRoller(AppServices.Instance.DiceFrequencyTracker);
+        private TextFileService fileService = AppServices.Instance.FileService;
         #endregion
 
         #region Constructor
@@ -90,6 +93,20 @@ namespace DiceRoller.Win10
                 this.diceService.Configuration.DefaultDieSides = this.appSettings.DefaultDiceSides;
                 this.diceService.Configuration.HasBoundedResult = !this.appSettings.UseUnboundedResults;
             }
+
+            // setup a time to save die frequency data every 5 minutes.
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += this.Timer_Tick;
+            timer.Interval = new TimeSpan(0, 5, 0);
+            timer.Start();
+        }
+
+        /// <inheritdoc/>
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, this.diceFrequencyTracker.ToJson());
+
+            base.OnNavigatingFrom(e);
         }
 
         /// <summary>
@@ -208,6 +225,16 @@ namespace DiceRoller.Win10
             {
                 this.RollExpressionButton_Click(sender, e);
             }
+        }
+
+        /// <summary>
+        /// Event handler for Tick event on timer.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">args</param>
+        private async void Timer_Tick(object sender, object e)
+        {
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename,  this.diceFrequencyTracker.ToJson());
         }
         #endregion
     }

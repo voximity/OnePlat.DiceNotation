@@ -31,6 +31,7 @@ namespace DiceRoller.Win10.Views
         }
 
         #region Properties
+
         /// <summary>
         /// Gets the list of types of rollers in the frequency data.
         /// </summary>
@@ -72,7 +73,11 @@ namespace DiceRoller.Win10.Views
                        where d.RollerType == selectedRollerType && d.DieSides == selectedDiceSides
                        select d;
 
-            this.FrequencyMax = list.Max(d => d.Percentage) + 5;
+            if (list.Count() > 0)
+            {
+                this.FrequencyMax = list.Max(d => d.Percentage) + 5;
+            }
+
             this.Items = list.ToList();
             this.StatsListView.ItemsSource = this.Items;
         }

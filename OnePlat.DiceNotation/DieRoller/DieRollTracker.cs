@@ -107,7 +107,7 @@ namespace OnePlat.DiceNotation.DieRoller
         public void LoadFromJson(string jsonText)
         {
             object obj = JsonConvert.DeserializeObject(jsonText, typeof(List<DieTrackingData>));
-            this.rollData = obj as List<DieTrackingData>;
+            this.rollData = obj as List<DieTrackingData> ?? new List<DieTrackingData>();
         }
 
         /// <inheritdoc/>
