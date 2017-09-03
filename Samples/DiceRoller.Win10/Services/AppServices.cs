@@ -23,6 +23,7 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         private AppServices()
         {
+            this.DiceFrequencyTracker.TrackerDataLimit = this.AppSettingsService.CachedTrackerDataLimit;
         }
 
         /// <summary>

@@ -20,6 +20,8 @@ namespace DiceRoller.Win10.Services
         private const int DefaultDiceSidesDefault = 6;
         private const string KeyClearResultsList = "ClearResultsListKey";
         private const bool DefaultClearResultsList = false;
+        private const string KeyCachedTrackerDataLimit = "CachedTrackerDataLimitKey";
+        private const int DefaultCachedTrackerDataLimit = 250000;
 
         private ApplicationDataContainer appSettings = ApplicationData.Current.RoamingSettings;
         #endregion
@@ -61,6 +63,15 @@ namespace DiceRoller.Win10.Services
         {
             get { return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList); }
             set { this.appSettings.Values[KeyClearResultsList] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets cached tracker limit in the app.
+        /// </summary>
+        public int CachedTrackerDataLimit
+        {
+            get { return this.GetOrDefaultValue<int>(KeyCachedTrackerDataLimit, DefaultCachedTrackerDataLimit); }
+            set { this.appSettings.Values[KeyCachedTrackerDataLimit] = value; }
         }
         #endregion
 

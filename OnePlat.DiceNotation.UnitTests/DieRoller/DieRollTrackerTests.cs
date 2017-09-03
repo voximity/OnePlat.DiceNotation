@@ -3,6 +3,7 @@ using OnePlat.DiceNotation.DieRoller;
 using OnePlat.DiceNotation.UnitTests.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnePlat.DiceNotation.UnitTests.DieRoller
 {
@@ -60,7 +61,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
 
             // run test
             t.AddDieRoll(6, 4, typeof(RandomDieRoller));
-            IList<DieTrackingData> d = t.GetTrackingData();
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
 
             // validate results
             Assert.IsNotNull(d);
@@ -85,7 +88,10 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             t.AddDieRoll(6, 6, typeof(RandomDieRoller));
             t.AddDieRoll(6, 2, typeof(RandomDieRoller));
             t.AddDieRoll(6, 4, typeof(RandomDieRoller));
-            IList<DieTrackingData> d = t.GetTrackingData();
+
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
 
             // validate results
             Assert.IsNotNull(d);
@@ -111,7 +117,10 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             t.AddDieRoll(6, 6, typeof(RandomDieRoller));
             t.AddDieRoll(8, 2, typeof(RandomDieRoller));
             t.AddDieRoll(8, 4, typeof(RandomDieRoller));
-            IList<DieTrackingData> d = t.GetTrackingData();
+
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
 
             // validate results
             Assert.IsNotNull(d);
@@ -147,7 +156,10 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             t.AddDieRoll(6, 6, typeof(RandomDieRoller));
             t.AddDieRoll(6, 2, typeof(ConstantDieRoller));
             t.AddDieRoll(6, 2, typeof(ConstantDieRoller));
-            IList<DieTrackingData> d = t.GetTrackingData();
+
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
 
             // validate results
             Assert.IsNotNull(d);
@@ -199,13 +211,19 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             t.AddDieRoll(6, 6, typeof(RandomDieRoller));
             t.AddDieRoll(6, 2, typeof(RandomDieRoller));
             t.AddDieRoll(6, 4, typeof(RandomDieRoller));
-            Assert.AreEqual(6, t.GetTrackingData().Count);
+
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
 
             // run test
             t.Clear();
 
             // validate results
-            Assert.AreEqual(0, t.GetTrackingData().Count);
+            task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> r = task.Result;
+            Assert.AreEqual(0, r.Count);
         }
 
         [TestMethod]
@@ -216,7 +234,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData();
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(27, data.Count);
@@ -230,7 +250,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData("RandomDieRoller");
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync("RandomDieRoller");
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(19, data.Count);
@@ -248,7 +270,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData(dieSides: "10");
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync(dieSides: "10");
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(4, data.Count);
@@ -266,7 +290,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData("RandomDieRoller", "20");
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync("RandomDieRoller", "20");
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(14, data.Count);
@@ -285,7 +311,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData("FooDieRoller", "20");
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync("FooDieRoller", "20");
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(0, data.Count);
@@ -299,7 +327,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            IList<DieTrackingData> data = t.GetTrackingData("RandomDieRoller", "foo");
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync("RandomDieRoller", "foo");
+            task.Wait();
+            IList<DieTrackingData> data = task.Result;
 
             // validate results
             Assert.AreEqual(0, data.Count);
@@ -313,7 +343,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.SetupTrackingSampleData(t);
 
             // run test
-            string data = t.ToJson();
+            Task<string> task = t.ToJsonAsync();
+            task.Wait();
+            string data = task.Result;
 
             // validate results
             Assert.IsFalse (string.IsNullOrEmpty(data));
@@ -325,13 +357,19 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             // setup test
             IDieRollTracker t = new DieRollTracker();
             this.SetupTrackingSampleData(t);
-            string data = t.ToJson();
+            Task<string> task = t.ToJsonAsync();
+            task.Wait();
+            string data = task.Result;
             Assert.IsFalse(string.IsNullOrEmpty(data));
 
             // run test
             IDieRollTracker other = new DieRollTracker();
-            other.LoadFromJson(data);
-            IList<DieTrackingData> list = other.GetTrackingData("RandomDieRoller", "20");
+            Task task2 = other.LoadFromJsonAsync(data);
+            task2.Wait();
+
+            Task<IList<DieTrackingData>> task3 = other.GetTrackingDataAsync("RandomDieRoller", "20");
+            task.Wait();
+            IList<DieTrackingData> list = task3.Result;
 
             // validate results
             Assert.AreEqual(14, list.Count);
@@ -350,12 +388,18 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             List<AggregateDieTrackingData> aggExpected = this.SetupStatisticalTrackingData(t);
 
             // run test
-            IList<AggregateDieTrackingData> data = t.GetFrequencyDataView();
+            Task<IList<AggregateDieTrackingData>> view = t.GetFrequencyDataViewAsync();
+            view.Wait();
+            IList<AggregateDieTrackingData> data = view.Result;
 
             // validate results
+            Task<IList<DieTrackingData>> task = t.GetTrackingDataAsync();
+            task.Wait();
+            IList<DieTrackingData> d = task.Result;
+
             Assert.IsNotNull(data);
             Assert.IsInstanceOfType(data, typeof(IList<AggregateDieTrackingData>));
-            Assert.AreEqual(45, t.GetTrackingData().Count);
+            Assert.AreEqual(45, d.Count);
             Assert.AreEqual(23, data.Count);
 
             Assert.AreEqual(aggExpected.Count, data.Count);
@@ -376,7 +420,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             IDieRollTracker t = new DieRollTracker();
 
             // run test
-            IList<AggregateDieTrackingData> data = t.GetFrequencyDataView();
+            Task<IList<AggregateDieTrackingData>> view = t.GetFrequencyDataViewAsync();
+            view.Wait();
+            IList<AggregateDieTrackingData> data = view.Result;
 
             // validate results
             Assert.IsNotNull(data);

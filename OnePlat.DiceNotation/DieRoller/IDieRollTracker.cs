@@ -8,7 +8,7 @@
 // Created          : 8/30/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/31/2017
+// Last Modified On : 9/3/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnePlat.DiceNotation.DieRoller
 {
@@ -49,14 +50,14 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <param name="dieType">Filter results by die type</param>
         /// <param name="dieSides">Filter results by die sides</param>
         /// <returns>List of roll tracking data.</returns>
-        IList<DieTrackingData> GetTrackingData(string dieType = null, string dieSides = null);
+        Task<IList<DieTrackingData>> GetTrackingDataAsync(string dieType = null, string dieSides = null);
 
         /// <summary>
         /// Gets a frequency view of the tracking data in memory for reporting
         /// purposes.
         /// </summary>
         /// <returns>Frequency of rolls per roller type, sides, and results.</returns>
-        IList<AggregateDieTrackingData> GetFrequencyDataView();
+        Task<IList<AggregateDieTrackingData>> GetFrequencyDataViewAsync();
 
         /// <summary>
         /// Clears the current set of die tracking data.
@@ -67,12 +68,13 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Converts this set of tracker data to a json string representation.
         /// </summary>
         /// <returns>Json text representation.</returns>
-        string ToJson();
+        Task<string> ToJsonAsync();
 
         /// <summary>
         /// Loads this object data from a json string.
         /// </summary>
         /// <param name="jsonText">text to load</param>
-        void LoadFromJson(string jsonText);
+        /// <returns>Task</returns>
+        Task LoadFromJsonAsync(string jsonText);
     }
 }

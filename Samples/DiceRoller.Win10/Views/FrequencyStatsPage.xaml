@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="64" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
@@ -28,7 +29,10 @@
                     Click="SettingsButton_Click" />
         </Grid>
 
-        <Grid x:Name="DiceRollGrid" Grid.Row="1" Padding="8,4" MaxWidth="800">
+        <ProgressBar x:Name="BusyProgressBar" Grid.Row="1" IsIndeterminate="True" 
+                     Foreground="#004A00" Visibility="Collapsed" />
+
+        <Grid x:Name="DiceElementsGrid" Grid.Row="2" Padding="8,4" MaxWidth="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -47,7 +51,7 @@
                     Content="Show" Click="ShowStatsButton_Click" />
         </Grid>
 
-        <ListView x:Name="StatsListView" Grid.Row="2" Padding="0" Margin="8,4" MaxWidth="800" 
+        <ListView x:Name="StatsListView" Grid.Row="3" Padding="0" Margin="8,4" MaxWidth="800" 
                   BorderBrush="LightGray" BorderThickness="2" SizeChanged="StatsListView_SizeChanged"
                   ItemsSource="{Binding Items}">
             <ListView.HeaderTemplate>

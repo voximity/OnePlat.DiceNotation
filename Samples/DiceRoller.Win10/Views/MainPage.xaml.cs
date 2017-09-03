@@ -104,7 +104,8 @@ namespace DiceRoller.Win10
         /// <inheritdoc/>
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, this.diceFrequencyTracker.ToJson());
+            string jsonText = await this.diceFrequencyTracker.ToJsonAsync();
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
 
             base.OnNavigatingFrom(e);
         }
@@ -234,7 +235,8 @@ namespace DiceRoller.Win10
         /// <param name="e">args</param>
         private async void Timer_Tick(object sender, object e)
         {
-            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename,  this.diceFrequencyTracker.ToJson());
+            string jsonText = await this.diceFrequencyTracker.ToJsonAsync();
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
         }
         #endregion
     }

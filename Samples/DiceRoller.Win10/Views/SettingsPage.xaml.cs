@@ -68,7 +68,9 @@ namespace DiceRoller.Win10.Views
         {
             if (e.OldValue != 0)
             {
-                this.frequencyTracker.TrackerDataLimit = (int)this.DiceFrequencyLimitSlider.Value * DataLimitFactor;
+                int limit = (int)this.DiceFrequencyLimitSlider.Value * DataLimitFactor;
+                this.Settings.CachedTrackerDataLimit = limit;
+                this.frequencyTracker.TrackerDataLimit = limit;
             }
         }
         #endregion

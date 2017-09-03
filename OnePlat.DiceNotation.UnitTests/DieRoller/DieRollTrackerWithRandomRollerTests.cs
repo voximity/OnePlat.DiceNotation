@@ -1,9 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnePlat.DiceNotation.DieRoller;
 using OnePlat.DiceNotation.UnitTests.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnePlat.DiceNotation.UnitTests.DieRoller
 {
@@ -54,7 +53,9 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.roller.Roll(12);
 
             // run test
-            IList<DieTrackingData> data = this.tracker.GetTrackingData();
+            Task<IList<DieTrackingData>> t = this.tracker.GetTrackingDataAsync();
+            t.Wait();
+            IList<DieTrackingData> data = t.Result;
 
             // validate results
             Assert.AreEqual(5, data.Count);
@@ -89,9 +90,17 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             this.roller.Roll(20);
 
             // run test
-            IList<DieTrackingData> data1 = this.tracker.GetTrackingData(dieSides: "12");
-            IList<DieTrackingData> data2 = this.tracker.GetTrackingData(dieSides: "8");
-            IList<DieTrackingData> data3 = this.tracker.GetTrackingData(dieSides: "20");
+            Task<IList<DieTrackingData>> t1 = this.tracker.GetTrackingDataAsync(dieSides: "12");
+            t1.Wait();
+            IList<DieTrackingData> data1 = t1.Result;
+
+            Task<IList<DieTrackingData>> t2 = this.tracker.GetTrackingDataAsync(dieSides: "8");
+            t2.Wait();
+            IList<DieTrackingData> data2 = t2.Result;
+
+            Task<IList<DieTrackingData>> t3 = this.tracker.GetTrackingDataAsync(dieSides: "20");
+            t3.Wait();
+            IList<DieTrackingData> data3 = t3.Result;
 
             // validate results
             Assert.AreEqual(17, data1.Count + data2.Count + data3.Count);

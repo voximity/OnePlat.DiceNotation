@@ -8,7 +8,7 @@
 // Created          : 8/30/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/31/2017
+// Last Modified On : 9/3/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace OnePlat.DiceNotation.DieRoller
 {
@@ -32,8 +33,12 @@ namespace OnePlat.DiceNotation.DieRoller
     /// </summary>
     public class DieRollTracker : IDieRollTracker
     {
+        #region Members
         private const int DefaultTrackerDataLimit = 250000;
         private List<DieTrackingData> rollData = new List<DieTrackingData>();
+        #endregion
+
+        #region IDieRollTracker methods
 
         /// <inheritdoc/>
         public int TrackerDataLimit { get; set; } = DefaultTrackerDataLimit;
@@ -78,7 +83,54 @@ namespace OnePlat.DiceNotation.DieRoller
         }
 
         /// <inheritdoc/>
-        public IList<DieTrackingData> GetTrackingData(string dieType = null, string dieSides = null)
+        public async Task<IList<DieTrackingData>> GetTrackingDataAsync(string dieType = null, string dieSides = null)
+        {
+            return await Task.Run(() => this.GetTrackingData(dieType, dieSides));
+        }
+
+        /// <inheritdoc/>
+        public void Clear()
+        {
+            this.rollData.Clear();
+        }
+
+        /// <inheritdoc/>
+        public async Task<string> ToJsonAsync()
+        {
+            return await Task.Run(() =>
+            {
+                this.rollData = this.GetTrimmedData().ToList();
+                return JsonConvert.SerializeObject(this.rollData, Formatting.Indented);
+            });
+        }
+
+        /// <inheritdoc/>
+        public async Task LoadFromJsonAsync(string jsonText)
+        {
+            await Task.Run(() =>
+            {
+                object obj = JsonConvert.DeserializeObject(jsonText, typeof(List<DieTrackingData>));
+                var data = obj as List<DieTrackingData> ?? new List<DieTrackingData>();
+                this.rollData = data.Take(this.TrackerDataLimit).ToList();
+            });
+        }
+
+        /// <inheritdoc/>
+        public async Task<IList<AggregateDieTrackingData>> GetFrequencyDataViewAsync()
+        {
+            return await Task.Run(() => this.GetFrequencyDataView());
+        }
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Gets the tracking data based on dieType and dieSides filters.
+        /// </summary>
+        /// <param name="dieType">die type filter</param>
+        /// <param name="dieSides">die sides filter</param>
+        /// <returns>List of tracking data.</returns>
+        private IList<DieTrackingData> GetTrackingData(string dieType = null, string dieSides = null)
         {
             IEnumerable<DieTrackingData> result = this.GetTrimmedData();
 
@@ -95,29 +147,11 @@ namespace OnePlat.DiceNotation.DieRoller
             return result.OrderBy(e => e.DieSides).ThenBy(e => e.Result).ToList();
         }
 
-        /// <inheritdoc/>
-        public void Clear()
-        {
-            this.rollData.Clear();
-        }
-
-        /// <inheritdoc/>
-        public string ToJson()
-        {
-            this.rollData = this.GetTrimmedData().ToList();
-            return JsonConvert.SerializeObject(this.rollData, Formatting.Indented);
-        }
-
-        /// <inheritdoc/>
-        public void LoadFromJson(string jsonText)
-        {
-            object obj = JsonConvert.DeserializeObject(jsonText, typeof(List<DieTrackingData>));
-            var data = obj as List<DieTrackingData> ?? new List<DieTrackingData>();
-            this.rollData = data.Take(this.TrackerDataLimit).ToList();
-        }
-
-        /// <inheritdoc/>
-        public IList<AggregateDieTrackingData> GetFrequencyDataView()
+        /// <summary>
+        /// Creates the frequency data view for this die roll tracker.
+        /// </summary>
+        /// <returns>List of aggregate frequency data.</returns>
+        private IList<AggregateDieTrackingData> GetFrequencyDataView()
         {
             IList<AggregateDieTrackingData> results = new List<AggregateDieTrackingData>();
             var dieTypes = this.GetTrackingData().Select(d => d.RollerType).Distinct();
@@ -164,5 +198,6 @@ namespace OnePlat.DiceNotation.DieRoller
         {
             return this.rollData.OrderByDescending(d => d.Timpstamp).Take(this.TrackerDataLimit);
         }
+        #endregion
     }
 }

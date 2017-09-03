@@ -35,7 +35,7 @@ namespace DiceRoller.Win10
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -57,8 +57,9 @@ namespace DiceRoller.Win10
             }
 
             // load any cached dice frequency data.
-            AppServices services = AppServices.Instance;
-            services.DiceFrequencyTracker.LoadFromJson(await services.FileService.ReadFileAsync(Constants.DieFrequencyDataFilename));
+            AppServices appServices = AppServices.Instance;
+            string jsonText = await appServices.FileService.ReadFileAsync(Constants.DieFrequencyDataFilename);
+            await appServices.DiceFrequencyTracker.LoadFromJsonAsync(jsonText);
 
             if (e.PrelaunchActivated == false)
             {
@@ -128,8 +129,8 @@ namespace DiceRoller.Win10
             var deferral = e.SuspendingOperation.GetDeferral();
 
             AppServices services = AppServices.Instance;
-            await services.FileService.WriteFileAsync(Constants.DieFrequencyDataFilename,
-                                                      services.DiceFrequencyTracker.ToJson());
+            string jsonText = await services.DiceFrequencyTracker.ToJsonAsync();
+            await services.FileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
 
             deferral.Complete();
         }

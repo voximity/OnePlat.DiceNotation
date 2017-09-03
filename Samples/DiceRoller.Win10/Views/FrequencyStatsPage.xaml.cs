@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -21,15 +22,6 @@ namespace DiceRoller.Win10.Views
         public FrequencyStatsPage()
         {
             this.InitializeComponent();
-
-            this.frequencyData = AppServices.Instance.DiceFrequencyTracker.GetFrequencyDataView();
- 
-            this.DataContext = this;
-
-            if (this.RollerTypes.Count == 1)
-            {
-                this.RollerTypesCombobox.SelectedIndex = 0;
-            }
         }
 
         #region Properties
@@ -77,6 +69,38 @@ namespace DiceRoller.Win10.Views
         #endregion
 
         #region Helper methods
+
+        /// <summary>
+        /// Called when navigated to this page.
+        /// </summary>
+        /// <param name="e">event args</param>
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            this.UpdateBusyProgress(true);
+            this.frequencyData = await AppServices.Instance.DiceFrequencyTracker.GetFrequencyDataViewAsync();
+
+            this.DataContext = this;
+
+            if (this.RollerTypes.Count == 1)
+            {
+                this.RollerTypesCombobox.SelectedIndex = 0;
+            }
+
+            this.UpdateBusyProgress(false);
+        }
+
+        /// <summary>
+        /// Updates the display state of the busy progress indicator.
+        /// </summary>
+        /// <param name="busy">Is the app busy</param>
+        private void UpdateBusyProgress(bool busy)
+        {
+            this.BusyProgressBar.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
+            this.ShowStatsButton.IsEnabled = !busy;
+        }
+
         /// <summary>
         /// Updates the frequency data based on the filters selected
         /// on this page.
