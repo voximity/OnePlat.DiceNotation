@@ -27,10 +27,9 @@ namespace OnePlat.DiceNotation.DieRoller
     /// <summary>
     /// Die roller class that uses MathNet numerics library to generate random numbers.
     /// </summary>
-    public class MathNetDieRoller : IDieRoller
+    public class MathNetDieRoller : RandomDieRollerBase
     {
         private static RandomSource randomSource;
-        private IDieRollTracker tracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MathNetDieRoller"/> class.
@@ -46,33 +45,23 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <param name="source">Random source to use</param>
         /// <param name="tracker">Die roll tracker to use; null means don't track roll data</param>
         public MathNetDieRoller(RandomSource source, IDieRollTracker tracker = null)
+            : base(tracker)
         {
             randomSource = source ?? throw new ArgumentNullException(nameof(source));
-            this.tracker = tracker;
         }
 
+        #region Secure random implementation
+
         /// <inheritdoc/>
-        public int Roll(int sides, int? factor = null)
+        protected override int GetNextRandom(int sides)
         {
             if (sides < 2)
             {
                 throw new ArgumentOutOfRangeException(nameof(sides));
             }
 
-            // roll the actual random value
-            int result = randomSource.Next(0, sides) + 1;
-            if (factor != null)
-            {
-                result += factor.Value;
-            }
-
-            // if the user provided a roll tracker, then use it
-            if (this.tracker != null)
-            {
-                this.tracker.AddDieRoll(sides, result, this.GetType());
-            }
-
-            return result;
+            return randomSource.Next(0, sides) + 1;
         }
+        #endregion
     }
 }

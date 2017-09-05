@@ -28,45 +28,23 @@ namespace OnePlat.DiceNotation.DieRoller
     /// Die roller class that user Cryptography API to generate more verifiable
     /// secure random numbers.
     /// </summary>
-    public class SecureRandomDieRoller : IDieRoller
+    public class SecureRandomDieRoller : RandomDieRollerBase
     {
         private static IRandomNumberGenerator rngProvider = PCLCrypto.NetFxCrypto.RandomNumberGenerator;
-        private IDieRollTracker tracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecureRandomDieRoller"/> class.
         /// </summary>
         /// <param name="tracker">Die roll tracker to use; default to no tracker</param>
         public SecureRandomDieRoller(IDieRollTracker tracker = null)
+            : base(tracker)
         {
-            this.tracker = tracker;
         }
+
+        #region Secure random implementation
 
         /// <inheritdoc/>
-        public int Roll(int sides, int? factor = 0)
-        {
-            // roll the actual random value
-            int result = this.GetNextRandom(sides);
-            if (factor != null)
-            {
-                result += factor.Value;
-            }
-
-            // if the user provided a roll tracker, then use it
-            if (this.tracker != null)
-            {
-                this.tracker.AddDieRoll(sides, result, this.GetType());
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Calculates the next random number using the Cryptography API.
-        /// </summary>
-        /// <param name="sides">Number of die sides to roll</param>
-        /// <returns>Random value between 1 and number of sides (inclusive).</returns>
-        private int GetNextRandom(int sides)
+        protected override int GetNextRandom(int sides)
         {
             if (sides < 2)
             {
@@ -102,5 +80,6 @@ namespace OnePlat.DiceNotation.DieRoller
             // to use.
             return roll < sides * fullSetsOfValues;
         }
+        #endregion
     }
 }

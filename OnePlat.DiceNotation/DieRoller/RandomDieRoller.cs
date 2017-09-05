@@ -8,7 +8,7 @@
 // Created          : 8/7/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/24/2017
+// Last Modified On : 9/5/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -28,12 +28,10 @@ namespace OnePlat.DiceNotation.DieRoller
     /// This uses the .NET framework random number generator (to its a
     /// pseudo-random number).
     /// </summary>
-    public class RandomDieRoller : IDieRoller
+    public class RandomDieRoller : RandomDieRollerBase
     {
         private static readonly Random DefaultRandomGenerator = new Random();
-
         private Random random;
-        private IDieRollTracker tracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomDieRoller"/> class.
@@ -51,28 +49,15 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <param name="random">Random number generator to use</param>
         /// <param name="tracker">Tracking service to remember die rolls</param>
         public RandomDieRoller(Random random, IDieRollTracker tracker)
+            : base(tracker)
         {
             this.random = random;
-            this.tracker = tracker;
         }
 
         /// <inheritdoc/>
-        public int Roll(int sides, int? factor = null)
+        protected override int GetNextRandom(int sides)
         {
-            // roll the actual random value
-            int result = this.random.Next(sides) + 1;
-            if (factor != null)
-            {
-                result += factor.Value;
-            }
-
-            // if the user provided a roll tracker, then use it
-            if (this.tracker != null)
-            {
-                this.tracker.AddDieRoll(sides, result, this.GetType());
-            }
-
-            return result;
+            return this.random.Next(sides) + 1;
         }
     }
 }
