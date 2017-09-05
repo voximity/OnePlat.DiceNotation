@@ -72,11 +72,7 @@
     <Compile Include="DieRoller\ConstantDieRollerTests.cs" />
     <Compile Include="DieRoller\DieRollTrackerTests.cs" />
     <Compile Include="DieRoller\DieRollTrackerWithRandomRollerTests.cs" />
-    <Compile Include="DieRoller\DieRollTrackerWithMathNetRollerTests.cs" />
-    <Compile Include="DieRoller\DieRollTrackerWithSecureRollerTests.cs" />
-    <Compile Include="DieRoller\MathNetDieRollerTests.cs" />
     <Compile Include="DieRoller\RandomDieRollerTests.cs" />
-    <Compile Include="DieRoller\SecureRandomDieRollerTests.cs" />
     <Compile Include="Helpers\AssertHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,10 +80,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OnePlat.DiceNotation.ExtendedDieRollers\OnePlat.DiceNotation.ExtendedDieRollers.csproj">
-      <Project>{66665387-3994-40e9-945e-ede6dd6e61cb}</Project>
-      <Name>OnePlat.DiceNotation.ExtendedDieRollers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OnePlat.DiceNotation\OnePlat.DiceNotation.csproj">
       <Project>{2d92e170-b983-4925-8445-72bd0ba9545c}</Project>
       <Name>OnePlat.DiceNotation</Name>

@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnePlat.DiceNotation.Comman
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnePlat.DiceNotation.CommandLine.UnitTests", "OnePlat.DiceNotation.CommandLine.UnitTests\OnePlat.DiceNotation.CommandLine.UnitTests.csproj", "{51076103-0BEB-4A07-B092-EA37DBE02FC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnePlat.DiceNotation.ExtendedDieRollers", "OnePlat.DiceNotation.ExtendedDieRollers\OnePlat.DiceNotation.ExtendedDieRollers.csproj", "{66665387-3994-40E9-945E-EDE6DD6E61CB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,22 +87,6 @@ Global
 		{51076103-0BEB-4A07-B092-EA37DBE02FC2}.Release|x64.Build.0 = Release|Any CPU
 		{51076103-0BEB-4A07-B092-EA37DBE02FC2}.Release|x86.ActiveCfg = Release|Any CPU
 		{51076103-0BEB-4A07-B092-EA37DBE02FC2}.Release|x86.Build.0 = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|ARM.Build.0 = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|x64.Build.0 = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Debug|x86.Build.0 = Debug|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|ARM.Build.0 = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|x64.ActiveCfg = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|x64.Build.0 = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|x86.ActiveCfg = Release|Any CPU
-		{66665387-3994-40E9-945E-EDE6DD6E61CB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
