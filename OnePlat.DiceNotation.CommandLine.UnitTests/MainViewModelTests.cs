@@ -51,7 +51,7 @@ namespace OnePlat.DiceNotation.CommandLine.UnitTests
             // validate results
             Assert.IsFalse(result);
             Assert.IsTrue(vm.HelpCommand.CanExecute(null));
-            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.3) ==="));
+            Assert.IsTrue(vm.DisplayText.Contains("=== OnePlat.DiceNotation Command Line Tool (1.0.4) ==="));
             Assert.IsTrue(vm.DisplayText.Contains("Dice expressions:"));
         }
 

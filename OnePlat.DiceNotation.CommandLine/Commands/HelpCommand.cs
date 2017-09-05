@@ -57,7 +57,7 @@ namespace OnePlat.DiceNotation.CommandLine
         public bool Execute(object parameter = null)
         {
             StringBuilder output = new StringBuilder();
-            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.3) ===");
+            output.AppendLine("=== OnePlat.DiceNotation Command Line Tool (1.0.4) ===");
             output.AppendLine("Usage: dice [dice-expression] [common-options]");
             output.AppendLine();
             output.AppendLine("Common options:");
