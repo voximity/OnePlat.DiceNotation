@@ -1,5 +1,5 @@
 # OnePlat.DiceNotation
-DiceNotation library written in .NET Standard to provide dice notation parsing, evaluation, and rolling. This library is built on .NET Standard 1.4, so you can incorporate it into any of your .NET projects: UWP, WPF, Xamarin, Xamarin.Forms, .NET 4.6.2, and .NET Core 1.1.
+DiceNotation library written in .NET Standard to provide dice notation parsing, evaluation, and rolling. This library is built on .NET Standard 1.4, so you can incorporate it into any of your .NET projects: UWP, WPF, Xamarin, Xamarin.Forms, .NET 4.6.2, and .NET Core 1.1. Note: we will upgrade to .NET Standard 2.0 as soon as it releases with Visual Studio and UWP, Xamarin, and .NET Core 2.0 all support using them.
 
 Dice notation (also known as dice algebra, common dice notation, RPG dice notation, and several other titles) is a system to represent different combinations of dice in role-playing games using simple algebra-like notation such as 2d6+12.
 
