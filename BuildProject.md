@@ -19,6 +19,13 @@ dotnet dice.dll d20+3
 dotnet dice.dll 4d6k3 -v
 ```
 
+### Building ExtendedDieRollers projects
+
+To build the ExendedDieRollers project, you need to follow similar steps as above, but with a different solution:
+* Open the ./OnePlat.DiceNotation/ExtendedDieRollers/ExtendedDieRollers.sln solution file from the repository root in Visual Studio.
+* Be sure to update "Restore NuGet Packages" on the solution.
+* Then Rebuild the full solution.
+
 ### Building samples
 
 To build the samples, you will need to:
