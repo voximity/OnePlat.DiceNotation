@@ -10,7 +10,7 @@ To build the source code, please read [Building Code](BuildProject.md) page.
 # Installation
 This library is a NuGet package so it is easy to add to your project. To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
 ```  
-PM > Install-Package OnePlat.DiceNotation -Version 1.0.3
+PM > Install-Package OnePlat.DiceNotation -Version 1.0.4
 ``` 
 
 To install in the Visual Studio UI, go to the Tools menu > "Manage NuGet Packages". Then search for OnePlat.DiceNotation and install it from there.
@@ -39,9 +39,12 @@ Console.WriteLine("Roll result = " + result.Value);
 ```
 
 ### Dice Rollers:
-Both of these options use the RandomDieRoller, which uses the .NET random class to produce the random dice rolls. There is also a ConstantDieRoller, which lets you create a roller that always returns the same value. This roller is great for testing features and expressions because the results will be consistent in your unit tests.
+Both of the usage options above use the RandomDieRoller, which uses the .NET random class to produce the random dice rolls. There is additional die rollers as of release 1.0.4 (ExtendedDieRoller library):
+* ConstantDieRoller - lets you create a roller that always returns the same value. This roller is great for testing features and expressions because the results will be consistent in your unit tests.
+* SecureRandomDieRoller - uses Cryptography API to create a more random number generator.
+* MathNetDieRoller - provides various strategies for random number generators to produce our die rolls.
 
-Finally, the library defines a IDieRoller interface that you can use to build your own custom die rollers. If the pseudo-random generation of the .NET Random class isn't good enough, you can override it with your own rolling implementation.
+Finally, the library defines a IDieRoller interface that you can use to build your own custom die rollers. If the random number generators in our libraries don't suffice, you can override it with your own rolling implementation.
 
 ### Samples:
 For more detailed examples on how to use the OnePlat.DiceNotation library, please review the following samples:
