@@ -63,7 +63,7 @@
             <StackPanel>
                 <TextBlock FontSize="24" Margin="0,4" Text="d20 Dice Roller" />
                 <TextBlock Margin="0,4,0,0" Text="DarthPedro" />
-                <TextBlock Text="Version 1.0.0830.0" />
+                <TextBlock Text="Version 1.0.0906.0" />
                 <TextBlock Text="Copyright (c) 2017 DarthPedro. All rights reserved." />
             </StackPanel>
         </PivotItem>

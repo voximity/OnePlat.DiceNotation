@@ -1,14 +1,14 @@
-﻿// <copyright file="MathNetDieRoller.cs" company="DarthPedro">
+﻿// <copyright file="RandomDieRollerBase.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
 //-----------------------------------------------------------------------
 // Assembly         : OnePlat.Mvvm.Core
 // Author           : DarthPedro
-// Created          : 9/3/2017
+// Created          : 9/5/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 9/3/2017
+// Last Modified On : 9/5/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -19,48 +19,31 @@
 //  games like D&D and d20.
 // </summary>
 //-----------------------------------------------------------------------
-using MathNet.Numerics.Random;
-using System;
-
 namespace OnePlat.DiceNotation.DieRoller
 {
     /// <summary>
-    /// Die roller class that uses MathNet numerics library to generate random numbers.
+    /// Die roller base class that rolls a random number between 1 and number of sides.
+    /// This base class is used by all random rollers to implement standard IDieRoller behavior.
     /// </summary>
-    public class MathNetDieRoller : IDieRoller
+    public abstract class RandomDieRollerBase : IDieRoller
     {
-        private static RandomSource randomSource;
         private IDieRollTracker tracker;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MathNetDieRoller"/> class.
+        /// Initializes a new instance of the <see cref="RandomDieRollerBase"/> class.
+        /// Uses the default static random number generator.
         /// </summary>
-        public MathNetDieRoller()
-            : this(new MersenneTwister(), null)
+        /// <param name="tracker">Tracking service to remember die rolls</param>
+        public RandomDieRollerBase(IDieRollTracker tracker = null)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MathNetDieRoller"/> class.
-        /// </summary>
-        /// <param name="source">Random source to use</param>
-        /// <param name="tracker">Die roll tracker to use; null means don't track roll data</param>
-        public MathNetDieRoller(RandomSource source, IDieRollTracker tracker = null)
-        {
-            randomSource = source ?? throw new ArgumentNullException(nameof(source));
             this.tracker = tracker;
         }
 
         /// <inheritdoc/>
         public int Roll(int sides, int? factor = null)
         {
-            if (sides < 2)
-            {
-                throw new ArgumentOutOfRangeException(nameof(sides));
-            }
-
             // roll the actual random value
-            int result = randomSource.Next(0, sides) + 1;
+            int result = this.GetNextRandom(sides);
             if (factor != null)
             {
                 result += factor.Value;
@@ -74,5 +57,13 @@ namespace OnePlat.DiceNotation.DieRoller
 
             return result;
         }
+
+        /// <summary>
+        /// Method that calculates the actual next random number.
+        /// Abstract method that must be implemented by each random roller.
+        /// </summary>
+        /// <param name="sides">Number of sides on the die (also its max value).</param>
+        /// <returns>Random value between 1 and sides</returns>
+        protected abstract int GetNextRandom(int sides);
     }
 }
