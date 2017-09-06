@@ -41,7 +41,7 @@ Console.WriteLine("Roll result = " + result.Value);
 ```
 
 ### Dice Rollers:
-Both of the usage options above use the RandomDieRoller, which uses the .NET random class to produce the random dice rolls. There is additional die rollers as of release 1.0.4 (ExtendedDieRoller library):
+Both of the usage options above use the RandomDieRoller, which uses the .NET random class to produce the random dice rolls. There are additional die rollers as of release 1.0.4 (ExtendedDieRoller library):
 * ConstantDieRoller - lets you create a roller that always returns the same value. This roller is great for testing features and expressions because the results will be consistent in your unit tests.
 * SecureRandomDieRoller - uses Cryptography API to create a more random number generator.
 * MathNetDieRoller - provides various strategies for random number generators to produce our die rolls.
