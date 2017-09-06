@@ -34,8 +34,9 @@ namespace OnePlat.DiceNotation.DieRoller
         /// <summary>
         /// Initializes a new instance of the <see cref="MathNetDieRoller"/> class.
         /// </summary>
-        public MathNetDieRoller()
-            : this(new MersenneTwister(), null)
+        /// <param name="tracker">Die roll tracker to use; null means don't track roll data</param>
+        public MathNetDieRoller(IDieRollTracker tracker = null)
+            : this(new MersenneTwister(), tracker)
         {
         }
 

@@ -40,7 +40,7 @@ namespace DiceRoller.Win10.Services
             }
             else if (type == typeof(MathNetDieRoller).ToString())
             {
-                roller = new MathNetDieRoller();
+                roller = new MathNetDieRoller(tracker);
             }
             else
             {
