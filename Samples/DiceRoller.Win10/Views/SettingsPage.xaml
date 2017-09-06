@@ -17,13 +17,16 @@
                     <ToggleSwitch x:Name="DefaultUnboundedResultToggle" Header="Use unbounded dice result:" 
                                   OffContent="Bounded" OnContent="Unbounded"
                                   IsOn="{Binding Settings.UseUnboundedResults, Mode=TwoWay}" />
-                    <TextBlock Margin="0,0,0,8" Text="Use default number of dice sides:" />
+                    <ComboBox x:Name="DieRollTypeCombobox" Header="Select type of die roller to use:"
+                              DisplayMemberPath="DisplayText" SelectedValuePath="Type"
+                              ItemsSource="{Binding DieRollerTypes}" />
+                    <TextBlock Margin="0,8" Text="Use default number of dice sides:" />
                     <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
                                      SmallChange="1" LargeChange="10" ValueFormat="F0"
                                      Value="{Binding Settings.DefaultDiceSides, Mode=TwoWay}" />
                     <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List"
                             Click="ClearResultsButton_Click" />
-
+                    
                     <Rectangle Height="2" Fill="LightGray" Margin="0,12,0,8" />
                     <Slider x:Name="DiceFrequencyLimitSlider" Minimum="10" Maximum="500"
                                     SmallChange="10" LargeChange="100" Header="Frequency data limit (1000s of rolls):"

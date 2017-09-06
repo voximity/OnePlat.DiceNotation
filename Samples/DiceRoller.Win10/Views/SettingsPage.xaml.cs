@@ -3,7 +3,9 @@
 // </copyright>
 
 using DiceRoller.Win10.Services;
+using DiceRoller.Win10.ViewModels;
 using OnePlat.DiceNotation.DieRoller;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
@@ -28,6 +30,7 @@ namespace DiceRoller.Win10.Views
             this.InitializeComponent();
 
             this.DataContext = this;
+            this.InitializeData();
 
             this.DiceFrequencyLimitSlider.Value = this.frequencyTracker.TrackerDataLimit / DataLimitFactor;
         }
@@ -36,6 +39,24 @@ namespace DiceRoller.Win10.Views
         /// Gets the app settings for this page.
         /// </summary>
         public AppSettingsService Settings { get; } = AppServices.Instance.AppSettingsService;
+
+        /// <summary>
+        /// Gets the list of die rollers that can be used by the app.
+        /// </summary>
+        public List<DieRollerType> DieRollerTypes { get; private set; }
+
+        /// <summary>
+        /// Initializes the data elements for this page.
+        /// </summary>
+        private void InitializeData()
+        {
+            this.DieRollerTypes = new List<DieRollerType>
+            {
+                new DieRollerType { DisplayText = "Pseudo Random [default]", Type = typeof(RandomDieRoller).ToString() },
+                new DieRollerType { DisplayText = "Secure Random", Type = typeof(SecureRandomDieRoller).ToString() },
+                new DieRollerType { DisplayText = "MathNet Random", Type = typeof(RandomDieRoller).ToString() },
+            };
+        }
 
         #region Event handlers
 

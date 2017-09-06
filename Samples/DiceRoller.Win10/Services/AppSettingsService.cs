@@ -22,6 +22,8 @@ namespace DiceRoller.Win10.Services
         private const bool DefaultClearResultsList = false;
         private const string KeyCachedTrackerDataLimit = "CachedTrackerDataLimitKey";
         private const int DefaultCachedTrackerDataLimit = 250000;
+        private const string KeyCurrentDieRoller = "CurrentDieRollerKey";
+        private const string DefaultCurrentDieRoller = "OnePlat.DiceNotation.DieRollers.RandomDieRoller";
 
         private ApplicationDataContainer appSettings = ApplicationData.Current.RoamingSettings;
         #endregion
@@ -72,6 +74,15 @@ namespace DiceRoller.Win10.Services
         {
             get { return this.GetOrDefaultValue<int>(KeyCachedTrackerDataLimit, DefaultCachedTrackerDataLimit); }
             set { this.appSettings.Values[KeyCachedTrackerDataLimit] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of current die roller used in the app.
+        /// </summary>
+        public string CurrentDieRollerType
+        {
+            get { return this.GetOrDefaultValue<string>(KeyCurrentDieRoller, DefaultCurrentDieRoller); }
+            set { this.appSettings.Values[KeyCurrentDieRoller] = value; }
         }
         #endregion
 

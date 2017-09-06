@@ -113,6 +113,7 @@
     <Compile Include="Services\AppSettingsService.cs" />
     <Compile Include="Services\TextFileService.cs" />
     <Compile Include="ViewModels\DiceType.cs" />
+    <Compile Include="ViewModels\DieRollerType.cs" />
     <Compile Include="Views\FrequencyStatsPage.xaml.cs">
       <DependentUpon>FrequencyStatsPage.xaml</DependentUpon>
     </Compile>
