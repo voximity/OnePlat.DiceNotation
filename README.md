@@ -15,6 +15,8 @@ PM > Install-Package OnePlat.DiceNotation -Version 1.0.4
 
 To install in the Visual Studio UI, go to the Tools menu > "Manage NuGet Packages". Then search for OnePlat.DiceNotation and install it from there.
 
+Read more about this release in our [Release Notes](ReleaseNotes.md).
+
 # Usage
 OnePlat.DiceNotation has a couple of different modes that it can be used in depending on how you want to build up the dice expression:
 
