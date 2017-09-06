@@ -23,7 +23,7 @@ namespace DiceRoller.Win10.Services
         private const string KeyCachedTrackerDataLimit = "CachedTrackerDataLimitKey";
         private const int DefaultCachedTrackerDataLimit = 250000;
         private const string KeyCurrentDieRoller = "CurrentDieRollerKey";
-        private const string DefaultCurrentDieRoller = "OnePlat.DiceNotation.DieRollers.RandomDieRoller";
+        private const string DefaultCurrentDieRoller = "OnePlat.DiceNotation.DieRoller.RandomDieRoller";
 
         private ApplicationDataContainer appSettings = ApplicationData.Current.RoamingSettings;
         #endregion

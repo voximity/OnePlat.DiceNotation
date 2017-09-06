@@ -19,7 +19,7 @@
                                   IsOn="{Binding Settings.UseUnboundedResults, Mode=TwoWay}" />
                     <ComboBox x:Name="DieRollTypeCombobox" Header="Select type of die roller to use:"
                               DisplayMemberPath="DisplayText" SelectedValuePath="Type"
-                              ItemsSource="{Binding DieRollerTypes}" />
+                              SelectionChanged="DieRollTypeCombobox_SelectionChanged" />
                     <TextBlock Margin="0,8" Text="Use default number of dice sides:" />
                     <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
                                      SmallChange="1" LargeChange="10" ValueFormat="F0"

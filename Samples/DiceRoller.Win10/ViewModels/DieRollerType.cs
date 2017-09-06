@@ -4,6 +4,9 @@
 
 namespace DiceRoller.Win10.ViewModels
 {
+    /// <summary>
+    /// View model class for roller type display.
+    /// </summary>
     public class DieRollerType
     {
         /// <summary>

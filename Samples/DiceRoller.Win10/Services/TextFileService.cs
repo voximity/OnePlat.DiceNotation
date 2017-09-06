@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="TextFileService.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -11,6 +15,40 @@ namespace DiceRoller.Win10.Services
     /// </summary>
     public class TextFileService
     {
+        #region DefaultFolderType enum
+
+        /// <summary>
+        /// Enum defining the various types of storage folders.
+        /// </summary>
+        public enum DefaultFolderType
+        {
+            /// <summary>
+            /// Local storage folder
+            /// </summary>
+            Local = 0,
+
+            /// <summary>
+            /// Local cache folder.
+            /// </summary>
+            LocalCache = 1,
+
+            /// <summary>
+            /// Local application shared folder.
+            /// </summary>
+            SharedLocal = 2,
+
+            /// <summary>
+            /// Roaming user folder.
+            /// </summary>
+            Roaming = 3,
+
+            /// <summary>
+            /// Temporary folder.
+            /// </summary>
+            Temporary = 4
+        }
+        #endregion
+
         /// <summary>
         /// Reads the text file and returns the data as string.
         /// </summary>
@@ -108,18 +146,6 @@ namespace DiceRoller.Win10.Services
             }
 
             return null;
-        }
-        #endregion
-
-        #region DefaultFolderType enum
-
-        public enum DefaultFolderType
-        {
-            Local = 0,
-            LocalCache = 1,
-            SharedLocal = 2,
-            Roaming = 3,
-            Temporary = 4
         }
         #endregion
     }

@@ -28,7 +28,8 @@ namespace DiceRoller.Win10
         private AppSettingsService appSettings = AppServices.Instance.AppSettingsService;
         private IDice diceService = AppServices.Instance.DiceService;
         private IDieRollTracker diceFrequencyTracker = AppServices.Instance.DiceFrequencyTracker;
-        private IDieRoller dieRoller = new RandomDieRoller(AppServices.Instance.DiceFrequencyTracker);
+        private DieRollerFactory dieRollerFactory = AppServices.Instance.DieRollerFactory;
+        private IDieRoller dieRoller;
         private TextFileService fileService = AppServices.Instance.FileService;
         #endregion
 
@@ -92,6 +93,10 @@ namespace DiceRoller.Win10
                 // set the dice configuration.
                 this.diceService.Configuration.DefaultDieSides = this.appSettings.DefaultDiceSides;
                 this.diceService.Configuration.HasBoundedResult = !this.appSettings.UseUnboundedResults;
+
+                // get the current die roller to use.
+                this.dieRoller = this.dieRollerFactory.GetDieRoller(
+                    this.appSettings.CurrentDieRollerType, this.diceFrequencyTracker);
             }
 
             // setup a time to save die frequency data every 5 minutes.

@@ -6,6 +6,7 @@ using DiceRoller.Win10.Services;
 using DiceRoller.Win10.ViewModels;
 using OnePlat.DiceNotation.DieRoller;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
@@ -35,6 +36,8 @@ namespace DiceRoller.Win10.Views
             this.DiceFrequencyLimitSlider.Value = this.frequencyTracker.TrackerDataLimit / DataLimitFactor;
         }
 
+        #region Properties
+
         /// <summary>
         /// Gets the app settings for this page.
         /// </summary>
@@ -44,6 +47,9 @@ namespace DiceRoller.Win10.Views
         /// Gets the list of die rollers that can be used by the app.
         /// </summary>
         public List<DieRollerType> DieRollerTypes { get; private set; }
+        #endregion
+
+        #region Helper methods
 
         /// <summary>
         /// Initializes the data elements for this page.
@@ -54,9 +60,14 @@ namespace DiceRoller.Win10.Views
             {
                 new DieRollerType { DisplayText = "Pseudo Random [default]", Type = typeof(RandomDieRoller).ToString() },
                 new DieRollerType { DisplayText = "Secure Random", Type = typeof(SecureRandomDieRoller).ToString() },
-                new DieRollerType { DisplayText = "MathNet Random", Type = typeof(RandomDieRoller).ToString() },
+                new DieRollerType { DisplayText = "MathNet Random", Type = typeof(MathNetDieRoller).ToString() },
             };
+
+            this.DieRollTypeCombobox.ItemsSource = this.DieRollerTypes;
+            DieRollerType selectedType = this.DieRollerTypes.First(t => t.Type == this.Settings.CurrentDieRollerType);
+            this.DieRollTypeCombobox.SelectedItem = selectedType;
         }
+        #endregion
 
         #region Event handlers
 
@@ -93,6 +104,16 @@ namespace DiceRoller.Win10.Views
                 this.Settings.CachedTrackerDataLimit = limit;
                 this.frequencyTracker.TrackerDataLimit = limit;
             }
+        }
+
+        /// <summary>
+        /// Event handler for when the die roller type selection changes.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void DieRollTypeCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.Settings.CurrentDieRollerType = this.DieRollTypeCombobox.SelectedValue.ToString();
         }
         #endregion
     }

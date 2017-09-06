@@ -39,6 +39,7 @@ namespace DiceRoller.Win10.Services
         #region Members
         private IDice diceService = new Dice();
         private IDieRollTracker diceTracker = new DieRollTracker();
+        private DieRollerFactory dieRollerFactory = new DieRollerFactory();
         private AppSettingsService appSettings = new AppSettingsService();
         private TextFileService fileService = new TextFileService();
         #endregion
@@ -53,9 +54,20 @@ namespace DiceRoller.Win10.Services
             get { return this.diceService; }
         }
 
+        /// <summary>
+        /// Gets the die roll tracker service.
+        /// </summary>
         public IDieRollTracker DiceFrequencyTracker
         {
             get { return this.diceTracker; }
+        }
+
+        /// <summary>
+        /// Gets the die roller factory service.
+        /// </summary>
+        public DieRollerFactory DieRollerFactory
+        {
+            get { return this.dieRollerFactory; }
         }
 
         /// <summary>

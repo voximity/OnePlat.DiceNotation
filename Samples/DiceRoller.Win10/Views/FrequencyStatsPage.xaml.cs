@@ -1,4 +1,8 @@
-﻿using DiceRoller.Win10.Services;
+﻿// <copyright file="FrequencyStatsPage.xaml.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
+using DiceRoller.Win10.Services;
 using OnePlat.DiceNotation.DieRoller;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +13,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace DiceRoller.Win10.Views
 {
     /// <summary>
@@ -17,8 +20,14 @@ namespace DiceRoller.Win10.Views
     /// </summary>
     public sealed partial class FrequencyStatsPage : Page, INotifyPropertyChanged
     {
-        IList<AggregateDieTrackingData> frequencyData;
+        #region Members
+        private IList<AggregateDieTrackingData> frequencyData;
+        private double listViewWidth = 0;
+        #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrequencyStatsPage"/> class.
+        /// </summary>
         public FrequencyStatsPage()
         {
             this.InitializeComponent();
@@ -50,16 +59,18 @@ namespace DiceRoller.Win10.Views
         /// <summary>
         /// Gets the maximum frequency value for the selected dataset.
         /// </summary>
-        public float FrequencyMax
-        { get; private set; }
+        public float FrequencyMax { get; private set; }
 
-        private double listViewWidth = 0;
         /// <summary>
         /// Gets or sets the ListViewWidth as it changes.
         /// </summary>
         public double ListViewWidth
         {
-            get { return this.listViewWidth; }
+            get
+            {
+                return this.listViewWidth;
+            }
+
             set
             {
                 this.listViewWidth = value;
