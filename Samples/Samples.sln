@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceRoller.Win10", "DiceRoller.Win10\DiceRoller.Win10.csproj", "{3B54745D-AD07-414D-9962-A2D63F845C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceRoller.Web", "DiceRoller.Web\DiceRoller.Web.csproj", "{B830B309-5E55-4465-9971-9D553D53345E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiceRoller.Web.Core", "DiceRoller.Web\DiceRoller.Web.Core.csproj", "{B830B309-5E55-4465-9971-9D553D53345E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceRoller.Mvc", "DiceRoller.Mvc\DiceRoller.Mvc.csproj", "{517412D0-9613-401B-B556-546D46BB0854}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,22 @@ Global
 		{B830B309-5E55-4465-9971-9D553D53345E}.Release|x64.Build.0 = Release|Any CPU
 		{B830B309-5E55-4465-9971-9D553D53345E}.Release|x86.ActiveCfg = Release|Any CPU
 		{B830B309-5E55-4465-9971-9D553D53345E}.Release|x86.Build.0 = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|ARM.Build.0 = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|x64.Build.0 = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Debug|x86.Build.0 = Debug|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|ARM.ActiveCfg = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|ARM.Build.0 = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|x64.ActiveCfg = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|x64.Build.0 = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|x86.ActiveCfg = Release|Any CPU
+		{517412D0-9613-401B-B556-546D46BB0854}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

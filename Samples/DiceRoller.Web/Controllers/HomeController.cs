@@ -1,35 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="HomeController.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiceRoller.Web.Controllers
 {
+    /// <summary>
+    /// Controller class for Home operations
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Gets data for the Index operation.
+        /// </summary>
+        /// <returns>Main home view.</returns>
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// Gets data for the About operation.
+        /// </summary>
+        /// <returns>About view.</returns>
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            this.ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// Gets data for the Contact operation.
+        /// </summary>
+        /// <returns>Contact view.</returns>
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            this.ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// Gets data for the Error operation.
+        /// </summary>
+        /// <returns>Error view.</returns>
         public IActionResult Error()
         {
-            return View();
+            return this.View();
         }
     }
 }

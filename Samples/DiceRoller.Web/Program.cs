@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="Program.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace DiceRoller.Web
 {
+    /// <summary>
+    /// Main program class.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main method that gets called at start of process.
+        /// </summary>
+        /// <param name="args">Command line arguments</param>
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
