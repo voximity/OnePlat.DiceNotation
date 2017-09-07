@@ -183,7 +183,7 @@
       <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="OnePlat.DiceNotation.ExtendedDieRollers.PCL">
-      <Version>1.0.4-test</Version>
+      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="PCLCrypto">
       <Version>2.0.147</Version>

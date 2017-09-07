@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>OnePlat.DiceNotation.ExtendedDieRollers.PCL</id>
-    <version>1.0.4-test</version>
+    <version>1.0.4</version>
     <title>$title$</title>
     <authors>DarthPedro</authors>
     <owners>DarthPedro</owners>
