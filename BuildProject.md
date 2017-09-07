@@ -19,6 +19,15 @@ dotnet dice.dll d20+3
 dotnet dice.dll 4d6k3 -v
 ```
 
+### Building ExtendedDieRollers projects
+
+To build the ExendedDieRollers project, you need to follow similar steps as above, but with a different solution:
+* Open the ./OnePlat.DiceNotation/ExtendedDieRollers/ExtendedDieRollers.sln solution file from the repository root in Visual Studio.
+* Be sure to update "Restore NuGet Packages" on the solution.
+* Then Rebuild the full solution.
+
+Note that ExtendedDieRollers is a Portable Class Library (PCL) rather than a .NET Standard 1.4 library because it has dependencies on a couple of other PCLs (MathNet and PCLCrypto). This library will be updated to .NET Standard 1.4 or 2.0 as soon as either the two dependent packages are upgraded, or .NET Standard supports the same targets that those packages do. (Likely it will be when we upgrade to .NET Library 2.0.)
+
 ### Building samples
 
 To build the samples, you will need to:
