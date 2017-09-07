@@ -2,13 +2,12 @@
 <package >
   <metadata>
     <id>OnePlat.DiceNotation.ExtendedDieRollers.PCL</id>
-    <version>$version$</version>
+    <version>1.0.4-test</version>
     <title>$title$</title>
     <authors>DarthPedro</authors>
     <owners>DarthPedro</owners>
     <licenseUrl>https://github.com/DarthPedro/OnePlat.DiceNotation/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>New Dice Rollers that use cryptography and MathNet to use other algorithms for random number generation. Used with OnePlat.DiceNotation library.</description>
     <releaseNotes>Release of new dice rollers to use with OnePlat.DiceNotation. These rollers use cryptography and MathNet to use other algorithms for random number generation.</releaseNotes>

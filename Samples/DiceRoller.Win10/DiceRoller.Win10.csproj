@@ -179,6 +179,12 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
     </PackageReference>
+    <PackageReference Include="OnePlat.DiceNotation">
+      <Version>1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="OnePlat.DiceNotation.ExtendedDieRollers.PCL">
+      <Version>1.0.4-test</Version>
+    </PackageReference>
     <PackageReference Include="PCLCrypto">
       <Version>2.0.147</Version>
     </PackageReference>
@@ -188,15 +194,6 @@
     <PackageReference Include="WinRTXamlToolkit.UWP">
       <Version>2.3.0</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="ExtendedDieRoller.PCL">
-      <HintPath>..\..\ExtendedDieRollers\ExtendedDieRoller.PCL\bin\Debug\ExtendedDieRoller.PCL.dll</HintPath>
-    </Reference>
-    <Reference Include="OnePlat.DiceNotation, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\OnePlat.DiceNotation\bin\Debug\netstandard1.4\OnePlat.DiceNotation.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
