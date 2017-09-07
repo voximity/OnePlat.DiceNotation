@@ -17,12 +17,15 @@
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
     <PackageReleaseNotes>Latest:
+* Support for OnePlat.DiceNotation release 1.0.4.
+
+Release 1.0.3:
 * Updated RollDiceCommand to use the value converters for display text.
 * Support for OnePlat.DiceNotation release 1.0.3.
 
 Release 1.0.2:
 * Support for OnePlat.DiceNotation release 1.0.2.</PackageReleaseNotes>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

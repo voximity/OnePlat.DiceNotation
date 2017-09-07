@@ -20,6 +20,10 @@ namespace DiceRoller.Win10.Services
         private const int DefaultDiceSidesDefault = 6;
         private const string KeyClearResultsList = "ClearResultsListKey";
         private const bool DefaultClearResultsList = false;
+        private const string KeyCachedTrackerDataLimit = "CachedTrackerDataLimitKey";
+        private const int DefaultCachedTrackerDataLimit = 250000;
+        private const string KeyCurrentDieRoller = "CurrentDieRollerKey";
+        private const string DefaultCurrentDieRoller = "OnePlat.DiceNotation.DieRoller.RandomDieRoller";
 
         private ApplicationDataContainer appSettings = ApplicationData.Current.RoamingSettings;
         #endregion
@@ -31,15 +35,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool UseDiceExpressionEditor
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyUseDiceExpressionEditor, DefaultUseDiceExpressionEditor);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyUseDiceExpressionEditor] = value;
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyUseDiceExpressionEditor, DefaultUseDiceExpressionEditor); }
+            set { this.appSettings.Values[KeyUseDiceExpressionEditor] = value; }
         }
 
         /// <summary>
@@ -47,15 +44,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool UseUnboundedResults
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyUseUnboundedResults, DefaultUseUnboundedResults);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyUseUnboundedResults] = value;
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyUseUnboundedResults, DefaultUseUnboundedResults); }
+            set { this.appSettings.Values[KeyUseUnboundedResults] = value; }
         }
 
         /// <summary>
@@ -64,15 +54,8 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public int DefaultDiceSides
         {
-            get
-            {
-                return this.GetOrDefaultValue<int>(KeyDefaultDiceSides, DefaultDiceSidesDefault);
-            }
-
-            set
-            {
-                this.appSettings.Values[KeyDefaultDiceSides] = value;
-            }
+            get { return this.GetOrDefaultValue<int>(KeyDefaultDiceSides, DefaultDiceSidesDefault); }
+            set { this.appSettings.Values[KeyDefaultDiceSides] = value; }
         }
 
         /// <summary>
@@ -80,15 +63,26 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         public bool ClearResultsList
         {
-            get
-            {
-                return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList);
-            }
+            get { return this.GetOrDefaultValue<bool>(KeyClearResultsList, DefaultClearResultsList); }
+            set { this.appSettings.Values[KeyClearResultsList] = value; }
+        }
 
-            set
-            {
-                this.appSettings.Values[KeyClearResultsList] = value;
-            }
+        /// <summary>
+        /// Gets or sets cached tracker limit in the app.
+        /// </summary>
+        public int CachedTrackerDataLimit
+        {
+            get { return this.GetOrDefaultValue<int>(KeyCachedTrackerDataLimit, DefaultCachedTrackerDataLimit); }
+            set { this.appSettings.Values[KeyCachedTrackerDataLimit] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of current die roller used in the app.
+        /// </summary>
+        public string CurrentDieRollerType
+        {
+            get { return this.GetOrDefaultValue<string>(KeyCurrentDieRoller, DefaultCurrentDieRoller); }
+            set { this.appSettings.Values[KeyCurrentDieRoller] = value; }
         }
         #endregion
 

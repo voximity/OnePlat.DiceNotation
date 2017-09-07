@@ -1,6 +1,7 @@
 ﻿// <copyright file="App.xaml.cs" company="DarthPedro">
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
+using DiceRoller.Win10.Services;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -11,6 +12,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace DiceRoller.Win10
 {
+    // todo: Replace dll reference in sample with 1.0.4 Nuget package after it is posted.
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -32,7 +35,7 @@ namespace DiceRoller.Win10
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -52,6 +55,11 @@ namespace DiceRoller.Win10
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
+
+            // load any cached dice frequency data.
+            AppServices appServices = AppServices.Instance;
+            string jsonText = await appServices.FileService.ReadFileAsync(Constants.DieFrequencyDataFilename);
+            await appServices.DiceFrequencyTracker.LoadFromJsonAsync(jsonText);
 
             if (e.PrelaunchActivated == false)
             {
@@ -116,9 +124,13 @@ namespace DiceRoller.Win10
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+
+            AppServices services = AppServices.Instance;
+            string jsonText = await services.DiceFrequencyTracker.ToJsonAsync();
+            await services.FileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
 
             deferral.Complete();
         }

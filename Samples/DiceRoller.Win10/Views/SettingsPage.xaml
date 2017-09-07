@@ -8,22 +8,33 @@
     mc:Ignorable="d">
 
     <Pivot Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <PivotItem Header="Settings" Padding="12">
-            <StackPanel>
-                <ToggleSwitch x:Name="DefaultDiceInputToggle" Header="Select default dice input on home screen:" 
-                              OffContent="Simple Input" OnContent="Dice Expression string"
-                              IsOn="{Binding Settings.UseDiceExpressionEditor, Mode=TwoWay}" />
-                <ToggleSwitch x:Name="DefaultUnboundedResultToggle" Header="Use unbounded dice result:" 
-                              OffContent="Bounded" OnContent="Unbounded"
-                              IsOn="{Binding Settings.UseUnboundedResults, Mode=TwoWay}" />
-                <TextBlock Margin="0,0,0,8" Text="Use default number of dice sides:" />
-                <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
-                                 SmallChange="1" LargeChange="10" ValueFormat="F0"
-                                 Value="{Binding Settings.DefaultDiceSides, Mode=TwoWay}" />
-                <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List"
-                        Click="ClearResultsButton_Click" />
-
-            </StackPanel>
+        <PivotItem Header="Settings">
+            <ScrollViewer MaxWidth="800" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <ToggleSwitch x:Name="DefaultDiceInputToggle" Header="Select default dice input on home screen:" 
+                                  OffContent="Simple Input" OnContent="Dice Expression string"
+                                  IsOn="{Binding Settings.UseDiceExpressionEditor, Mode=TwoWay}" />
+                    <ToggleSwitch x:Name="DefaultUnboundedResultToggle" Header="Use unbounded dice result:" 
+                                  OffContent="Bounded" OnContent="Unbounded"
+                                  IsOn="{Binding Settings.UseUnboundedResults, Mode=TwoWay}" />
+                    <ComboBox x:Name="DieRollTypeCombobox" Header="Select type of die roller to use:"
+                              DisplayMemberPath="DisplayText" SelectedValuePath="Type"
+                              SelectionChanged="DieRollTypeCombobox_SelectionChanged" />
+                    <TextBlock Margin="0,8" Text="Use default number of dice sides:" />
+                    <c:NumericUpDown x:Name="DefaultDiceSidesNumeric" Minimum="2" Maximum="100" 
+                                     SmallChange="1" LargeChange="10" ValueFormat="F0"
+                                     Value="{Binding Settings.DefaultDiceSides, Mode=TwoWay}" />
+                    <Button x:Name="ClearResultsButton" Margin="0,12" Content="Clear Results List"
+                            Click="ClearResultsButton_Click" />
+                    
+                    <Rectangle Height="2" Fill="LightGray" Margin="0,12,0,8" />
+                    <Slider x:Name="DiceFrequencyLimitSlider" Minimum="10" Maximum="500"
+                                    SmallChange="10" LargeChange="100" Header="Frequency data limit (1000s of rolls):"
+                                    ValueChanged="DiceFrequencyLimitSlider_ValueChanged" />
+                    <Button x:Name="ClearFrequencyButton" Margin="0,0,0,12" Content="Clear Dice Frequency Data"
+                            Click="ClearFrequencyButton_Click" />
+                </StackPanel>
+            </ScrollViewer>
         </PivotItem>
         <PivotItem Header="Privacy">
             <TextBlock Margin="12" TextWrapping="Wrap">
@@ -52,7 +63,7 @@
             <StackPanel>
                 <TextBlock FontSize="24" Margin="0,4" Text="d20 Dice Roller" />
                 <TextBlock Margin="0,4,0,0" Text="DarthPedro" />
-                <TextBlock Text="Version 1.0.0830.0" />
+                <TextBlock Text="Version 1.0.0906.0" />
                 <TextBlock Text="Copyright (c) 2017 DarthPedro. All rights reserved." />
             </StackPanel>
         </PivotItem>

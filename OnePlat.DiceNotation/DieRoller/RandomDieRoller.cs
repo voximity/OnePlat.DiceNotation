@@ -8,7 +8,7 @@
 // Created          : 8/7/2017
 //
 // Last Modified By : DarthPedro
-// Last Modified On : 8/24/2017
+// Last Modified On : 9/5/2017
 //-----------------------------------------------------------------------
 // <summary>
 //       This project is licensed under the MIT license.
@@ -28,18 +28,18 @@ namespace OnePlat.DiceNotation.DieRoller
     /// This uses the .NET framework random number generator (to its a
     /// pseudo-random number).
     /// </summary>
-    public class RandomDieRoller : IDieRoller
+    public class RandomDieRoller : RandomDieRollerBase
     {
         private static readonly Random DefaultRandomGenerator = new Random();
-
         private Random random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomDieRoller"/> class.
         /// Uses the default static random number generator.
         /// </summary>
-        public RandomDieRoller()
-            : this(DefaultRandomGenerator)
+        /// <param name="tracker">Tracking service to remember die rolls</param>
+        public RandomDieRoller(IDieRollTracker tracker = null)
+            : this(DefaultRandomGenerator, tracker)
         {
         }
 
@@ -47,21 +47,17 @@ namespace OnePlat.DiceNotation.DieRoller
         /// Initializes a new instance of the <see cref="RandomDieRoller"/> class.
         /// </summary>
         /// <param name="random">Random number generator to use</param>
-        public RandomDieRoller(Random random)
+        /// <param name="tracker">Tracking service to remember die rolls</param>
+        public RandomDieRoller(Random random, IDieRollTracker tracker)
+            : base(tracker)
         {
             this.random = random;
         }
 
         /// <inheritdoc/>
-        public int Roll(int sides, int? factor = null)
+        protected override int GetNextRandom(int sides)
         {
-            int result = this.random.Next(sides) + 1;
-            if (factor != null)
-            {
-                result += factor.Value;
-            }
-
-            return result;
+            return this.random.Next(sides) + 1;
         }
     }
 }

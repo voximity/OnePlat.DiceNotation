@@ -3,6 +3,7 @@
 // </copyright>
 
 using OnePlat.DiceNotation;
+using OnePlat.DiceNotation.DieRoller;
 
 namespace DiceRoller.Win10.Services
 {
@@ -22,6 +23,7 @@ namespace DiceRoller.Win10.Services
         /// </summary>
         private AppServices()
         {
+            this.DiceFrequencyTracker.TrackerDataLimit = this.AppSettingsService.CachedTrackerDataLimit;
         }
 
         /// <summary>
@@ -36,8 +38,13 @@ namespace DiceRoller.Win10.Services
 
         #region Members
         private IDice diceService = new Dice();
+        private IDieRollTracker diceTracker = new DieRollTracker();
+        private DieRollerFactory dieRollerFactory = new DieRollerFactory();
         private AppSettingsService appSettings = new AppSettingsService();
+        private TextFileService fileService = new TextFileService();
         #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the dice service.
@@ -48,11 +55,36 @@ namespace DiceRoller.Win10.Services
         }
 
         /// <summary>
+        /// Gets the die roll tracker service.
+        /// </summary>
+        public IDieRollTracker DiceFrequencyTracker
+        {
+            get { return this.diceTracker; }
+        }
+
+        /// <summary>
+        /// Gets the die roller factory service.
+        /// </summary>
+        public DieRollerFactory DieRollerFactory
+        {
+            get { return this.dieRollerFactory; }
+        }
+
+        /// <summary>
         /// Gets the app settings service.
         /// </summary>
         public AppSettingsService AppSettingsService
         {
             get { return this.appSettings; }
         }
+
+        /// <summary>
+        /// Gets the file service.
+        /// </summary>
+        public TextFileService FileService
+        {
+            get { return this.fileService; }
+        }
+        #endregion
     }
 }

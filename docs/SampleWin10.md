@@ -109,3 +109,6 @@ Also, notice in the MainPage.xaml file the definition of the results listview. I
 There is some other boilerplate code for getting XAML and Windows 10 apps to work. Feel free to review it and use it in your own applications. 
 
 *Note:* I didn't write this app using an MVVM library because I wanted to focus on the integration code for our library, not explaining MVVM. If this were real Windows app, I would have incorporated an MVVM framework.
+
+**Related topics:**
+* [Using IDieRollTracker](SampleWin10Tracker.md)

@@ -58,7 +58,7 @@ namespace OnePlat.DiceNotation.UnitTests.DieRoller
             Random rand = new Random(42);
 
             // run test
-            IDieRoller die = new RandomDieRoller(rand);
+            IDieRoller die = new RandomDieRoller(rand, null);
 
             // validate results
             Assert.IsNotNull(die);

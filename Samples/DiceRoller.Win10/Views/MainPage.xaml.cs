@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.System;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -26,7 +27,10 @@ namespace DiceRoller.Win10
         #region Members
         private AppSettingsService appSettings = AppServices.Instance.AppSettingsService;
         private IDice diceService = AppServices.Instance.DiceService;
-        private IDieRoller dieRoller = new RandomDieRoller();
+        private IDieRollTracker diceFrequencyTracker = AppServices.Instance.DiceFrequencyTracker;
+        private DieRollerFactory dieRollerFactory = AppServices.Instance.DieRollerFactory;
+        private IDieRoller dieRoller;
+        private TextFileService fileService = AppServices.Instance.FileService;
         #endregion
 
         #region Constructor
@@ -89,7 +93,26 @@ namespace DiceRoller.Win10
                 // set the dice configuration.
                 this.diceService.Configuration.DefaultDieSides = this.appSettings.DefaultDiceSides;
                 this.diceService.Configuration.HasBoundedResult = !this.appSettings.UseUnboundedResults;
+
+                // get the current die roller to use.
+                this.dieRoller = this.dieRollerFactory.GetDieRoller(
+                    this.appSettings.CurrentDieRollerType, this.diceFrequencyTracker);
             }
+
+            // setup a time to save die frequency data every 5 minutes.
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += this.Timer_Tick;
+            timer.Interval = new TimeSpan(0, 5, 0);
+            timer.Start();
+        }
+
+        /// <inheritdoc/>
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            string jsonText = await this.diceFrequencyTracker.ToJsonAsync();
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
+
+            base.OnNavigatingFrom(e);
         }
 
         /// <summary>
@@ -188,6 +211,16 @@ namespace DiceRoller.Win10
         }
 
         /// <summary>
+        /// Click handler for Frequency stats page navigation.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event args</param>
+        private void FrequencyStatsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(FrequencyStatsPage));
+        }
+
+        /// <summary>
         /// Key handler for DiceExpression textbox to handle processing of Enter key.
         /// </summary>
         /// <param name="sender">sender</param>
@@ -198,6 +231,17 @@ namespace DiceRoller.Win10
             {
                 this.RollExpressionButton_Click(sender, e);
             }
+        }
+
+        /// <summary>
+        /// Event handler for Tick event on timer.
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">args</param>
+        private async void Timer_Tick(object sender, object e)
+        {
+            string jsonText = await this.diceFrequencyTracker.ToJsonAsync();
+            await this.fileService.WriteFileAsync(Constants.DieFrequencyDataFilename, jsonText);
         }
         #endregion
     }

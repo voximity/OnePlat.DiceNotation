@@ -81,7 +81,7 @@ namespace OnePlat.DiceNotation.Converters
         /// <returns>string represenation of DiceResult dice rolls</returns>
         private string DiceRollsToString(List<TermResult> results)
         {
-            var list = from r in results
+            var list = from r in results.Take(100)
                        where r.Type.Contains(nameof(DiceTerm))
                        select r;
 
