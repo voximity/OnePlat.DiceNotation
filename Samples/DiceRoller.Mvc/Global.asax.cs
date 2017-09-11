@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿// <copyright file="Global.asax.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace DiceRoller.Mvc
 {
+    /// <summary>
+    /// The application class for MVC.
+    /// </summary>
     public class MvcApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Event handler for Start of the application.
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

@@ -1,11 +1,22 @@
-﻿using System.Web;
+﻿// <copyright file="BundleConfig.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using System.Web.Optimization;
 
 namespace DiceRoller.Mvc
 {
+    /// <summary>
+    /// Class the configures the bundels in this application.
+    /// </summary>
     public class BundleConfig
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
+
+        /// <summary>
+        /// Registers the javascript/css bundles for this application.
+        /// </summary>
+        /// <param name="bundles">Bundle collection to register with.</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

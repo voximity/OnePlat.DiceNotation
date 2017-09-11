@@ -1,30 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿// <copyright file="HomeController.cs" company="DarthPedro">
+// Copyright (c) 2017 DarthPedro. All rights reserved.
+// </copyright>
+
 using System.Web.Mvc;
 
 namespace DiceRoller.Mvc.Controllers
 {
+    /// <summary>
+    /// Home controller class.
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Main index method
+        /// </summary>
+        /// <returns>Resulting view.</returns>
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// About method
+        /// </summary>
+        /// <returns>Resulting view.</returns>
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            this.ViewBag.Message = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
+        /// <summary>
+        /// Contact method
+        /// </summary>
+        /// <returns>Resulting view.</returns>
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            this.ViewBag.Message = "Your contact page.";
 
-            return View();
+            return this.View();
         }
     }
 }
