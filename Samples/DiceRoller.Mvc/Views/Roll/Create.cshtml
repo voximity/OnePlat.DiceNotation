@@ -1,0 +1,71 @@
+﻿@model DiceRoller.Web.ViewModels.DiceRollerViewModel
+
+@{
+    ViewBag.Title = "Roll Dice Expression";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Roll Dice Expression</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiceExpression, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DiceExpression, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DiceExpression, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<h5>Previous Dice Rolls:</h5>
+<table class="table">
+    <tr>
+        <th>
+            Dice Expresssion
+        </th>
+        <th>
+            Result
+        </th>
+        <th>
+            Rolls
+        </th>
+        <th>
+            Die Roller
+        </th>
+    </tr>
+
+    @foreach (var item in Model.RollResults)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiceExpression)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayResultsFor(item.Results)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DieRollerUsed)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
