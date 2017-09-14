@@ -4,7 +4,6 @@
 
 using DiceRoller.Web.ViewModels;
 using OnePlat.DiceNotation;
-using OnePlat.DiceNotation.DiceTerms;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -15,18 +14,21 @@ namespace DiceRoller.Mvc.Controllers
     /// </summary>
     public class RollController : Controller
     {
+        #region Members
+        private const string CurrentDiceResultsListSessionKey = "CurrentDiceResultsList";
+        private const string DiceExpressionFormKey = "DiceExpression";
+        private DiceRollerViewModel vm = new DiceRollerViewModel();
+        #endregion
+
         /// <summary>
         /// Default view of die roll results.
         /// </summary>
         /// <returns>View</returns>
         public ActionResult Index()
         {
-            IList<DiceResult> results = new List<DiceResult>();
-            List<TermResult> rolls = new List<TermResult> { new TermResult { Scalar = 1, Value = 15, Type = "DiceTerm.d20" } };
+            this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
 
-            results.Add(new DiceResult("d20", rolls, "RandomDieRoller", new DiceConfiguration()));
-
-            return this.View(results);
+            return this.View(this.vm.RollResults);
         }
 
         /// <summary>
@@ -36,7 +38,9 @@ namespace DiceRoller.Mvc.Controllers
         /// <returns>View</returns>
         public ActionResult Create()
         {
-            return this.View(new DiceRollerViewModel());
+            this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
+
+            return this.View(this.vm);
         }
 
         /// <summary>
@@ -50,12 +54,15 @@ namespace DiceRoller.Mvc.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                return this.RedirectToAction("Index");
+                this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
+                this.vm.RollCommand(collection[DiceExpressionFormKey]);
+                this.Session[CurrentDiceResultsListSessionKey] = this.vm.RollResults;
+
+                return this.View(this.vm);
             }
             catch
             {
-                return this.View();
+                return this.View(this.vm);
             }
         }
     }
