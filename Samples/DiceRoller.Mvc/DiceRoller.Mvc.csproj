@@ -208,6 +208,9 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\TermResultListHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AppServices.cs" />
+    <Compile Include="Services\AppSettingsService.cs" />
+    <Compile Include="Services\DieRollerFactory.cs" />
     <Compile Include="ViewModels\DiceRollerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
