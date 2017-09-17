@@ -21,6 +21,7 @@ namespace DiceRoller.Mvc.Controllers
         private const string DiceExpressionFormKey = "DiceExpression";
         private DiceRollerViewModel vmDiceRoller = new DiceRollerViewModel();
         private RollFrequencyViewModel vmRollFrequency = new RollFrequencyViewModel();
+        private DiceSettingsViewModel vmDiceSettings = new DiceSettingsViewModel();
         #endregion
 
         /// <summary>
@@ -102,6 +103,37 @@ namespace DiceRoller.Mvc.Controllers
             catch
             {
                 return this.View(this.vmRollFrequency);
+            }
+        }
+
+        /// <summary>
+        /// Show the dice settings view.
+        /// GET: Roll/Settings
+        /// </summary>
+        /// <returns>View</returns>
+        public ActionResult Settings()
+        {
+            return this.View(this.vmDiceSettings);
+        }
+
+        /// <summary>
+        /// Show the dice settings view
+        /// POST: Roll/Settings
+        /// </summary>
+        /// <param name="collection">Forms collection.</param>
+        /// <returns>View</returns>
+        [HttpPost]
+        public ActionResult Settings(FormCollection collection)
+        {
+            try
+            {
+                this.vmDiceSettings.SaveSettingsCommand();
+
+                return this.View(this.vmDiceSettings);
+            }
+            catch
+            {
+                return this.View(this.vmDiceSettings);
             }
         }
     }

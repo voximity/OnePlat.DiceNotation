@@ -236,6 +236,8 @@
     <Compile Include="Services\AppSettingsService.cs" />
     <Compile Include="Services\DieRollerFactory.cs" />
     <Compile Include="ViewModels\DiceRollerViewModel.cs" />
+    <Compile Include="ViewModels\DiceSettingsViewModel.cs" />
+    <Compile Include="ViewModels\DieRollerType.cs" />
     <Compile Include="ViewModels\RollFrequencyViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +300,7 @@
     <Content Include="Views\Roll\Create.cshtml" />
     <Content Include="Views\Roll\Index.cshtml" />
     <Content Include="Views\Roll\Stats.cshtml" />
+    <Content Include="Views\Roll\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
