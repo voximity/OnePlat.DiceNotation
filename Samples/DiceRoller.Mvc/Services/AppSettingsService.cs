@@ -2,14 +2,16 @@
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
-using System.Web.SessionState;
+using System.Runtime.Serialization;
 
 namespace DiceRoller.Mvc.Services
 {
     /// <summary>
     /// Service class for encapsulating application settings.
     /// </summary>
+    [Serializable]
     public class AppSettingsService : Dictionary<string, object>
     {
         #region Members
@@ -21,6 +23,26 @@ namespace DiceRoller.Mvc.Services
         private const int DefaultCachedTrackerDataLimit = 250000;
         private const string KeyCurrentDieRoller = "CurrentDieRollerKey";
         private const string DefaultCurrentDieRoller = "OnePlat.DiceNotation.DieRoller.RandomDieRoller";
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppSettingsService"/> class.
+        /// </summary>
+        public AppSettingsService()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppSettingsService"/> class.
+        /// </summary>
+        /// <param name="info">Serialization info</param>
+        /// <param name="context">Stream context</param>
+        protected AppSettingsService(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
         #endregion
 
         #region Properties
