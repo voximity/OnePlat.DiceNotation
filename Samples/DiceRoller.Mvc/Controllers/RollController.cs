@@ -127,9 +127,21 @@ namespace DiceRoller.Mvc.Controllers
         {
             try
             {
-                this.vmDiceSettings.SaveSettingsCommand();
+                // first gather data from the form
+                string unboundedFull = collection["Settings.UseUnboundedResults"];
+                string currentUnbounded = unboundedFull.Contains(",") ?
+                    unboundedFull.Substring(0, unboundedFull.IndexOf(",")) : unboundedFull;
+                bool useUnbounded = bool.Parse(currentUnbounded);
 
-                return this.View(this.vmDiceSettings);
+                string rollerName = collection["SelectedDieRollerType"];
+                this.vmDiceSettings.SelectedDefaultDiceSides = int.Parse(collection["SelectedDefaultDiceSides"]);
+                this.vmDiceSettings.SelectedDataFrequencyLimit = int.Parse(collection["SelectedDataFrequencyLimit"]);
+
+                // then call save settings to complete operation
+                this.vmDiceSettings.SaveSettingsCommand(useUnbounded, rollerName);
+
+                // finally, go back to dice roller page
+                return this.Redirect("Create");
             }
             catch
             {

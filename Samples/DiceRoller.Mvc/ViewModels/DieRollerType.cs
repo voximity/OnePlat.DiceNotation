@@ -18,5 +18,14 @@ namespace DiceRoller.Mvc.ViewModels
         /// Gets or sets the type of die roller.
         /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        /// Represents this class in string format.
+        /// </summary>
+        /// <returns>Text</returns>
+        public override string ToString()
+        {
+            return this.DisplayText;
+        }
     }
 }
