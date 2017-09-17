@@ -4,7 +4,6 @@
 
 using OnePlat.DiceNotation;
 using OnePlat.DiceNotation.DieRoller;
-using System.Web.SessionState;
 
 namespace DiceRoller.Mvc.Services
 {
@@ -41,7 +40,7 @@ namespace DiceRoller.Mvc.Services
         private IDice diceService = new Dice();
         private IDieRollTracker diceTracker = new DieRollTracker();
         private DieRollerFactory dieRollerFactory = new DieRollerFactory();
-        private AppSettingsService appSettings;
+        private AppSettingsService appSettings = new AppSettingsService();
         #endregion
 
         #region Properties
@@ -80,12 +79,10 @@ namespace DiceRoller.Mvc.Services
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppServices"/> class.
+        /// Initialize method for the services.
         /// </summary>
-        /// <param name="session">Session state to use for settings</param>
-        public void Initialize(HttpSessionState session)
+        public void Initialize()
         {
-            this.appSettings = new AppSettingsService(session);
         }
     }
 }

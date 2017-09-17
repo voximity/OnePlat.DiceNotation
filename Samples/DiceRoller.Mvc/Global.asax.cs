@@ -25,7 +25,7 @@ namespace DiceRoller.Mvc
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // initialize global application services.
-            AppServices.Instance.Initialize(this.Session);
+            AppServices.Instance.Initialize();
         }
     }
 }

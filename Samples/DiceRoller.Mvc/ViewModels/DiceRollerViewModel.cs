@@ -2,6 +2,7 @@
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
+using DiceRoller.Mvc.Services;
 using OnePlat.DiceNotation;
 using OnePlat.DiceNotation.DieRoller;
 using System.Collections.Generic;
@@ -14,8 +15,23 @@ namespace DiceRoller.Web.ViewModels
     /// </summary>
     public class DiceRollerViewModel
     {
-        private IDice dice = new Dice();
-        private IDieRoller dieRoller = new RandomDieRoller();
+        #region Members
+        private IDice dice;
+        private IDieRoller dieRoller;
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiceRollerViewModel"/> class.
+        /// </summary>
+        public DiceRollerViewModel()
+        {
+            AppServices services = AppServices.Instance;
+            this.dice = services.DiceService;
+            string rollerType = services.AppSettingsService.CurrentDieRollerType;
+            this.dieRoller = services.DieRollerFactory.GetDieRoller(rollerType, services.DiceFrequencyTracker);
+        }
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the dice expression text.
@@ -28,6 +44,9 @@ namespace DiceRoller.Web.ViewModels
         /// Gets or sets the list of roll results.
         /// </summary>
         public IList<DiceResult> RollResults { get; set; } = new List<DiceResult>();
+        #endregion
+
+        #region Commands
 
         /// <summary>
         /// Command method to roll the dice and save the results.
@@ -39,5 +58,6 @@ namespace DiceRoller.Web.ViewModels
             DiceResult result = this.dice.Roll(this.DiceExpression, this.dieRoller);
             this.RollResults.Insert(0, result);
         }
+        #endregion
     }
 }

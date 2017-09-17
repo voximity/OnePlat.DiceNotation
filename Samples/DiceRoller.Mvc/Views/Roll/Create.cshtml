@@ -40,9 +40,6 @@
         <th>
             Rolls
         </th>
-        <th>
-            Die Roller
-        </th>
     </tr>
 
     @foreach (var item in Model.RollResults)
@@ -56,9 +53,6 @@
             </td>
             <td>
                 @Html.DisplayResultsFor(item.Results)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DieRollerUsed)
             </td>
         </tr>
     }
