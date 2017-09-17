@@ -26,7 +26,7 @@ namespace DiceRoller.Mvc.Controllers
         /// <returns>Resulting view.</returns>
         public ActionResult About()
         {
-            this.ViewBag.Message = "Your application description page.";
+            this.ViewBag.Message = "d20 Dice Roller";
 
             return this.View();
         }
@@ -37,7 +37,7 @@ namespace DiceRoller.Mvc.Controllers
         /// <returns>Resulting view.</returns>
         public ActionResult Contact()
         {
-            this.ViewBag.Message = "Your contact page.";
+            this.ViewBag.Message = "OnePlat.DiceNotation contact information.";
 
             return this.View();
         }
