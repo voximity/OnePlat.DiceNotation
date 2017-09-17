@@ -297,6 +297,7 @@
     <AdditionalFiles Include="stylecop.json" />
     <Content Include="Views\Roll\Create.cshtml" />
     <Content Include="Views\Roll\Index.cshtml" />
+    <Content Include="Views\Roll\Stats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

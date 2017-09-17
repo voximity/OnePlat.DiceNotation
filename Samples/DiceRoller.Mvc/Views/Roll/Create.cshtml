@@ -4,6 +4,8 @@
     ViewBag.Title = "Roll Dice Expression";
 }
 
+@Html.ActionLink("Show Stats", "Stats", "Roll")
+
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()

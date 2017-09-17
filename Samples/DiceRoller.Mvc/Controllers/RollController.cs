@@ -2,9 +2,11 @@
 // Copyright (c) 2017 DarthPedro. All rights reserved.
 // </copyright>
 
+using DiceRoller.Mvc.ViewModels;
 using DiceRoller.Web.ViewModels;
 using OnePlat.DiceNotation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace DiceRoller.Mvc.Controllers
@@ -17,7 +19,8 @@ namespace DiceRoller.Mvc.Controllers
         #region Members
         private const string CurrentDiceResultsListSessionKey = "CurrentDiceResultsList";
         private const string DiceExpressionFormKey = "DiceExpression";
-        private DiceRollerViewModel vm = new DiceRollerViewModel();
+        private DiceRollerViewModel vmDiceRoller = new DiceRollerViewModel();
+        private RollFrequencyViewModel vmRollFrequency = new RollFrequencyViewModel();
         #endregion
 
         /// <summary>
@@ -26,9 +29,9 @@ namespace DiceRoller.Mvc.Controllers
         /// <returns>View</returns>
         public ActionResult Index()
         {
-            this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
+            this.vmDiceRoller.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
 
-            return this.View(this.vm.RollResults);
+            return this.View(this.vmDiceRoller.RollResults);
         }
 
         /// <summary>
@@ -38,9 +41,9 @@ namespace DiceRoller.Mvc.Controllers
         /// <returns>View</returns>
         public ActionResult Create()
         {
-            this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
+            this.vmDiceRoller.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
 
-            return this.View(this.vm);
+            return this.View(this.vmDiceRoller);
         }
 
         /// <summary>
@@ -54,15 +57,51 @@ namespace DiceRoller.Mvc.Controllers
         {
             try
             {
-                this.vm.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
-                this.vm.RollCommand(collection[DiceExpressionFormKey]);
-                this.Session[CurrentDiceResultsListSessionKey] = this.vm.RollResults;
+                this.vmDiceRoller.RollResults = this.Session[CurrentDiceResultsListSessionKey] as IList<DiceResult> ?? new List<DiceResult>();
+                this.vmDiceRoller.RollCommand(collection[DiceExpressionFormKey]);
+                this.Session[CurrentDiceResultsListSessionKey] = this.vmDiceRoller.RollResults;
 
-                return this.View(this.vm);
+                return this.View(this.vmDiceRoller);
             }
             catch
             {
-                return this.View(this.vm);
+                return this.View(this.vmDiceRoller);
+            }
+        }
+
+        /// <summary>
+        /// Show die roll stats view.
+        /// GET: Roll/Stats
+        /// </summary>
+        /// <returns>View</returns>
+        public async Task<ActionResult> Stats()
+        {
+            await this.vmRollFrequency.Initialize();
+            return this.View(this.vmRollFrequency);
+        }
+
+        /// <summary>
+        /// Show die roll stats view for specified filters.
+        /// POST: Roll/Stats
+        /// </summary>
+        /// <param name="collection">Forms collection.</param>
+        /// <returns>View</returns>
+        [HttpPost]
+        public async Task<ActionResult> Stats(FormCollection collection)
+        {
+            try
+            {
+                await this.vmRollFrequency.Initialize();
+                this.vmRollFrequency.SelectedRollerType = collection["SelectedRollerType"];
+                this.vmRollFrequency.SelectedDiceSides = collection["SelectedDiceSides"];
+
+                this.vmRollFrequency.CalculateFrequencyDataCommand();
+
+                return this.View(this.vmRollFrequency);
+            }
+            catch
+            {
+                return this.View(this.vmRollFrequency);
             }
         }
     }

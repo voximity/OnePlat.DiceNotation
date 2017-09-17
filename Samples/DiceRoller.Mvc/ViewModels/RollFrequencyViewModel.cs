@@ -5,7 +5,9 @@
 using DiceRoller.Mvc.Services;
 using OnePlat.DiceNotation.DieRoller;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DiceRoller.Mvc.ViewModels
 {
@@ -24,6 +26,7 @@ namespace DiceRoller.Mvc.ViewModels
         /// <summary>
         /// Gets the list of types of rollers in the frequency data.
         /// </summary>
+        [Display(Name = "Die Roller Types")]
         public List<string> RollerTypes
         {
             get { return this.frequencyData.Select(d => d.RollerType).Distinct().ToList(); }
@@ -32,30 +35,26 @@ namespace DiceRoller.Mvc.ViewModels
         /// <summary>
         /// Gets the list of various dice rolled int he frequency data.
         /// </summary>
+        [Display(Name = "Number Dice Sides")]
         public List<string> DiceSides
         {
             get { return this.frequencyData.Select(d => d.DieSides).Distinct().ToList(); }
         }
 
         /// <summary>
-        /// Gets the selected roller type.
+        /// Gets or sets the selected roller type.
         /// </summary>
-        public string SelectedRollerType { get; private set; }
+        public string SelectedRollerType { get; set; }
 
         /// <summary>
-        /// Gets the selected dice sides.
+        /// Gets or sets the selected dice sides.
         /// </summary>
-        public string SelectedDiceSides { get; private set; }
+        public string SelectedDiceSides { get; set; }
 
         /// <summary>
         /// Gets the list of items for this page.
         /// </summary>
-        public List<AggregateDieTrackingData> FrequencyData { get; private set; }
-
-        /// <summary>
-        /// Gets the maximum frequency value for the selected dataset.
-        /// </summary>
-        public float FrequencyMax { get; private set; }
+        public List<AggregateDieTrackingData> FrequencyData { get; private set; } = new List<AggregateDieTrackingData>();
         #endregion
 
         #region Commands
@@ -64,16 +63,11 @@ namespace DiceRoller.Mvc.ViewModels
         /// Updates the frequency data based on the filters selected
         /// on view model.
         /// </summary>
-        public void ShowFrequencyDataCommand()
+        public void CalculateFrequencyDataCommand()
         {
             var list = from d in this.frequencyData
                        where d.RollerType == this.SelectedRollerType && d.DieSides == this.SelectedDiceSides
                        select d;
-
-            if (list.Count() > 0)
-            {
-                this.FrequencyMax = list.Max(d => d.Percentage) + 1;
-            }
 
             this.FrequencyData = list.ToList();
         }
@@ -82,7 +76,8 @@ namespace DiceRoller.Mvc.ViewModels
         /// <summary>
         /// Called when navigated to this page.
         /// </summary>
-        public async void Initialize()
+        /// <returns>Task</returns>
+        public async Task Initialize()
         {
             this.frequencyData = await this.frequencyTracker.GetFrequencyDataViewAsync();
 
