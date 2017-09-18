@@ -52,8 +52,7 @@ The other important method takes a dice expression string and uses the Dice clas
         }
         catch (Exception ex)
         {
-            // if there's an error in parsing the expression string, show an error message.
-            string message = "There was a error parsing the dice expression: " +
+            // if there's an error in parsing the expression string, show an error message.            string message = "There was a error parsing the dice expression: " +
                              this.DiceExpressionTextbox.Text +
                              "\r\nException Text: " + ex.Message +
                              "\r\nPlease correct the expression and try again.";
@@ -68,7 +67,7 @@ And there is a DiceService that these methods use to do the work. That DiceServi
 
 #### 3 - DiceResult Value Converters
 
-Also, notice in the MainPage.xaml file the definition of the results listview. It uses a couple of IValueConverters to format the DiceResult and ResultsList into the appropriate string representation. These converters are part of OnePlat.DiceNotation v1.0.3. You can use them if you'd like to share the formatting. If not, you're free to display the results however you would like.
+Also, notice in the MainPage.xaml file the definition of the results listview. It uses a couple of IValueConverters to format the DiceResult and ResultsList into the appropriate string representation. These converters are part of OnePlat.DiceNotation v1.0.4. You can use them if you'd like to share the formatting. If not, you're free to display the results however you would like.
 
 ``` xaml
 
