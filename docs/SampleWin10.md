@@ -1,6 +1,6 @@
 # Sample: DiceRoller - Win10
 
-This sample code shows you how to use the OnePlat.DiceNotation library in your very own Windows 10 application. The sample was simply created from creating a new VS Win10 project, and then installing the OnePlat.DiceNotation.1.0.3 NuGet package.
+This sample code shows you how to use the OnePlat.DiceNotation library in your very own Windows 10 application. The sample was simply created from creating a new VS Win10 project, and then installing the OnePlat.DiceNotation.1.0.4 NuGet package.
 
 The source code can be found in this repository ([/Samples/DiceRoller.Win10](../Samples/DiceRoller.Win10)), and it is pretty easy to digest. The bulk of the interesting code is in MainPage.xaml.cs.
 
