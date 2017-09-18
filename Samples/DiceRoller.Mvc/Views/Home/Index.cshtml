@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>d20 Dice Roller</h1>
+    <p class="lead">This sample application provides a simple dice roller using our DiceNotation library.</p>
+    <p><a href="/Roll/Create" class="btn btn-primary btn-lg">Roll Dice!</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            The OnePlat.DiceNotation library provides an easy API to roll randomly generated dice. There is a programmatic
+            interface to roll dice. And there is a method to tokenize, parse, and evaluate dice expression strings into
+            their corresponding die rolls. You can use this library in your games, role-playing tools, and anywhere else you 
+            randomly generate content.
+        </p>
+        <p><a class="btn btn-default" href="https://github.com/DarthPedro/OnePlat.DiceNotation">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more die rollers</h2>
+        <p>The default die roller uses the System.Random random number generator to produce pseudo-random numbers. The
+        ExtendedDieRollers library provides another two die rollers that are more truly random. The ExtendedDieRollers
+        use the Cryptography API and MathNet library to provide additional random generation algorithms.</p>
+        <p><a class="btn btn-default" href="https://github.com/DarthPedro/OnePlat.DiceNotation/tree/master/ExtendedDieRollers">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>This project is also hosted in Azure so that you can test out the functionality without having to download and 
+        build this sample code.</p>
+        <p><a class="btn btn-default" href="http://dicenotation-diceroller-mvc.azurewebsites.net/Roll/Create">Visit &raquo;</a></p>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<OnePlat.DiceNotation.DiceResult>
+
+@{
+    ViewBag.Title = "Dice Rolls";
+}
+
+<h2>Dice Rolls</h2>
+
+<p>
+    <a href="./Roll/Create" class="btn btn-primary btn-lg">Roll Dice!</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Dice Expression
+        </th>
+        <th>
+            Result
+        </th>
+        <th>
+            Rolls
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiceExpression)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.DisplayResultsFor(item.Results)
+        </td>
+    </tr>
+}
+
+</table>

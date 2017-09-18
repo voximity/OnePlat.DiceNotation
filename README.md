@@ -7,6 +7,8 @@ The specification for the dice notation supported in the current version on the 
 
 To build the source code, please read [Building Code](BuildProject.md) page.
 
+Also, if you just want to try out the web application, you can find it online at [d20 Dice Roller](http://dicenotation-diceroller-mvc.azurewebsites.net/).
+
 # Installation
 This library is a NuGet package so it is easy to add to your project. To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
 ```  
@@ -52,6 +54,7 @@ Finally, the library defines a IDieRoller interface that you can use to build yo
 For more detailed examples on how to use the OnePlat.DiceNotation library, please review the following samples:
 
 * [Sample - DiceRoller Windows 10](docs/SampleWin10.md)
+* [Sample - DiceRoller ASP.NET MVC](docs/SampleWebMvc.md)
 
 # Feedback
 If you use this library and have any feedback, bugs, or suggestions, please file them in the Issues section of this GitHub repository.

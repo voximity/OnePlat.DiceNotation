@@ -1,0 +1,56 @@
+﻿@model DiceRoller.Mvc.ViewModels.DiceSettingsViewModel
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Dice Settings</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Allow unbounded results", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(m => m.Settings.UseUnboundedResults, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Settings.UseUnboundedResults, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Select type of dice roller", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(e => e.SelectedDieRollerType, new SelectList(Model.DieRollerTypes), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DieRollerTypes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Default dice sides", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(e => e.SelectedDefaultDiceSides, new SelectList(Model.DiceSides), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DiceSides, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Frequency data limit", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(e => e.SelectedDataFrequencyLimit, new SelectList(Model.DataFrequencyLimits), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DataFrequencyLimits, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Cancel", "Create", "Roll", new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

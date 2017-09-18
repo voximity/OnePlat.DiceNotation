@@ -36,7 +36,15 @@ To build the samples, you will need to:
 * Be sure to update "Restore NuGet Packages" on the solution.
 * Then Rebuild the full solution.
 
-To run the sample:
+To run the Win10 sample:
 * Ensure that the DiceRoller.Win10 project is selected as the startup project.
-* Then Debug-F5 (or Run - Ctrl+F5) the solution.
+* Then Debug-F5 (or Run - Ctrl+F5) on the project.
 * The DiceRoller app should start up, give it a try (you can try some [example notations](docs/DiceNotationExamples.md)).
+
+To run the ASP.NET MVC sample:
+* Ensure that the DiceRoller.Mvc project is selected as the startup project.
+* Then Debug-F5 (or Run - Ctrl+F5) on the project.
+* The DiceRoller web app should start up in your default browser, give it a try (you can try some [example notations](docs/DiceNotationExamples.md)).
+* From the main page, click the Dice Roller button to get to the input page.
+
+Also, if you just want to try out the web application, you can find it online at [d20 Dice Roller](http://dicenotation-diceroller-mvc.azurewebsites.net/).
