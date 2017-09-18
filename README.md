@@ -52,6 +52,7 @@ Finally, the library defines a IDieRoller interface that you can use to build yo
 For more detailed examples on how to use the OnePlat.DiceNotation library, please review the following samples:
 
 * [Sample - DiceRoller Windows 10](docs/SampleWin10.md)
+* [Sample - DiceRoller ASP.NET MVC](docs/SampleWebMvc.md)
 
 # Feedback
 If you use this library and have any feedback, bugs, or suggestions, please file them in the Issues section of this GitHub repository.
