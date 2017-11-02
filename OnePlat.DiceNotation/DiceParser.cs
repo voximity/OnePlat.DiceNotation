@@ -327,11 +327,11 @@ namespace OnePlat.DiceNotation
         {
             List<TermResult> results = new List<TermResult>();
 
-            while (tokens.IndexOf("(") != -1)
+            while (tokens.IndexOf(this.GroupStartOperator) != -1)
             {
                 // getting data between grouping symbols: "(" and ")"
-                int open = tokens.LastIndexOf("(");
-                int close = tokens.IndexOf(")", open);
+                int open = tokens.LastIndexOf(this.GroupStartOperator);
+                int close = tokens.IndexOf(this.GroupEndOperator, open);
 
                 if (open >= close)
                 {
