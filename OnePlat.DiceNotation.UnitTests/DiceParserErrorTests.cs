@@ -58,7 +58,7 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            Assert.ThrowsException<FormatException>(() => parser.Parse("4d6l4", this.config, roller));
+            Assert.ThrowsException<FormatException>(() => parser.Parse("4d6p4", this.config, roller));
 
             // validate results
         }

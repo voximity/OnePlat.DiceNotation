@@ -77,7 +77,7 @@ namespace OnePlat.DiceNotation.UnitTests.DiceTerms
 
             // run test
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new FudgeDiceTerm(3, choose: 0));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new FudgeDiceTerm(3, choose: -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new FudgeDiceTerm(3, choose: -4));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new FudgeDiceTerm(3, choose: 4));
 
             // validate results

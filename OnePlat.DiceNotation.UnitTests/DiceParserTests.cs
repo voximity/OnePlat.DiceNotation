@@ -138,11 +138,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("6d6l2", this.config, this.testRoller);
+            DiceResult result = parser.Parse("6d6p2", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
-            AssertHelpers.AssertDiceChoose(result, "6d6l2", "DiceTerm.d6", 6, 4);
+            AssertHelpers.AssertDiceChoose(result, "6d6p2", "DiceTerm.d6", 6, 4);
         }
 
         [TestMethod]
@@ -152,11 +152,39 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
+            DiceResult result = parser.Parse("4d6p1", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            AssertHelpers.AssertDiceChoose(result, "4d6p1", "DiceTerm.d6", 4, 3);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithKeepLowestTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
+            DiceResult result = parser.Parse("6d6l2", this.config, this.testRoller);
+
+            // validate results
+            Assert.IsNotNull(result);
+            AssertHelpers.AssertDiceChoose(result, "6d6l2", "DiceTerm.d6", 6, 2);
+        }
+
+        [TestMethod]
+        public void DiceParser_ParseDiceWithEquivalentKeepLowestTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
             DiceResult result = parser.Parse("4d6l1", this.config, this.testRoller);
 
             // validate results
             Assert.IsNotNull(result);
-            AssertHelpers.AssertDiceChoose(result, "4d6l1", "DiceTerm.d6", 4, 3);
+            AssertHelpers.AssertDiceChoose(result, "4d6l1", "DiceTerm.d6", 4, 1);
         }
 
         [TestMethod]

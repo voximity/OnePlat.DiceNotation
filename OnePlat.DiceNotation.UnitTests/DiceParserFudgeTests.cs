@@ -121,11 +121,11 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
-            DiceResult result = parser.Parse("6fl3", this.config, this.roller);
+            DiceResult result = parser.Parse("6fp3", this.config, this.roller);
 
             // validate results
             Assert.IsNotNull(result);
-            AssertHelpers.AssertDiceChoose(result, "6fl3", "FudgeDiceTerm.dF", 6, 3);
+            AssertHelpers.AssertDiceChoose(result, "6fp3", "FudgeDiceTerm.dF", 6, 3);
         }
     }
 }

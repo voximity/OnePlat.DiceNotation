@@ -236,6 +236,26 @@ namespace OnePlat.DiceNotation.UnitTests
             DiceParser parser = new DiceParser();
 
             // run test
+            List<string> result = parser.Tokenize("4d6p2");
+
+            // validate results
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(List<string>));
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual("4", result[0]);
+            Assert.AreEqual("d", result[1]);
+            Assert.AreEqual("6", result[2]);
+            Assert.AreEqual("p", result[3]);
+            Assert.AreEqual("2", result[4]);
+        }
+
+        [TestMethod]
+        public void DiceParser_TokenizeKeepLowestTest()
+        {
+            // setup test
+            DiceParser parser = new DiceParser();
+
+            // run test
             List<string> result = parser.Tokenize("4d6l2");
 
             // validate results

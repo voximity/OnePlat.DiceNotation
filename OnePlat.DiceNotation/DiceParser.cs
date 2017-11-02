@@ -50,7 +50,7 @@ namespace OnePlat.DiceNotation
         /// Gets the list of math operators for this parser. Order in the list signifies order of operations.
         /// Caller can customize the operators list by adding/removing elements in the list.
         /// </summary>
-        public List<string> Operators { get; } = new List<string> { "d", "f", "k", "l", "!", "/", "x", "*", "-", "+" };
+        public List<string> Operators { get; } = new List<string> { "d", "f", "k", "p", "l", "!", "/", "x", "*", "-", "+" };
 
         /// <summary>
         /// Gets the list of operator actions used by this parser. If there is an operator in the operators list,
@@ -327,11 +327,11 @@ namespace OnePlat.DiceNotation
         {
             List<TermResult> results = new List<TermResult>();
 
-            while (tokens.IndexOf("(") != -1)
+            while (tokens.IndexOf(this.GroupStartOperator) != -1)
             {
                 // getting data between grouping symbols: "(" and ")"
-                int open = tokens.LastIndexOf("(");
-                int close = tokens.IndexOf(")", open);
+                int open = tokens.LastIndexOf(this.GroupStartOperator);
+                int close = tokens.IndexOf(this.GroupEndOperator, open);
 
                 if (open >= close)
                 {
@@ -551,11 +551,19 @@ namespace OnePlat.DiceNotation
                 length += 2;
             }
 
-            int dropPos = tokens.IndexOf("l", opPosition);
+            int dropPos = tokens.IndexOf("p", opPosition);
             if (dropPos > 0)
             {
                 // if that operator is found, then get the next number token
                 result = numDice - int.Parse(tokens[dropPos + 1]);
+                length += 2;
+            }
+
+            int lowestPos = tokens.IndexOf("l", opPosition);
+            if (lowestPos > 0)
+            {
+                // if that operator is found, then get the next number token
+                result = -int.Parse(tokens[lowestPos + 1]);
                 length += 2;
             }
 

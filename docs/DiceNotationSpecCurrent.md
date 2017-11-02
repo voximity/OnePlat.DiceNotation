@@ -18,7 +18,7 @@ __XdY [-] [+] [x] [/] AdB__        The first roll of X dice with Y-sides i
 
 Dice roll subexpressions are allowed to keep highest or drop lowest values:
 
-__XdY[k/l]z__                      X dice with Y-sides but either keeping or droping z of the dice
+__XdY[k/p/l]z__                    X dice with Y-sides but either keeping or dropping z of the dice (k => keep z dice; p => drop z dice; l => keep lowest z dice)
 
 __XdY[!][z]__                      Exploding dice: X dice with Y sides, and performs extra rolls for any result >= z. z is optional and if omitted, default to the maximum value of die
 
