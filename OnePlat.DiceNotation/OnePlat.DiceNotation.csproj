@@ -14,6 +14,9 @@
     <PackageProjectUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DarthPedro/OnePlat.DiceNotation</RepositoryUrl>
     <PackageReleaseNotes>Current release:
+* Add dice notation for keep lowest by using L token in the notation. Changed drop lowest notation to use P token.
+
+Release 1.0.4:
 * Added tracking service to keep track of die rolls to provide statistical data.
 * Added abstract RandomDieRollerBase class for shared code between all random rollers, so those classes can just implement minimally the number generation.
 
@@ -34,7 +37,7 @@ Release 1.0.1:
 * Added general purpose parser to handle more math and dice expressions.
 * Added support for grouping using ( ). Now you can parse dice expressions like - (2+1)d4 - (4-2).
 * Test validation for new expressions and grouping.</PackageReleaseNotes>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
