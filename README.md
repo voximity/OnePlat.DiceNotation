@@ -12,7 +12,7 @@ Also, if you just want to try out the web application, you can find it online at
 # Installation
 This library is a NuGet package so it is easy to add to your project. To install these packages into your solution, you can use the Package Manager. In PM, please use the following commands:
 ```  
-PM > Install-Package OnePlat.DiceNotation -Version 1.0.4
+PM > Install-Package OnePlat.DiceNotation -Version 1.0.5
 ``` 
 
 To install in the Visual Studio UI, go to the Tools menu > "Manage NuGet Packages". Then search for OnePlat.DiceNotation and install it from there.
