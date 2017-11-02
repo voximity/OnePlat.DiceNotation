@@ -72,7 +72,7 @@ namespace OnePlat.DiceNotation.DiceTerms
                 throw new ArgumentOutOfRangeException(nameof(scalar), "Scalar multiplier cannot be 0.");
             }
 
-            if (choose <= 0 || choose > numberDice)
+            if (choose == 0 || choose > numberDice || choose < -numberDice)
             {
                 throw new ArgumentOutOfRangeException(nameof(choose), "Choose must be greater than 0 and less than number of dice.");
             }
@@ -141,8 +141,9 @@ namespace OnePlat.DiceNotation.DiceTerms
             }
 
             // order by their value (high to low) and only take the amount specified in choose.
-            var ordered = results.OrderByDescending(d => d.Value).ToList();
-            for (int i = this.choose ?? results.Count; i < ordered.Count(); i++)
+            int tempChoose = this.choose ?? results.Count;
+            var ordered = (tempChoose > 0) ? results.OrderByDescending(d => d.Value).ToList() : results.OrderBy(d => d.Value).ToList();
+            for (int i = Math.Abs(tempChoose); i < ordered.Count(); i++)
             {
                 ordered[i].AppliesToResultCalculation = false;
             }
