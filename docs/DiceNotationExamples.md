@@ -40,4 +40,4 @@ There are more possible combinations than are shown here, but this gives you a f
 * **3f**: rolls 3 fudge dice (allowed values: -1, 0, 1)
 * **3f+1**: rolls 3 fudge dice and adds modifier of 1
 * **6fk4**: rolls 6 fudge dice but only keeps 4 highest in result
-* **4fl1**: rolls 4 fudge dice and drops the lowest one
+* **4fp1**: rolls 4 fudge dice and drops the lowest one
