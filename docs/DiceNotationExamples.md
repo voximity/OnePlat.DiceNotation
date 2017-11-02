@@ -29,7 +29,8 @@ There are more possible combinations than are shown here, but this gives you a f
 
 ### Examples - Keep/Drop Dice
 * **4d6k3**: rolls 4 six-sided dice and keeps the 3 highest results
-* **6d6l2**: rolls 6 six-sided dice and drops the 2 lowest results
+* **6d6p2**: rolls 6 six-sided dice and drops the 2 lowest results
+* **4d6l1**: rolls 4 six-sided dice and keeps the 1 lowest result(s)
 
 ### Examples - Exploding Dice
 * **6d6!**: rolls 6 six-sided dice and performs extra rolls for any max rolls (6) [this is known as exploding or penetration rolls]
@@ -39,4 +40,4 @@ There are more possible combinations than are shown here, but this gives you a f
 * **3f**: rolls 3 fudge dice (allowed values: -1, 0, 1)
 * **3f+1**: rolls 3 fudge dice and adds modifier of 1
 * **6fk4**: rolls 6 fudge dice but only keeps 4 highest in result
-* **4fl1**: rolls 4 fudge dice and drops the lowest one
+* **4fp1**: rolls 4 fudge dice and drops the lowest one
