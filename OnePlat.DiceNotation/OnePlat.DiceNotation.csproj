@@ -53,20 +53,11 @@ Release 1.0.1:
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="DiceTerms\TermResult.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
 </Project>
